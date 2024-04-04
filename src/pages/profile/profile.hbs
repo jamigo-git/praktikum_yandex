@@ -1,8 +1,7 @@
 <div class="container">
     <Form class="profile_form">
-        {{!-- {{> Avatar label='Jamigo' avatar='123' }} --}}
-        <img src="{{avatar}}" class="avatar_image">{{label}}</span>
-        <div class="input_container">
+        {{> Avatar label="jamigo"}}
+        <div class="fields_container">
             {{> FormString label='Имя' value='Игорь' }}
             {{> FormString label='Фамилия' value='Ямалеев' }}
             {{> FormString label='Логин' value='jamigo' }}

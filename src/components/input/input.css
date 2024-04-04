@@ -7,3 +7,12 @@
     margin-bottom: 1rem;
 }
 
+.profile_edit_input {
+    display: flex;
+    flex-direction: row-reverse;
+    border-bottom: 1px solid lightgray;
+}
+
+.profile_edit_input.input__element {
+    border: 0!important;
+}

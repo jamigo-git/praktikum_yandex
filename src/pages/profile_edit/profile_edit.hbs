@@ -1,0 +1,18 @@
+<div class="profile_edit_container">
+    <Form class="profile_edit_form">
+        {{> Avatar label="jamigo"}}
+        <div class="profile_edit_input_container">
+            {{> Input label='Имя' placeholder='Игорь' class='profile_edit_input'}}
+            {{> Input label='Фамилия' placeholder='Ямалеев' class='profile_edit_input'}}
+            {{> Input label='Логин' placeholder='jamigo' class='profile_edit_input'}}
+            {{> Input label='Почта' placeholder='jamigo@ya.ru' class='profile_edit_input'}}
+            {{> Input label='Телефон' placeholder='+7 (917) 207 90 22' class='profile_edit_input'}}
+        </div>
+        <div class="profile_edit_btn_container">
+            {{> Button label='Изменить данные' type="secondary"}}
+            {{> Button label='Изменить пароль' type="secondary"}}
+            {{> Button label='Выйти' type="secondary"}}
+        </div>
+    </Form>
+</div>
+

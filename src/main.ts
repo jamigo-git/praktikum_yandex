@@ -9,6 +9,7 @@ const pages = {
   'error404': [ Pages.error404 ],
   'error500': [ Pages.error500 ],
   'profile': [ Pages.ProfilePage ],
+  'profile_edit': [ Pages.ProfilePageEdit ],
   'nav': [ Pages.NavigatePage ]
 };
 
