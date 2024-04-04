@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.error_code_label {
+    font-size: 4rem;
+}
+
+.button__secondary {
+    color: #3369F3;
+}

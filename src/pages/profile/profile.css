@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.profile_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 50px 30px 30px;
+    width: 600px;
+    height: 620px;
+}   
+
+.avatar {
+    width: 100px;
+    border-radius: 50%;
+}
+  
+.avatar-lg {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+

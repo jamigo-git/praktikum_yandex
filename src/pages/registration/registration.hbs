@@ -1,0 +1,21 @@
+<div class="container">
+    <Form class="login-form">
+        <div class="login_header">
+            <h2>Регистрация</h2>
+        </div>
+        <div class="input_container">
+            {{> Input placeholder='Почта'}}
+            {{> Input placeholder='Логин'}}
+            {{> Input placeholder='Имя' }}
+            {{> Input placeholder='Фамилия'}}
+            {{> Input placeholder='Телефон'}}
+            {{> Input placeholder='Пароль' type='password'}}
+            {{> Input placeholder='Повторите пароль' type='password'}}
+        </div>
+        <div class="btn_container">
+            {{> Button label='Зарегистрироваться' type="primary"}}
+            {{> Button label='Войти' type="secondary"}}
+        </div>
+    </Form>
+</div>
+
