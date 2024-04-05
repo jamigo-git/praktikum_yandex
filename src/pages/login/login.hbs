@@ -1,11 +1,11 @@
 <div class="container">
-    <Form class="login-form">
+    <Form class="login_form">
         <div class="login_header">
             <h2>Авторизация</h2>
         </div>
         <div class="input_container">
-            {{> Input placeholder='Логин'}}
-            {{> Input placeholder='Пароль' type='password'}}
+            {{> Input placeholder='Логин' class='login_form_input'}}
+            {{> Input placeholder='Пароль' class='login_form_input' type='password'}}
         </div>
         <div class="btn_container">
             {{> Button label='Войти' type="primary"}}

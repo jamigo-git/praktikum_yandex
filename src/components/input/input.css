@@ -1,10 +1,6 @@
 .input__element {
     display: flex;
     padding: 0.5rem;
-    width: 17rem;
-    border: 0;
-    border-bottom: 2px solid lightgray;
-    margin-bottom: 1rem;
 }
 
 .profile_edit_input {
@@ -15,4 +11,31 @@
 
 .profile_edit_input.input__element {
     border: 0!important;
+}
+
+.reg_form_input,
+.login_form_input {
+    width: 17rem;
+    border: 0;
+    border-bottom: 2px solid lightgray;
+    margin-bottom: 1rem;
+}
+
+.profile_edit_input,
+.profile_edit_input::placeholder {
+    text-align: right;
+}
+
+.profile_edit_input {
+    flex-direction: row;
+}
+
+.input__container:has(.profile_edit_input) {
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 40rem;
+    margin: .5rem;
+    
 }
