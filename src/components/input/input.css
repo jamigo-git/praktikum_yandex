@@ -3,12 +3,14 @@
     padding: 0.5rem;
 }
 
+.pass_edit_input,
 .profile_edit_input {
     display: flex;
     flex-direction: row-reverse;
     border-bottom: 1px solid lightgray;
 }
 
+.pass_edit_input.input__element,
 .profile_edit_input.input__element {
     border: 0!important;
 }
@@ -21,15 +23,18 @@
     margin-bottom: 1rem;
 }
 
+.pass_edit_input,
 .profile_edit_input,
 .profile_edit_input::placeholder {
     text-align: right;
 }
 
+.pass_edit_input,
 .profile_edit_input {
     flex-direction: row;
 }
 
+.input__container:has(.pass_edit_input),
 .input__container:has(.profile_edit_input) {
     border-bottom: 1px solid lightgray;
     display: flex;
@@ -38,4 +43,13 @@
     width: 40rem;
     margin: .5rem;
     
+}
+
+.input__label {
+    font-size: 14px;
+}
+
+.input__value {
+    font-size: 14px;
+    color: gray;
 }

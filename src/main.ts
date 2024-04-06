@@ -10,6 +10,7 @@ const pages = {
   'error500': [ Pages.error500 ],
   'profile': [ Pages.ProfilePage ],
   'profile_edit': [ Pages.ProfilePageEdit ],
+  'pass_edit': [ Pages.PassEditPage ],
   'nav': [ Pages.NavigatePage ]
 };
 
