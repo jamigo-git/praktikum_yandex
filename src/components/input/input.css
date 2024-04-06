@@ -53,3 +53,14 @@
     font-size: 14px;
     color: gray;
 }
+
+.chat_search_input {
+    background-color: #EFEFEF;
+    width: 370px;
+    border: 0;
+    border-radius: 12px;
+}
+
+.chat_search_input::placeholder {
+    color: lightgray;
+}

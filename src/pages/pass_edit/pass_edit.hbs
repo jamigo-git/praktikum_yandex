@@ -2,13 +2,13 @@
     {{> ButtonNav}}
     <Form class="pass_edit_form">
         <div class="pass_edit_input_container">
-            {{> Input label='Старый пароль' placeholder='········' class='pass_edit_input'}}
-            {{> Input label='Новый пароль' placeholder='········' class='pass_edit_input'}}
-            {{> Input label='Повторите пароль' placeholder='········' class='pass_edit_input'}}
+            {{> Input label="Старый пароль" placeholder="········" class="pass_edit_input" type="password" name="oldPassword"}}
+            {{> Input label="Новый пароль" placeholder="········" class="pass_edit_input" type="password" name="newPassword"}}
+            {{> Input label="Повторите пароль" placeholder="········" class="pass_edit_input" type="password" name="newPassword"}}
         </div>
         <div class="pass_edit_btn_container">
-            {{> Button label='Сохранить' type="primary"}}
-            {{> Button label='Выйти' type="secondary"}}
+            {{> Button label="Сохранить" type="primary"}}
+            {{> Button label="Выйти" type="secondary"}}
         </div>
     </Form>
 </div>

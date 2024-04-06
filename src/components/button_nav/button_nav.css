@@ -10,7 +10,7 @@
 }
 
 .button_back_icon::before {
-    content: '←';
+    content: "←";
     color: white;
     display: block;
     font-size: 2rem;

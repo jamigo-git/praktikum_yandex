@@ -8,15 +8,23 @@
     border-radius: 8px;
     cursor: pointer;
   }
+
+  .button__primary a.button_label {
+    color: white;
+  }
+
+  .button__secondary a.button_label {
+    color: black;
+  }
   
   .button__primary {
     background-color: var(--main-color);
-    color: #fff;
+    /* color: #fff; */
   }
 
   .button__secondary {
     color: var(--main-color);
-    color: #000;
+    /* color: #000; */
   }
   
   .button__link {
@@ -24,54 +32,3 @@
     font-size: 11px;
     text-align: center;
   }
-  
-  .button-arrow {
-    background-color: var(--main-color);
-    height: 28px;
-    width: 28px;
-    border-radius: 50%;
-  }
-  
-  .button-arrow__left,
-  .button-arrow__right {
-    margin: 0 auto;
-    width: 11px;
-    height: 1.6px;
-    position: relative;
-    background-color: #fff;
-  }
-  
-  .button-arrow__left::after,
-  .button-arrow__left::before,
-  .button-arrow__right::after,
-  .button-arrow__right::before {
-    content: "";
-    background-color: #fff;
-    display: inline-block;
-    width: 7px;
-    height: 1.6px;
-    position: absolute;
-  }
-  
-  .button-arrow__right::after {
-    transform: rotate(45deg);
-    bottom: 2px;
-  }
-  
-  .button-arrow__right::before {
-    transform: rotate(-45deg);
-    top: 2px;
-  }
-  
-  .button-arrow__left::after {
-    transform: rotate(-45deg);
-    bottom: 2px;
-    left: -1px;
-  }
-  
-  .button-arrow__left::before {
-    transform: rotate(45deg);
-    top: 2px;
-    left: -1px;
-  }
-  
