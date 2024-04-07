@@ -1,8 +1,18 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from "vite";
 
 export default defineConfig({
-    root: '.',
+    root: ".",
     build: {
-        outDir: 'dist'
+        outDir: "dist"
+    },
+    css: {
+        preprocessorOptions: {
+          scss: {
+            additionalData: `$injectedColor: orange;`
+          }
+        }
+    },
+    server: {
+        port: 3000
     }
 })
