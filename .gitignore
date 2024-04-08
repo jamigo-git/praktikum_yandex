@@ -26,3 +26,4 @@ dist-ssr
 # vite files
 .tsconfig.json
 public
+.vscode
