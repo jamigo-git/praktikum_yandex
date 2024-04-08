@@ -1,2 +1,3 @@
-import "./form_string.css"
+import "./form_string.css";
+
 export { default as FormString } from "./form_string.hbs?raw";
