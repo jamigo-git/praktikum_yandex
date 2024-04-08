@@ -3,8 +3,7 @@
     justify-content: center;
 }
 
-
-.login-form {
+.login_form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -30,5 +29,4 @@
     flex-direction: column;
     align-self: center;
     margin-bottom: 10rem;
-
 }
