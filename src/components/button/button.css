@@ -1,0 +1,34 @@
+.button {
+    background-color: initial;
+    border: none;
+    font-weight: 500;
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .button__primary a.button_label {
+    color: white;
+  }
+
+  .button__secondary a.button_label {
+    color: black;
+  }
+  
+  .button__primary {
+    background-color: var(--main-color);
+    /* color: #fff; */
+  }
+
+  .button__secondary {
+    color: var(--main-color);
+    /* color: #000; */
+  }
+  
+  .button__link {
+    color: var(--main-color);
+    font-size: 11px;
+    text-align: center;
+  }

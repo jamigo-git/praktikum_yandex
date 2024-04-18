@@ -1,0 +1,19 @@
+<main class="container">
+    {{> ButtonNav}}
+    <Form class="profile_form">
+        {{> Avatar label="jamigo"}}
+        <div class="fields_container">
+            {{> FormString label="Имя" value="Игорь" }}
+            {{> FormString label="Фамилия" value="Ямалеев" }}
+            {{> FormString label="Логин" value="jamigo" }}
+            {{> FormString label="Почта" value="jamigo@ya.ru" }}
+            {{> FormString label="Телефон" value="+7 (917) 207 90 22" }}
+        </div>
+        <div class="btn_container">
+            {{> Button label="Изменить данные" type="secondary"}}
+            {{> Button label="Изменить пароль" type="secondary"}}
+            {{> Button label="Выйти" type="secondary"}}
+        </div>
+    </Form>
+</main>
+

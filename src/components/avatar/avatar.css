@@ -1,0 +1,15 @@
+.avatar__container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.avatar_image {
+    width: 123px;
+    border-radius: 50%;
+}
+
+.avatar_label {
+    font-size: 16px;
+    font-weight: 700;
+}

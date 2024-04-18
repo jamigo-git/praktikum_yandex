@@ -1,0 +1,33 @@
+.chat_container {
+    width: 1280px;
+    height: 720px;
+    flex-direction: row;
+    display: flex;
+}
+.chat_list_container {
+    display: flex;
+    justify-content: center;
+    width: 430px;
+    height: 720px;
+    background-color: #FBFBFB;
+    border: 2px solid lightgray;
+}
+
+.chat_top_menu {
+    display: flex;
+    width: 430px;
+    justify-content: space-around;
+    height: 30px;
+    margin-top: 1rem;
+}
+
+.chat_content {
+    border: 2px solid lightgray;
+    border-left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+}
+

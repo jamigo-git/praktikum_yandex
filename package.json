@@ -1,0 +1,25 @@
+{
+  "name": "praktikum_yandex",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dist": "tsc && vite build",
+    "preview": "vite preview",
+    "start": " vite build && node ./server.js "
+  },
+  "devDependencies": {
+    "handlebars": "^4.7.6",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "vite-plugin-handlebars": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": "~10.0.0"
+  }
+}

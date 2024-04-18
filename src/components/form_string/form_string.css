@@ -1,0 +1,16 @@
+.form_string__container {
+    display: flex;
+    justify-content: space-between;
+    width: 541px;
+    margin: 10px;
+    border-bottom: 1px solid lightgray;
+}
+
+.form_string__label {
+    font-size: 14px;
+}
+
+.form_string__value {
+    font-size: 14px;
+    color: gray;
+}

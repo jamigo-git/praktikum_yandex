@@ -1,0 +1,17 @@
+.button_back_icon {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    height: 46px;
+    width: 46px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: lightgray;
+}
+
+.button_back_icon::before {
+    content: "←";
+    color: white;
+    display: block;
+    font-size: 2rem;
+}
