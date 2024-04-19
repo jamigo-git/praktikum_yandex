@@ -1,0 +1,66 @@
+.chat_item_label {
+    font-size: 16px;
+    font-weight: 700;
+    grid-area: label;
+}
+
+.avatar__container {
+    grid-area: avatar;
+}
+
+.chat_item_text {
+    grid-area: chat_text;
+}
+
+.chat_item_datetime {
+    grid-area: datetime;
+    font-size: 12px;
+    text-align: center;
+}
+
+
+.chat_item_counter {
+    grid-area: counter;
+    border: 1px solid black;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    font-size: 10px;
+    color: white;
+    background-color: black;
+    text-align: center;
+    top: -30%;
+    left: 35%;
+    position: relative;
+}
+
+.chat_item_active .chat_item_counter {
+    color: black;
+    background-color: white;
+    border: 1px solid white;
+
+}
+
+.chat_item {
+    display: grid;
+    grid-template-areas: 
+        "avatar label datetime"
+        "avatar chat_text counter";
+    grid-template-columns: 70px 290px;
+    text-align: left;
+}
+
+.chat_item:hover {
+    border: 1px solid lightgray;
+    border-radius: 12px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.chat_item_active {
+    border: 1px solid #454545;
+    border-radius: 12px;
+    background-color: #454545;
+    color: white;
+}
+

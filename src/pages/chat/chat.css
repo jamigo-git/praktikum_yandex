@@ -4,9 +4,8 @@
     flex-direction: row;
     display: flex;
 }
+
 .chat_list_container {
-    display: flex;
-    justify-content: center;
     width: 430px;
     height: 720px;
     background-color: #FBFBFB;
