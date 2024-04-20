@@ -11,7 +11,22 @@
         </div>
     </div>
     <div class="chat_content">
-        <p>Выберите чат чтобы начать общение</p>
+        <header class="chat_content_header">
+            {{> Avatar class="avatar_chat_content_header"}}
+            <div class="chat_content_header_label">"Label"</div>
+            {{!-- <div class="chat_content_settings">Settings</div> --}}
+            {{> ButtonNav class="chat_header_menu"}}
+
+        </header>
+        <main class="message_list">
+            {{> MessageList}}
+            {{!-- <p>Выберите чат чтобы начать общение</p> --}}
+        </main>
+        <footer class="chat_content_footer">
+            {{> ButtonNav class="chat_footer_add"}}
+            {{> Input class="chat_content_send_message" placeholder="Сообщение" name="message"}}
+            {{> ButtonNav class="chat_footer_send"}}
+        </footer>
     </div>
 </main>
 

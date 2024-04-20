@@ -14,4 +14,4 @@ Handlebars.registerHelper('chat_items', () => {
         {label: 'Василий Иванович', avatar: fly, active: true, text: 'random text 123...', datetime: '10:15', counter: 44},
         {label: 'Ларгукус', avatar: robot, text: 'random text 123...', datetime: '15 января'},
     ]
-})
+});

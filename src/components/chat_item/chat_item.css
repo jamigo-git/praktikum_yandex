@@ -2,14 +2,16 @@
     font-size: 16px;
     font-weight: 700;
     grid-area: label;
+    margin-left: 10px;
 }
 
-.avatar__container {
+.chat_item .avatar__container {
     grid-area: avatar;
 }
 
 .chat_item_text {
     grid-area: chat_text;
+    margin-left: 10px;
 }
 
 .chat_item_datetime {
@@ -64,3 +66,6 @@
     color: white;
 }
 
+img.message_image {
+    border-radius: 12px;
+}

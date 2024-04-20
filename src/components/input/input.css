@@ -54,13 +54,23 @@
     color: gray;
 }
 
+.chat_content_send_message,
 .chat_search_input {
     background-color: #EFEFEF;
-    width: 370px;
     border: 0;
     border-radius: 12px;
 }
 
+.chat_content_send_message::placeholder,
 .chat_search_input::placeholder {
     color: lightgray;
 }
+
+.chat_search_input {
+    width: 370px;
+}
+
+.chat_content_send_message {
+    width: 700px;
+}
+
