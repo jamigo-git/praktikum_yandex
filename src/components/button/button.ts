@@ -2,14 +2,19 @@ import './button.css';
 import Block from "../../core/Block";
 
 export default class Button extends Block {
-    constructor(props) {
-        super(props);
+    constructor(props: any) {
+        super({
+            ...props,
+            events: {
+                click: props.onClick
+            }
+        });
     }
 
     render():string {
         return `
             <button class="button button__{{type}}" >
-                <a href="#" page="nav" class="button_label">{{label}}</a>
+                <a class="button_label">{{label}}</a>
             </button>
             `
     }

@@ -6,17 +6,78 @@ export default class ProfilePageEdit extends Block {
     constructor(props: any) {
         super({
             ...props,
-            button_back: new ButtonNav({ class: "button_back" }),
-            avatar: new Avatar({ label:"jamigo", class:"avatar_profile" }),
-            input_name: new Input({ label:"Имя", placeholder:"Игорь", class:"profile_edit_input", name:"first_name" }),
-            input_second_name: new Input({ label:"Фамилия", placeholder:"Ямалеев", class:"profile_edit_input", name:"second_name" }),
-            input_login: new Input({ label:"Логин", placeholder:"jamigo", class:"profile_edit_input", name:"login" }),
-            input_email: new Input({ label:"Почта", placeholder:"jamigo@ya.ru", class:"profile_edit_input", name:"email" }),
-            input_phone: new Input({ label: "Телефон", placeholder:"+7 (917) 207 90 22", class:"profile_edit_input", name:"phone" }),
-            button_save: new Button({ label:"Сохранить", type:"primary" }),
-            button_exit: new Button({ label:"Выйти", type:"secondary" }),
+
         })
     }
+
+    init() {
+        const on_change_first_name_bind = this.on_change_first_name.bind(this);
+        const on_change_second_name_bind = this.on_change_second_name.bind(this);
+        const on_change_login_bind = this.on_change_login.bind(this);
+        const on_change_email_bind = this.on_change_email.bind(this);
+        const on_change_phone_bind = this.on_change_phone.bind(this);
+
+        const on_save_bind = this.on_save.bind(this);
+
+        const button_back = new ButtonNav({ class: "button_back" });
+        const avatar = new Avatar({ label:"jamigo", class:"avatar_profile" });
+        const input_name = new Input({ label:"Имя", placeholder:"Игорь", class:"profile_edit_input", name:"first_name", onBlur: on_change_first_name_bind});
+        const input_second_name = new Input({ label:"Фамилия", placeholder:"Ямалеев", class:"profile_edit_input", name:"second_name", onBlur: on_change_second_name_bind  });
+        const input_login = new Input({ label:"Логин", placeholder:"jamigo", class:"profile_edit_input", name:"login", onBlur: on_change_login_bind });
+        const input_email = new Input({ label:"Почта", placeholder:"jamigo@ya.ru", class:"profile_edit_input", name:"email", onBlur: on_change_email_bind });
+        const input_phone = new Input({ label: "Телефон", placeholder:"+7 (917) 207 90 22", class:"profile_edit_input", name:"phone", onBlur: on_change_phone_bind });
+        const button_save = new Button({ label:"Сохранить", type:"primary", onClick: on_save_bind });
+        const button_exit = new Button({ label:"Выйти", type:"secondary" });
+
+        this.children = {
+            ...this.children,
+            button_back,
+            avatar,
+            input_name,
+            input_second_name,
+            input_login,
+            input_email,
+            input_phone,
+            button_save,
+            button_exit,
+        }
+    }
+
+    on_change_first_name(event) {
+        const input_value = event.target.value;
+        this.setProps({first_name: input_value});
+    }
+
+    on_change_second_name(event) {
+        const input_value = event.target.value;
+        this.setProps({second_name: input_value});
+    }
+
+    on_change_login(event) {
+        const input_value = event.target.value;
+        this.setProps({login: input_value});
+    }
+    
+    on_change_email(event) {
+        const input_value = event.target.value;
+        this.setProps({email: input_value});
+    }
+
+    on_change_phone(event) {
+        const input_value = event.target.value;
+        this.setProps({phone: input_value});
+    }
+
+    on_save() {
+        console.log({
+            first_name: this.props.first_name,
+            second_name: this.props.second_name,
+            login: this.props.login,
+            email: this.props.email,
+            phone: this.props.phone,
+        });
+    }
+
     render(): string {
         return `
             <main class="profile_edit_container">

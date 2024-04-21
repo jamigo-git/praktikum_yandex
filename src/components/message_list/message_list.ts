@@ -4,7 +4,6 @@ import { Message } from "..";
 export default class MessageList extends Block {
     constructor(props: any) {
         const messages = props.messages.reduce((acc, data) => {
-            debugger
             const component = new Message({
                 text: data.text, 
                 image: data.image, 

@@ -2,15 +2,53 @@ import { Input, Button } from "../../components";
 import Block from "../../core/Block";
 
 export default class LoginPage extends Block {
-    constructor(props: any) {
+    init() {
+        const on_change_login_bind = this.on_change_login.bind(this);
+        const on_change_password_bind = this.on_change_password.bind(this);
+        const on_login_bind = this.on_login.bind(this);
 
-        super({
-            ...props,
-            input_login: new Input({ placeholder:"Логин", class:"login_form_input", name:"login" }),
-            input_password: new Input({ placeholder:"Пароль", class:"login_form_input", name:"password", type: "password"}),
-            button_enter: new Button({ label:"Войти", type:"primary" }),
-            button_registration: new Button({ label:"Регистрация", type:"secondary" }),
-        })
+        const input_login = new Input({ 
+            placeholder: "Логин", 
+            class: "login_form_input", 
+            name: "login",
+            onBlur: on_change_login_bind,
+        });
+
+        const input_password = new Input({ 
+            placeholder: "Пароль", 
+            class: "login_form_input", 
+            name: "password", 
+            type: "password", 
+            onBlur: on_change_password_bind, 
+        });
+
+        const button_enter = new Button({ label:"Войти", type:"primary", onClick: on_login_bind });
+        const button_registration = new Button({ label:"Регистрация", type:"secondary" });
+
+        this.children = {
+            ...this.children,
+            input_login,
+            input_password,
+            button_enter,
+            button_registration
+        }
+    }
+
+    on_change_login(event) {
+        const input_value = event.target.value;
+        this.setProps({login: input_value});
+    }
+
+    on_change_password(event) {
+        const input_value = event.target.value;
+        this.setProps({password: input_value});
+    }
+
+    on_login() {
+        console.log({
+            login: this.props.login,
+            password: this.props.password
+        });
     }
 
     render() {
@@ -21,7 +59,7 @@ export default class LoginPage extends Block {
                         <div class="login_header">
                             <h2>Авторизация</h2>
                         </div>
-                        <div class="input_container">
+                        <div class="login_input_container">
                             {{{ input_login }}}
                             {{{ input_password }}}
                         </div>

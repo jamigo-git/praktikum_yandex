@@ -3,7 +3,12 @@ import Block from "../../core/Block";
 
 export default class ButtonNav extends Block {
     constructor(props: any) {
-        super(props)
+        super({
+            ...props,
+            events: {
+                click: props.onClick
+            }
+        });
     }
 
     render(): string {

@@ -2,21 +2,48 @@ import { Input, ButtonNav, ButtonMenu, ChatList, Avatar, MessageList } from "../
 import Block from "../../core/Block";
 
 export default class ChatPage extends Block {
-    constructor(props: any) {
+    
+    init() {
 
-        super({
-            ...props,
-            button_back: new ButtonNav({ class: "button_back" }),
-            button_menu: new ButtonMenu({ }),
-            input_search: new Input({ placeholder:"Поиск", class:"chat_search_input", name:"search" }),
-            chat_list: new ChatList(props),
-            avatar: new Avatar({class:"avatar_chat_content_header"}),
-            button_chat_settings: new ButtonNav({ class: "chat_header_menu" }),
-            message_list: new MessageList(props),
-            button_add: new ButtonNav({ class: "chat_footer_add" }),
-            input_message: new Input({ placeholder:"Сообщение", class:"chat_content_send_message", name:"message"}),
-            button_send: new ButtonNav({ class: "chat_footer_send" }),
-        })
+        const on_change_message_bind = this.on_change_message.bind(this);
+        const on_send_bind = this.on_send.bind(this);
+
+        const button_back = new ButtonNav({ class: "button_back" });
+        const button_menu = new ButtonMenu({ });
+        const input_search = new Input({ placeholder:"Поиск", class:"chat_search_input", name:"search" });
+        const chat_list = new ChatList(this.props);
+        const avatar = new Avatar({class:"avatar_chat_content_header" });
+        const button_chat_settings = new ButtonNav({ class: "chat_header_menu" });
+        const message_list = new MessageList(this.props);
+        const button_add = new ButtonNav({ class: "chat_footer_add" });
+        const input_message = new Input({ placeholder:"Сообщение", class:"chat_content_send_message", name:"message", onBlur: on_change_message_bind});
+        const button_send = new ButtonNav({ class: "chat_footer_send", onClick: on_send_bind });
+
+        this.children = {
+            ...this.children,
+            button_back,
+            button_menu,
+            input_search,
+            chat_list,
+            avatar,
+            button_chat_settings,
+            message_list,
+            button_add,
+            input_message,
+            button_send,
+        }
+    }
+
+    on_change_message(event) {
+        const input_value = event.target.value;
+        this.setProps({message: input_value});
+    }
+
+    on_send() {
+        console.log({
+            message: this.props.message
+        });
+        debugger
     }
 
     render() {

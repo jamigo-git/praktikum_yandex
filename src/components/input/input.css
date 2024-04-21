@@ -1,4 +1,4 @@
-.input__element {
+.input_element {
     display: flex;
     padding: 0.5rem;
 }
@@ -10,8 +10,8 @@
     border-bottom: 1px solid lightgray;
 }
 
-.pass_edit_input.input__element,
-.profile_edit_input.input__element {
+.pass_edit_input.input_element,
+.profile_edit_input.input_element {
     border: 0!important;
 }
 
@@ -34,22 +34,21 @@
     flex-direction: row;
 }
 
-.input__container:has(.pass_edit_input),
-.input__container:has(.profile_edit_input) {
+.input_container:has(.pass_edit_input),
+.input_container:has(.profile_edit_input) {
     border-bottom: 1px solid lightgray;
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
     width: 40rem;
-    margin: .5rem;
-    
+    margin: 1rem;
 }
 
-.input__label {
+.input_label {
     font-size: 14px;
 }
 
-.input__value {
+.input_value {
     font-size: 14px;
     color: gray;
 }
