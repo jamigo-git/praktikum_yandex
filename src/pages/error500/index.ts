@@ -1,3 +1,4 @@
 import "./error500.css";
+import Error500 from "./error500";
 
-export { default as error500 } from "./error500.hbs?raw";
+export default Error500;

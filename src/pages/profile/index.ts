@@ -1,3 +1,4 @@
 import "./profile.css";
+import ProfilePage from "./profile.ts";
 
-export { default as ProfilePage } from "./profile.hbs?raw";
+export default ProfilePage;

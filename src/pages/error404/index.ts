@@ -1,3 +1,5 @@
 import "./error404.css";
+import Error404 from "./error404";
 
-export { default as error404 } from "./error404.hbs?raw";
+export default Error404;
+

@@ -1,6 +1,7 @@
 import "./pass_edit.css";
+import PassEditPage from "./pass_edit";
 
-export { default as PassEditPage } from "./pass_edit.hbs?raw";
+export default PassEditPage;
 
 
 

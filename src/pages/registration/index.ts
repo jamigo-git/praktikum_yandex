@@ -1,3 +1,4 @@
 import "./registration.css";
+import RegistrationPage  from "./registration";
 
-export { default as RegistrationPage } from "./registration.hbs?raw";
+export default RegistrationPage;
