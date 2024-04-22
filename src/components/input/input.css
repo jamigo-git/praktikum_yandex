@@ -44,6 +44,10 @@
     margin: 1rem;
 }
 
+.input_container:has(.pass_edit_input) {
+    position: relative;
+}
+
 .input_label {
     font-size: 14px;
 }
@@ -83,9 +87,30 @@
 }
 
 .input_error .input_validation_error {
-    display: block;
+    display: flex;
 }
   
-.input_container.input_error .input_element{
-    color: red;
+.input_container.input_error .input_element {
+    color: red!important;
+}
+
+.pass_edit_input_container .input_validation_error {
+    transform: translateY(15px);
+    align-self: flex-end;
+    position: absolute;
+    top: 20px;
+    left: 0px;
+}
+
+.profile_edit_input_container:has(.input_validation_error) .input_container {
+    position: relative;
+}
+
+form.profile_edit_form .input_error .input_validation_error {
+    position: absolute;
+    transform: translateY(30px);
+}
+
+form.reg_form .input_error .input_validation_error {
+    position: absolute;
 }

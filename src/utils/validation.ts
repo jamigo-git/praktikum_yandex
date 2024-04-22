@@ -1,8 +1,14 @@
 /**Функции для валидации данных*/
 
-/**Функция проверки email на соответствие требованиям */
+/**Функция проверки email на соответствие требованиям 
+ * латиница, может включать цифры и спецсимволы вроде дефиса и подчёркивания, 
+ * обязательно должна быть «собака» (@) и точка после неё, но перед точкой обязательно должны быть буквы.
+ * @email string, проверяемая строка
+ * @return boolean, true - нет ошибки, false - есть ошибка
+*/
 export function email(email: string): boolean {
-    return true;
+    const valid_email_regex = /^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return valid_email_regex.test(email);
 }
 
 /**Функция проверки login на соответствие требованиям 
@@ -11,9 +17,9 @@ export function email(email: string): boolean {
  * @login string, проверяемая строка
  * @return boolean, true - нет ошибки, false - есть ошибка
 */
-export function login(email: string): boolean {
+export function login(login: string): boolean {
     const valid_email_regex = /^[A-ZА-Я][A-Za-zА-Яа-я0-9\-_]{2,19}$/;
-    return valid_email_regex.test(email);
+    return valid_email_regex.test(login);
 }
 
 /**Функция проверки password на соответствие требованиям 
@@ -25,6 +31,8 @@ export function password(password: string): boolean {
     /**(?-.*[A-ZА-Я]) - положительное утверждение предварительного просмотра, проверяющая есть ли в строке хотя бы одна заглавная буква (латиница и кириллица)
      * (?-.*\d) - положительное утверждение предварительного просмотра, проверяющее наличие хотя бы одной цифры
      * .{8,40} - длина строки, . - указывает что может быть любой символ за исключением символа новой строки
+     * @password string, проверяемая строка
+     * @return boolean, true - нет ошибки, false - есть ошибка
      */
     const valid_password_regex = /^(?=.*[A-ZА-Я])(?=.*\d).{8,40}$/;
     return valid_password_regex.test(password);
@@ -36,7 +44,18 @@ export function password(password: string): boolean {
  * @name string, проверяемая строка
  * @return boolean, true - нет ошибки, false - есть ошибка
 */
-export function names(name: string): boolean {
+export function name(name: string): boolean {
     const valid_email_regex = /^[A-ZА-Я][A-Za-zА-Яа-я0-9\-_]{2,19}$/;
     return valid_email_regex.test(name);
+}
+
+/**Функция проверки phone на соответствие требованиям 
+ * от 10 до 15 символов, состоит из цифр, может начинается с плюса.
+ * @phone string, проверяемая строка
+ * @return boolean, true - нет ошибки, false - есть ошибка
+*/
+
+export function phone(phone: string): boolean {
+    const valid_email_regex = /^\+?\d{9,14}$/;
+    return valid_email_regex.test(phone);
 }

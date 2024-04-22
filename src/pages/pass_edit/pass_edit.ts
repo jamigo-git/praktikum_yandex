@@ -6,8 +6,6 @@ import * as validation from "../../utils/validation.ts";
 export default class PassEditPage extends Block {
     init() {
         const on_change_password_bind = this.on_change_password.bind(this);
-        // const on_change_new_password_bind = this.on_change_new_password.bind(this);
-        // const on_change_repeat_password_bind = this.on_change_repeat_password.bind(this);
 
         const on_save_bind = this.on_save.bind(this);
 
@@ -30,7 +28,6 @@ export default class PassEditPage extends Block {
     }
 
     on_change_password(event) {
-        debugger
         const input_value = event.target.value;
         const input_name = event.target.name;
         if(validation.password(input_value)) {
@@ -42,23 +39,12 @@ export default class PassEditPage extends Block {
         this.setProps({[input_name]: input_value});
     }
 
-    // on_change_new_password(event) {
-    //     const input_value = event.target.value;
-    //     this.setProps({newPassword: input_value});
-    // }
-
-    // on_change_repeat_password(event) {
-    //     const input_value = event.target.value;
-    //     this.setProps({repeatPassword: input_value});
-    // }
-
     on_save() {
         console.log({
             oldPassword: this.props.oldPassword,
             newPassword: this.props.newPassword,
             repeatPassword: this.props.repeatPassword,
         });
-        debugger
     }
 
     render(): string {

@@ -1,6 +1,7 @@
 import "./registration.css";
 import { Input, Button } from "../../components";
 import Block from "../../core/Block";
+import * as validation from "../../utils/validation.ts";
 
 export default class RegistrationPage extends Block {
     init() {
@@ -15,10 +16,10 @@ export default class RegistrationPage extends Block {
 
         const on_registration_bind = this.on_registration.bind(this);
         
-        const input_email = new Input({ placeholder:"Почта", class:"reg_form_input", name:"email", onBlur: on_change_email_bind });
-        const input_login = new Input({ placeholder:"Логин", class:"reg_form_input", name:"login", onBlur: on_change_login_bind });
         const input_name = new Input({ placeholder:"Имя", class:"reg_form_input", name:"first_name", onBlur: on_change_first_name_bind });
         const input_last_name = new Input({ placeholder:"Фамилия", class:"reg_form_input", name:"second_name", onBlur: on_change_second_name_bind });
+        const input_login = new Input({ placeholder:"Логин", class:"reg_form_input", name:"login", onBlur: on_change_login_bind });
+        const input_email = new Input({ placeholder:"Почта", class:"reg_form_input", name:"email", onBlur: on_change_email_bind });
         const input_phone = new Input({ placeholder:"Телефон", class:"reg_form_input", name:"phone", onBlur: on_change_phone_bind });
         const input_password = new Input({ placeholder:"Пароль", class:"reg_form_input", name:"password", type: "password", onBlur: on_change_password_bind });
         const input_repeat_password = new Input({ placeholder:"Повторите пароль", class:"reg_form_input", name:"password", type: "password", onBlur: on_change_repeat_password_bind });
@@ -41,36 +42,78 @@ export default class RegistrationPage extends Block {
 
     on_change_first_name(event) {
         const input_value = event.target.value;
+        if(validation.name(input_value)) {
+            this.children.input_name.setProps({error: false, error_text: null})
+        } else {
+            this.children.input_name.setProps({error: true, error_text: 'Имя не соответствует требованиям'});
+            return;
+        }
         this.setProps({first_name: input_value});
     }
 
     on_change_second_name(event) {
         const input_value = event.target.value;
+        if(validation.name(input_value)) {
+            this.children.input_last_name.setProps({error: false, error_text: null})
+        } else {
+            this.children.input_last_name.setProps({error: true, error_text: 'Фамилия не соответствует требованиям'});
+            return;
+        }
         this.setProps({second_name: input_value});
     }
 
     on_change_login(event) {
         const input_value = event.target.value;
+        if(validation.login(input_value)) {
+            this.children.input_login.setProps({error: false, error_text: null})
+        } else {
+            this.children.input_login.setProps({error: true, error_text: 'Логин не соответствует требованиям'});
+            return;
+        }
         this.setProps({login: input_value});
     }
     
     on_change_email(event) {
         const input_value = event.target.value;
+        if(validation.email(input_value)) {
+            this.children.input_email.setProps({error: false, error_text: null})
+        } else {
+            this.children.input_email.setProps({error: true, error_text: 'Email не соответствует требованиям'});
+            return;
+        }
         this.setProps({email: input_value});
     }
 
     on_change_phone(event) {
         const input_value = event.target.value;
+        if(validation.phone(input_value)) {
+            this.children.input_phone.setProps({error: false, error_text: null})
+        } else {
+            this.children.input_phone.setProps({error: true, error_text: 'Телефон не соответствует требованиям'});
+            return;
+        }
         this.setProps({phone: input_value});
     }
 
     on_change_password(event) {
         const input_value = event.target.value;
+        if(validation.password(input_value)) {
+            this.children.input_password.setProps({error: false, error_text: null})
+        } else {
+            this.children.input_password.setProps({error: true, error_text: 'Пароль не соответствует требованиям'});
+            return;
+        }
         this.setProps({newPassword: input_value});
     }
 
     on_change_repeat_password(event) {
         const input_value = event.target.value;
+        if(validation.password(input_value)) {
+            this.children.input_repeat_password.setProps({error: false, error_text: null})
+        } else {
+            this.children.input_repeat_password.setProps({error: true, error_text: 'Пароль не соответствует требованиям'});
+            return;
+        }
         this.setProps({repeatPassword: input_value});
     }
 
@@ -93,7 +136,7 @@ export default class RegistrationPage extends Block {
                     <div class="reg_header">
                         <h2>Регистрация</h2>
                     </div>
-                    <div class="input_container">
+                    <div class="reg_form_input_container">
                         {{{ input_email }}}
                         {{{ input_login }}}
                         {{{ input_name }}}
