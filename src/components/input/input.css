@@ -73,3 +73,19 @@
     width: 700px;
 }
 
+.input_validation_error {
+    transform: translateY(-15px);
+    color: red;
+    font-size: 10px;
+    font-weight: 400;
+    display: none;
+    text-align: left;
+}
+
+.input_error .input_validation_error {
+    display: block;
+}
+  
+.input_container.input_error .input_element{
+    color: red;
+}

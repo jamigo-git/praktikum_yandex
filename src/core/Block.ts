@@ -75,7 +75,6 @@ export default class Block {
   
   _componentDidMount() {
     this.componentDidMount();
-    console.log('CDM')
 
     Object.values(this.children).forEach(child => {
         child.dispatchComponentDidMount();
@@ -89,7 +88,6 @@ export default class Block {
   }
   
   _componentDidUpdate(oldProps, newProps) {
-    console.log('CDU')
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;

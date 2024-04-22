@@ -1,5 +1,6 @@
 import { Input, Button } from "../../components";
 import Block from "../../core/Block";
+import * as validation from "../../utils/validation.ts";
 
 export default class LoginPage extends Block {
     init() {
@@ -36,11 +37,23 @@ export default class LoginPage extends Block {
 
     on_change_login(event) {
         const input_value = event.target.value;
+        if(validation.login(input_value)) {
+            this.children.input_login.setProps({error: false, error_text: null})
+        } else {
+            this.children.input_login.setProps({error: true, error_text: 'Логин не соответствует требованиям'});
+            return;
+        }
         this.setProps({login: input_value});
     }
 
     on_change_password(event) {
         const input_value = event.target.value;
+        if(validation.password(input_value)) {
+            this.children.input_password.setProps({error: false, error_text: null})
+        } else {
+            this.children.input_password.setProps({error: true, error_text: 'Пароль'});
+            return;
+        }
         this.setProps({password: input_value});
     }
 
