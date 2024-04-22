@@ -10,8 +10,13 @@
     "start": " vite build && node ./server.js "
   },
   "devDependencies": {
+    "@eslint/js": "^9.1.1",
+    "eslint": "^9.1.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "globals": "^15.0.0",
     "handlebars": "^4.7.6",
     "typescript": "^5.2.2",
+    "typescript-eslint": "^7.7.1",
     "vite": "^5.2.0"
   },
   "dependencies": {
