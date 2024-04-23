@@ -2,11 +2,15 @@ import { Input, ButtonNav, ButtonMenu, ChatList, Avatar, MessageList } from "../
 import Block from "../../core/Block";
 
 export default class ChatPage extends Block {
+    [x: string]: any;
+    // const field_validation_map: Map<string,string> = new Map([
+    //     ['input_message', '']
+    // ])
     
     init() {
 
         const on_change_message_bind = this.on_change_message.bind(this);
-        const on_send_bind = this.on_send.bind(this);
+        const on_submit_bind = this.on_submit.bind(this);
 
         const button_back = new ButtonNav({ class: "button_back" });
         const button_menu = new ButtonMenu({ });
@@ -17,7 +21,7 @@ export default class ChatPage extends Block {
         const message_list = new MessageList(this.props);
         const button_add = new ButtonNav({ class: "chat_footer_add" });
         const input_message = new Input({ placeholder:"Сообщение", class:"chat_content_send_message", name:"message", onBlur: on_change_message_bind});
-        const button_send = new ButtonNav({ class: "chat_footer_send", onClick: on_send_bind });
+        const button_submit = new ButtonNav({ class: "chat_footer_send", onClick: on_submit_bind });
 
         this.children = {
             ...this.children,
@@ -30,19 +34,30 @@ export default class ChatPage extends Block {
             message_list,
             button_add,
             input_message,
-            button_send,
+            button_submit,
         }
     }
 
-    on_change_message(event) {
+    on_change_message(event: any) {
         const input_value = event.target.value;
+        if(input_value) {
+            this.children.input_message.setProps({error: false, error_text: null});
+        } else {
+            this.children.input_message.setProps({error: true, error_text: 'Невозможно отправить пустое сообщение'});
+            return;
+        }
         this.setProps({message: input_value});
     }
 
-    on_send() {
-        console.log({
-            message: this.props.message
-        });
+    on_submit() {
+        if (!this.props.message) {
+            this.children.input_message.setProps({error: true, error_text: 'Невозможно отправить пустое сообщение'});
+            return;
+        } else {
+            console.log({
+                message: this.props.message
+            });
+        }
         debugger
     }
 
@@ -74,7 +89,7 @@ export default class ChatPage extends Block {
                     <footer class="chat_content_footer">
                         {{{ button_add }}}
                         {{{ input_message }}}
-                        {{{ button_send }}}
+                        {{{ button_submit }}}
                     </footer>
                 </div>
             </main>

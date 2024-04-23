@@ -3,10 +3,14 @@ import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
 
 export default class LoginPage extends Block {
+    [x: string]: any;
+    // children: any;
+    // props: any;
+
     init() {
         const on_change_login_bind = this.on_change_login.bind(this);
         const on_change_password_bind = this.on_change_password.bind(this);
-        const on_login_bind = this.on_login.bind(this);
+        const on_submit_bind = this.on_submit.bind(this);
 
         const input_login = new Input({ 
             placeholder: "Логин", 
@@ -23,7 +27,7 @@ export default class LoginPage extends Block {
             onBlur: on_change_password_bind, 
         });
 
-        const button_enter = new Button({ label:"Войти", type:"primary", onClick: on_login_bind });
+        const button_enter = new Button({ label:"Войти", type:"primary", onClick: on_submit_bind });
         const button_registration = new Button({ label:"Регистрация", type:"secondary" });
 
         this.children = {
@@ -35,29 +39,41 @@ export default class LoginPage extends Block {
         }
     }
 
-    on_change_login(event) {
-        const input_value = event.target.value;
-        if(validation.login(input_value)) {
-            this.children.input_login.setProps({error: false, error_text: null})
-        } else {
-            this.children.input_login.setProps({error: true, error_text: 'Логин не соответствует требованиям'});
-            return;
-        }
+    on_change_login(event: any) {
+        console.log(event)
+        const input_value = event.target?.value;
+        if (this.is_login_error(input_value)) return;
         this.setProps({login: input_value});
     }
 
-    on_change_password(event) {
-        const input_value = event.target.value;
-        if(validation.password(input_value)) {
-            this.children.input_password.setProps({error: false, error_text: null})
+    is_login_error(value: string): boolean {
+        if(validation.login(value)) {
+            this.children.input_login.setProps({error: false, error_text: null});
+            return false;
         } else {
-            this.children.input_password.setProps({error: true, error_text: 'Пароль'});
-            return;
+            this.children.input_login.setProps({error: true, error_text: 'Логин не соответствует требованиям'});
+            return true;
         }
+    }
+
+    on_change_password(event: any) {
+        const input_value = event.target.value;
+        if (this.is_password_error(input_value)) return;
         this.setProps({password: input_value});
     }
 
-    on_login() {
+    is_password_error(value: string):boolean {
+        if(validation.password(value)) {
+            this.children.input_password.setProps({error: false, error_text: null});
+            return false;
+        } else {
+            this.children.input_password.setProps({error: true, error_text: 'Пароль не соответствует требованиям'});
+            return true;
+        }
+    }
+
+    on_submit() {
+        if (this.is_password_error(this.props.password) || this.is_login_error(this.props.login)) return;
         console.log({
             login: this.props.login,
             password: this.props.password

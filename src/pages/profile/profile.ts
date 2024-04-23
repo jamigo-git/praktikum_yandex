@@ -39,6 +39,6 @@ export default class ProfilePage extends Block {
                     </div>
                 </Form>
             </main>       
-        `
+        `;
     }
 }

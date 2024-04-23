@@ -4,6 +4,9 @@ import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
 
 export default class PassEditPage extends Block {
+    children: any;
+    props: any;
+    
     init() {
         const on_change_password_bind = this.on_change_password.bind(this);
 
@@ -27,11 +30,11 @@ export default class PassEditPage extends Block {
         }
     }
 
-    on_change_password(event) {
+    on_change_password(event: any) {
         const input_value = event.target.value;
         const input_name = event.target.name;
         if(validation.password(input_value)) {
-            this.children[input_name].setProps({error: false, error_text: null})
+            this.children[input_name].setProps({error: false, error_text: null});
         } else {
             this.children[input_name].setProps({error: true, error_text: 'Пароль не соответветствует требованиям'});
             return;

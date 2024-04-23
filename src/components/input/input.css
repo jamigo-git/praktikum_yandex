@@ -106,11 +106,16 @@
     position: relative;
 }
 
-form.profile_edit_form .input_error .input_validation_error {
+.form.profile_edit_form .input_error .input_validation_error,
+.chat_content_footer .input_validation_error,
+form.reg_form .input_error .input_validation_error {
     position: absolute;
+}
+
+form.profile_edit_form .input_error .input_validation_error {
     transform: translateY(30px);
 }
 
-form.reg_form .input_error .input_validation_error {
-    position: absolute;
+.chat_content_footer .input_validation_error {
+    transform: translateY(0px);
 }

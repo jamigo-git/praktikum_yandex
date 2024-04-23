@@ -27,10 +27,6 @@ export default class Block {
 
   constructor(propsWithChildren = {}) {
     const eventBus = new EventBus();
-    // this._meta = {
-    //   tagName,
-    //   props
-    // };
     const {props, children} = this._getChildrenAndProps(propsWithChildren);
     this.props = this._makePropsProxy({ ...props });
     this.children = children;
@@ -63,9 +59,7 @@ export default class Block {
   }
   
   _init() {
-    // this._createResources();
     this.init();
-  
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
@@ -160,8 +154,6 @@ export default class Block {
   }
 
   _makePropsProxy(props) {
-    // Можно и так передать this
-    // Такой способ больше не применяется с приходом ES6+
     const self = this;
   
     return new Proxy(props, {
@@ -173,8 +165,6 @@ export default class Block {
         const oldTarget = {...target}
         target[prop] = value;
   
-        // Запускаем обновление компоненты
-        // Плохой cloneDeep, в следующей итерации нужно заставлять добавлять cloneDeep им самим
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
@@ -185,7 +175,6 @@ export default class Block {
   }
   
   _createDocumentElement(tagName) {
-    // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
     return document.createElement(tagName);
   }
   
