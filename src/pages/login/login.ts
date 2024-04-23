@@ -4,8 +4,6 @@ import * as validation from "../../utils/validation.ts";
 
 export default class LoginPage extends Block {
     [x: string]: any;
-    // children: any;
-    // props: any;
 
     init() {
         const on_change_login_bind = this.on_change_login.bind(this);

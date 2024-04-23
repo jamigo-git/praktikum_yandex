@@ -7,7 +7,7 @@ const METHODS = {
 
 function queryStringify(data: Object) {
     if (typeof data !== 'object') {
-            throw new Error('Data must be object');
+        throw new Error('Data must be object');
     }
 
     const keys = Object.keys(data);
@@ -53,9 +53,9 @@ class HTTPTransport {
                                     : url,
                     );
 
-                    Object.keys(headers).forEach(key => {
-                            xhr.setRequestHeader(key, headers[key]);
-                    });
+                Object.keys(headers).forEach(key => {
+                        xhr.setRequestHeader(key, headers[key]);
+                });
             
                 xhr.onload = function() {
                       resolve(xhr);

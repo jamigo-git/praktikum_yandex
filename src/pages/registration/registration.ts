@@ -4,9 +4,7 @@ import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
 
 export default class RegistrationPage extends Block {
-    children: any;
-    props: any;
-    
+    [x: string]: any;
     init() {
         const on_change_first_name_bind = this.on_change_first_name.bind(this);
         const on_change_second_name_bind = this.on_change_second_name.bind(this);

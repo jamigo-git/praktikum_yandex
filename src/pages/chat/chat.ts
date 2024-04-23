@@ -3,9 +3,6 @@ import Block from "../../core/Block";
 
 export default class ChatPage extends Block {
     [x: string]: any;
-    // const field_validation_map: Map<string,string> = new Map([
-    //     ['input_message', '']
-    // ])
     
     init() {
 

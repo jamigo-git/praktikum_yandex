@@ -4,8 +4,7 @@ import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
 
 export default class ProfilePageEdit extends Block {
-    props: any;
-    children: any;
+    [x: string]: any;
 
     constructor(props: any) {
         super({
