@@ -1,9 +1,11 @@
 import Block from "../../core/Block";
 import { Message } from "..";
 
+type Props = Record<string,any>;
+
 export default class MessageList extends Block {
-    constructor(props: any) {
-        const messages = props.messages.reduce((acc, data) => {
+    constructor(props: Props) {
+        const messages = props.messages.reduce((acc: any, data: any) => {
             const component = new Message({
                 text: data.text, 
                 image: data.image, 
@@ -25,7 +27,7 @@ export default class MessageList extends Block {
         return `
             <div class="message_list_container">
                 <ul class="message_list">
-                    ${this.props.messageKeys.map((key) => `{{{ ${key} }}}`).join('')}
+                    ${this.props.messageKeys.map((key: string) => `{{{ ${key} }}}`).join('')}
                 </ul>
             </div>
         `;

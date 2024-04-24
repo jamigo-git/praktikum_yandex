@@ -19,7 +19,7 @@ export default class Block {
   public children: Children;
   private eventBus: () => EventBus;
 
-  private _id = nanoid(6);
+  _id = nanoid(6);
   
   /** JSDoc
      * @param {string} tagName
@@ -191,4 +191,5 @@ export default class Block {
     const content = this.getContent();
     if (content) content.style.display = "none";
   }
-  }
+}
+
