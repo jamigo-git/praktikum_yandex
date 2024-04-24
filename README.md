@@ -40,3 +40,4 @@ https://jamigo-chat.netlify.app/
 
 ### Валидация
 На все Input компоненты установлена валидация. Функции валидации собраны в /utils/validation.ts
+
