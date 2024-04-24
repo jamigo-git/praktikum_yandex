@@ -1,8 +1,9 @@
 import './button.css';
 import Block from "../../core/Block";
+import type { Props } from "../../core/Block";
 
 export default class Button extends Block {
-    constructor(props: any) {
+    constructor(props: Props) {
         super({
             ...props,
             events: {

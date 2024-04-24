@@ -4,8 +4,6 @@ import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
 
 export default class PassEditPage extends Block {
-    [x: string]: any;
-    
     init() {
         const on_change_password_bind = this.on_change_password.bind(this);
 

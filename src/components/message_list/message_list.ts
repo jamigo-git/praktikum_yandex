@@ -1,7 +1,6 @@
 import Block from "../../core/Block";
 import { Message } from "..";
-
-type Props = Record<string,any>;
+import type { Props } from "../../core/Block";
 
 export default class MessageList extends Block {
     constructor(props: Props) {

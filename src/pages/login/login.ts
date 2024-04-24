@@ -3,8 +3,6 @@ import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
 
 export default class LoginPage extends Block {
-    [x: string]: any;
-
     init() {
         const on_change_login_bind = this.on_change_login.bind(this);
         const on_change_password_bind = this.on_change_password.bind(this);
@@ -39,7 +37,7 @@ export default class LoginPage extends Block {
 
     on_change_login(event: any) {
         console.log(event)
-        const input_value = event.target?.value;
+        const input_value = event.target.value;
         if (this.is_login_error(input_value)) return;
         this.setProps({login: input_value});
     }

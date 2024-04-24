@@ -1,8 +1,9 @@
 import "./form_string.css";
 import Block from "../../core/Block";
+import type { Props } from "../../core/Block";
 
 export default class FormString extends Block {
-    constructor(props: any) {
+    constructor(props: Props) {
         super(props)
     }
 

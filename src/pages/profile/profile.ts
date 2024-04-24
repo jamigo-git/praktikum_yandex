@@ -1,9 +1,10 @@
 import "./profile.css";
 import { FormString, Button, Avatar, ButtonNav } from "../../components";
 import Block from "../../core/Block";
+import type { Props } from "../../core/Block";
 
 export default class ProfilePage extends Block {
-    constructor(props: any) {
+    constructor(props: Props) {
         super({
             ...props,
             button_back: new ButtonNav({ class: "button_back" }),

@@ -1,9 +1,8 @@
 import { Input, ButtonNav, ButtonMenu, ChatList, Avatar, MessageList } from "../../components";
 import Block from "../../core/Block";
+// import type { Children, Props } from "../../core/Block";
 
 export default class ChatPage extends Block {
-    [x: string]: any;
-    
     init() {
 
         const on_change_message_bind = this.on_change_message.bind(this);

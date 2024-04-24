@@ -2,11 +2,11 @@ import "./profile_edit.css";
 import { Input, Button, Avatar, ButtonNav } from "../../components";
 import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
+import type { Props } from "../../core/Block";
 
 export default class ProfilePageEdit extends Block {
-    [x: string]: any;
 
-    constructor(props: any) {
+    constructor(props: Props) {
         super({
             ...props,
         })

@@ -7,7 +7,12 @@ import fly from "./assets/fly.jpeg";
 import robot from "./assets/images.jpeg";
 import chatimg from "./assets/chatimg.png";
 
-const chat_items = [
+export type { ChatItemData };
+
+type ChatItemData = {[x: string]: string | number | boolean};
+
+
+const chat_items: ChatItemData[] = [
   {
     label: 'Петрович', 
     avatar: ava, 

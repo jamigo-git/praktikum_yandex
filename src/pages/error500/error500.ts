@@ -1,9 +1,10 @@
 import "./error500.css";
 import { Button, ErrorPage } from "../../components";
 import Block from "../../core/Block";
+import type { Props } from "../../core/Block";
 
 export default class Error500 extends Block {
-    constructor(props: any) {
+    constructor(props: Props) {
         super({
             ...props,
             button_back: new Button({ label:"Назад", type:"secondary" }),

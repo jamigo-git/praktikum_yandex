@@ -2,8 +2,10 @@ import EventBus from "./EventBus";
 import {nanoid} from 'nanoid';
 import Handlebars from "handlebars";
 
-type Props = Record<string,any>;
-type Children = Record<string, Block>
+type Props = Record<string, any>;
+type Children = Record<string, Block>;
+
+export type {Props, Children};
 
 export default class Block {
     static EVENTS = {

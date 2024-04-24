@@ -1,8 +1,9 @@
 import "./error.css";
 import Block from "../../core/Block";
+import type { Props } from "../../core/Block";
 
 export default class ErrorPage extends Block {
-    constructor(props: any) {
+    constructor(props: Props) {
         super(props)
     }
 
