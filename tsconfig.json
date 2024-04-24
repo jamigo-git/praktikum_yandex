@@ -15,7 +15,6 @@
     "noEmit": true,         
     "importHelpers": true,  
     "isolatedModules": true,
-
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -23,15 +22,13 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,              
     "alwaysStrict": true,                
-
     "noUnusedLocals": true,              
     "noUnusedParameters": true,
     "noImplicitReturns": true, 
     "noFallthroughCasesInSwitch": true,  
-
     "baseUrl": "./",
     "esModuleInterop": true,
-    "inlineSources": true,
+    "inlineSources": true
   },
   "include": ["src", "server.js"]
 }
