@@ -22,7 +22,7 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,              
     "alwaysStrict": true,                
-    "noUnusedLocals": false,              
+    "noUnusedLocals": true,              
     "noUnusedParameters": true,
     "noImplicitReturns": true, 
     "noFallthroughCasesInSwitch": true,  
@@ -32,4 +32,3 @@
   },
   "include": ["src", "server.js"]
 }
-
