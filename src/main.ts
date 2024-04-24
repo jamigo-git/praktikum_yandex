@@ -68,7 +68,7 @@ const pages = {
 };
 
 Object.entries(Components).forEach(([ name, component ]) => {
-  Handlebars.registerPartial(name, component);
+  Handlebars.registerPartial(name, component as any);
 });
 
 function navigate(page: string) {
