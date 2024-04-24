@@ -59,3 +59,4 @@ export function phone(phone: string): boolean {
     const valid_email_regex = /^\+?\d{9,14}$/;
     return valid_email_regex.test(phone);
 }
+
