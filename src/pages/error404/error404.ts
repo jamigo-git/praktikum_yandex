@@ -7,7 +7,7 @@ export default class Error404 extends Block {
     constructor(props: Props) {
         super({
             ...props,
-            button_back: new Button({ label:"Назад", type:"secondary" }),
+            buttonBack: new Button({ label:"Назад", type:"secondary" }),
             error404: new ErrorPage({ error_code:"404", error_text:"Извините такой страницы не существует." })
         });
     }
@@ -16,7 +16,7 @@ export default class Error404 extends Block {
         return `
             <main class="container">
                 {{{ error404 }}}
-                {{{ button_back }}}
+                {{{ buttonBack }}}
             </main>
         `;
     }

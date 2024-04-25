@@ -4,72 +4,72 @@ import * as validation from "../../utils/validation.ts";
 
 export default class LoginPage extends Block {
     init() {
-        const on_change_login_bind = this.on_change_login.bind(this);
-        const on_change_password_bind = this.on_change_password.bind(this);
-        const on_submit_bind = this.on_submit.bind(this);
+        const onChangeLoginBind = this.onChangeLogin.bind(this);
+        const onChangePassword_bind = this.onChangePassword.bind(this);
+        const onSubmitBind = this.onSubmit.bind(this);
 
-        const input_login = new Input({ 
+        const inputLogin = new Input({ 
             placeholder: "Логин", 
             class: "login_form_input", 
             name: "login",
-            onBlur: on_change_login_bind,
+            onBlur: onChangeLoginBind,
         });
 
-        const input_password = new Input({ 
+        const inputPassword = new Input({ 
             placeholder: "Пароль", 
             class: "login_form_input", 
             name: "password", 
             type: "password", 
-            onBlur: on_change_password_bind, 
+            onBlur: onChangePassword_bind, 
         });
 
-        const button_enter = new Button({ label:"Войти", type:"primary", onClick: on_submit_bind });
-        const button_registration = new Button({ label:"Регистрация", type:"secondary" });
+        const buttonEnter = new Button({ label:"Войти", type:"primary", onClick: onSubmitBind });
+        const buttonRegistration = new Button({ label:"Регистрация", type:"secondary" });
 
         this.children = {
             ...this.children,
-            input_login,
-            input_password,
-            button_enter,
-            button_registration
+            inputLogin,
+            inputPassword,
+            buttonEnter,
+            buttonRegistration
         }
     }
 
-    on_change_login(event: any) {
+    onChangeLogin(event: any) {
         console.log(event)
-        const input_value = event.target.value;
-        if (this.is_login_error(input_value)) return;
-        this.setProps({login: input_value});
+        const inputValue = event.target.value;
+        if (this.isLoginError(inputValue)) return;
+        this.setProps({login: inputValue});
     }
 
-    is_login_error(value: string): boolean {
+    isLoginError(value: string): boolean {
         if(validation.login(value)) {
-            this.children.input_login.setProps({error: false, error_text: null});
+            this.children.inputLogin.setProps({error: false, error_text: null});
             return false;
         } else {
-            this.children.input_login.setProps({error: true, error_text: 'Логин не соответствует требованиям'});
+            this.children.inputLogin.setProps({error: true, error_text: 'Логин не соответствует требованиям'});
             return true;
         }
     }
 
-    on_change_password(event: any) {
-        const input_value = event.target.value;
-        if (this.is_password_error(input_value)) return;
-        this.setProps({password: input_value});
+    onChangePassword(event: any) {
+        const inputValue = event.target.value;
+        if (this.isPasswordError(inputValue)) return;
+        this.setProps({password: inputValue});
     }
 
-    is_password_error(value: string):boolean {
+    isPasswordError(value: string):boolean {
         if(validation.password(value)) {
-            this.children.input_password.setProps({error: false, error_text: null});
+            this.children.inputPassword.setProps({error: false, error_text: null});
             return false;
         } else {
-            this.children.input_password.setProps({error: true, error_text: 'Пароль не соответствует требованиям'});
+            this.children.inputPassword.setProps({error: true, error_text: 'Пароль не соответствует требованиям'});
             return true;
         }
     }
 
-    on_submit() {
-        if (this.is_password_error(this.props.password) || this.is_login_error(this.props.login)) return;
+    onSubmit() {
+        if (this.isPasswordError(this.props.password) || this.isLoginError(this.props.login)) return;
         console.log({
             login: this.props.login,
             password: this.props.password
@@ -85,12 +85,12 @@ export default class LoginPage extends Block {
                             <h2>Авторизация</h2>
                         </div>
                         <div class="login_input_container">
-                            {{{ input_login }}}
-                            {{{ input_password }}}
+                            {{{ inputLogin }}}
+                            {{{ inputPassword }}}
                         </div>
                         <div class="btn_container">
-                            {{{ button_enter }}}
-                            {{{ button_registration }}}
+                            {{{ buttonEnter }}}
+                            {{{ buttonRegistration }}}
                         </div>
                     </Form>
                 </main>

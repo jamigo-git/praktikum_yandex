@@ -49,8 +49,16 @@ export default class Block {
 
     Object.keys(events).forEach(eventName => {
       this._element?.addEventListener(eventName, events[eventName]);
-  })
- }
+    });
+  }
+
+  _removeEvents(): void {
+    const {events = {}} = this.props;
+
+    Object.keys(events).forEach(eventName => {
+      this._element?.removeEventListener(eventName, events[eventName]);
+    });
+  }
   
   _registerEvents(eventBus: EventBus): void {
     eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
@@ -131,6 +139,8 @@ export default class Block {
   }
   
   _render() {
+    this._removeEvents();
+
     const propsAndStubs = { ...this.props };
 
     Object.entries(this.children).forEach(([key, child]) => {

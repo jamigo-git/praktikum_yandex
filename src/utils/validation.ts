@@ -7,8 +7,8 @@
  * @return boolean, true - нет ошибки, false - есть ошибка
 */
 export function email(email: string): boolean {
-    const valid_email_regex = /^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return valid_email_regex.test(email);
+    const validEmailRegex = /^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return validEmailRegex.test(email);
 }
 
 /**Функция проверки login на соответствие требованиям 
@@ -18,8 +18,8 @@ export function email(email: string): boolean {
  * @return boolean, true - нет ошибки, false - есть ошибка
 */
 export function login(login: string): boolean {
-    const valid_email_regex = /^[A-ZА-Я][A-Za-zА-Яа-я0-9\-_]{2,19}$/;
-    return valid_email_regex.test(login);
+    const validLoginRegex = /^[A-ZА-Я][A-Za-zА-Яа-я0-9\-_]{2,19}$/;
+    return validLoginRegex.test(login);
 }
 
 /**Функция проверки password на соответствие требованиям 
@@ -34,8 +34,8 @@ export function password(password: string): boolean {
      * @password string, проверяемая строка
      * @return boolean, true - нет ошибки, false - есть ошибка
      */
-    const valid_password_regex = /^(?=.*[A-ZА-Я])(?=.*\d).{8,40}$/;
-    return valid_password_regex.test(password);
+    const validPasswordRegex = /^(?=.*[A-ZА-Я])(?=.*\d).{8,40}$/;
+    return validPasswordRegex.test(password);
 }
 
 /**Функция проверки first_name, second_name на соответствие требованиям 
@@ -45,8 +45,8 @@ export function password(password: string): boolean {
  * @return boolean, true - нет ошибки, false - есть ошибка
 */
 export function name(name: string): boolean {
-    const valid_email_regex = /^[A-ZА-Я][A-Za-zА-Яа-я0-9\-_]{2,19}$/;
-    return valid_email_regex.test(name);
+    const validNameRegex = /^[A-ZА-Я][A-Za-zА-Яа-я0-9\-_]{2,19}$/;
+    return validNameRegex.test(name);
 }
 
 /**Функция проверки phone на соответствие требованиям 
@@ -56,7 +56,7 @@ export function name(name: string): boolean {
 */
 
 export function phone(phone: string): boolean {
-    const valid_email_regex = /^\+?\d{9,14}$/;
-    return valid_email_regex.test(phone);
+    const validPhoneRegex = /^\+?\d{9,14}$/;
+    return validPhoneRegex.test(phone);
 }
 

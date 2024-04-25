@@ -9,7 +9,7 @@ export default class PassEditPage extends Block {
 
         const on_submit_bind = this.on_submit.bind(this);
 
-        const button_back = new ButtonNav({ class: "button_back" });
+        const buttonBack = new ButtonNav({ class: "button_back" });
         const oldPassword = new Input({ label:"Старый пароль", placeholder:"·······", class:"pass_edit_input", name:"oldPassword", type: "password", onBlur: on_change_password_bind });
         const newPassword = new Input({ label:"Новый пароль", placeholder:"·······", class:"pass_edit_input", name:"newPassword", type: "password", onBlur: on_change_password_bind });
         const repeatPassword = new Input({ label:"Повторите пароль", placeholder:"·······", class:"pass_edit_input", name:"repeatPassword", type: "password", onBlur: on_change_password_bind });
@@ -18,7 +18,7 @@ export default class PassEditPage extends Block {
 
         this.children = {
             ...this.children,
-            button_back,
+            buttonBack,
             oldPassword, 
             newPassword,
             repeatPassword,
@@ -28,10 +28,10 @@ export default class PassEditPage extends Block {
     }
 
     on_change_password(event: any) {
-        const input_value = event.target.value;
-        const input_name = event.target.name;
-        if (this.is_password_error(input_name, input_value)) return;
-        this.setProps({[input_name]: input_value});
+        const inputValue = event.target.value;
+        const inputName = event.target.name;
+        if (this.is_password_error(inputName, inputValue)) return;
+        this.setProps({[inputName]: inputValue});
     }
 
     is_password_error(name: string, value: string): boolean {
@@ -62,7 +62,7 @@ export default class PassEditPage extends Block {
     render(): string {
         return `
             <main class="pass_edit_container">
-                {{{ button_back }}}
+                {{{ buttonBack }}}
                 <Form class="pass_edit_form">
                     <div class="pass_edit_input_container">
                         {{{ oldPassword }}}

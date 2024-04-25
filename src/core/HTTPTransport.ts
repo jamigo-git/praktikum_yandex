@@ -16,22 +16,23 @@ function queryStringify(data: Object) {
     }, '?');
 }
 
+type Options = Record<string, any>;
+type HTTPMethod = (url: string, options?: Options) => Promise<unknown>
 class HTTPTransport {
-    get = (url: string, options:any = {}) => {
-             
-            return this.request(url, {...options, method: METHODS.GET}, options.timeout);
+    get: HTTPMethod = (url, options) => {
+            return this.request(url, {...options, method: METHODS.GET}, options?.timeout);
     };
 
-    post = (url: string, options:any = {}) => {
-            return this.request(url, {...options, method: METHODS.POST}, options.timeout);
+    post: HTTPMethod = (url, options) => {
+            return this.request(url, {...options, method: METHODS.POST}, options?.timeout);
     };
 
-    put = (url: string, options:any = {}) => {
-            return this.request(url, {...options, method: METHODS.PUT}, options.timeout);
+    put: HTTPMethod = (url, options) => {
+            return this.request(url, {...options, method: METHODS.PUT}, options?.timeout);
     };
 
-    delete = (url: string, options:any = {}) => { 
-            return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
+    delete: HTTPMethod = (url: string, options:any = {}) => { 
+            return this.request(url, {...options, method: METHODS.DELETE}, options?.timeout);
     };
 
     request = (url: string, options:any = {}, timeout = 5000) => {

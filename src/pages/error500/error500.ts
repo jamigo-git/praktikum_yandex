@@ -7,7 +7,7 @@ export default class Error500 extends Block {
     constructor(props: Props) {
         super({
             ...props,
-            button_back: new Button({ label:"Назад", type:"secondary" }),
+            buttonBack: new Button({ label:"Назад", type:"secondary" }),
             error500: new ErrorPage({ error_code:"500", error_text:"Что-то пошло не так. Уже чиним." })
         });
     }
@@ -16,7 +16,7 @@ export default class Error500 extends Block {
         return `
             <main class="container">
                 {{{ error500 }}}
-                {{{ button_back }}}
+                {{{ buttonBack }}}
             </main>
         
         `
