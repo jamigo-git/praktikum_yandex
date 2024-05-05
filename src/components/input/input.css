@@ -1,4 +1,4 @@
-.input__element {
+.input_element {
     display: flex;
     padding: 0.5rem;
 }
@@ -10,8 +10,8 @@
     border-bottom: 1px solid lightgray;
 }
 
-.pass_edit_input.input__element,
-.profile_edit_input.input__element {
+.pass_edit_input.input_element,
+.profile_edit_input.input_element {
     border: 0!important;
 }
 
@@ -34,33 +34,88 @@
     flex-direction: row;
 }
 
-.input__container:has(.pass_edit_input),
-.input__container:has(.profile_edit_input) {
+.input_container:has(.pass_edit_input),
+.input_container:has(.profile_edit_input) {
     border-bottom: 1px solid lightgray;
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
     width: 40rem;
-    margin: .5rem;
-    
+    margin: 1rem;
 }
 
-.input__label {
+.input_container:has(.pass_edit_input) {
+    position: relative;
+}
+
+.input_label {
     font-size: 14px;
 }
 
-.input__value {
+.input_value {
     font-size: 14px;
     color: gray;
 }
 
+.chat_content_send_message,
 .chat_search_input {
     background-color: #EFEFEF;
-    width: 370px;
     border: 0;
     border-radius: 12px;
 }
 
+.chat_content_send_message::placeholder,
 .chat_search_input::placeholder {
     color: lightgray;
+}
+
+.chat_search_input {
+    width: 370px;
+}
+
+.chat_content_send_message {
+    width: 700px;
+}
+
+.input_validation_error {
+    transform: translateY(-15px);
+    color: red;
+    font-size: 10px;
+    font-weight: 400;
+    display: none;
+    text-align: left;
+}
+
+.input_error .input_validation_error {
+    display: flex;
+}
+  
+.input_container.input_error .input_element {
+    color: red!important;
+}
+
+.pass_edit_input_container .input_validation_error {
+    transform: translateY(15px);
+    align-self: flex-end;
+    position: absolute;
+    top: 20px;
+    left: 0px;
+}
+
+.profile_edit_input_container:has(.input_validation_error) .input_container {
+    position: relative;
+}
+
+.form.profile_edit_form .input_error .input_validation_error,
+.chat_content_footer .input_validation_error,
+form.reg_form .input_error .input_validation_error {
+    position: absolute;
+}
+
+form.profile_edit_form .input_error .input_validation_error {
+    transform: translateY(30px);
+}
+
+.chat_content_footer .input_validation_error {
+    transform: translateY(0px);
 }

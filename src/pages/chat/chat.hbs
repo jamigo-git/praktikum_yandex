@@ -1,4 +1,4 @@
-<main class="chat_container">
+{{!-- <main class="chat_container">
     {{> ButtonNav}}
 
     <div class="chat_list_container">
@@ -6,9 +6,27 @@
             {{> ButtonMenu}}
             {{> Input placeholder="Поиск" class="chat_search_input"}}
         </div>
+        <div class="chat_item_list">
+            {{> ChatList}}
+        </div>
     </div>
     <div class="chat_content">
-        <p>Выберите чат чтобы начать общение</p>
+        <header class="chat_content_header">
+            {{> Avatar class="avatar_chat_content_header"}}
+            <div class="chat_content_header_label">"Label"</div>
+            {{!-- <div class="chat_content_settings">Settings</div> --}}
+            {{> ButtonNav class="chat_header_menu"}}
+
+        </header>
+        <main class="message_list">
+            {{> MessageList}}
+            {{!-- <p>Выберите чат чтобы начать общение</p> --}}
+        </main>
+        <footer class="chat_content_footer">
+            {{> ButtonNav class="chat_footer_add"}}
+            {{> Input class="chat_content_send_message" placeholder="Сообщение" name="message"}}
+            {{> ButtonNav class="chat_footer_send"}}
+        </footer>
     </div>
 </main>
-
+ --}}

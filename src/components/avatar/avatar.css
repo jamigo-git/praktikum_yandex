@@ -1,11 +1,24 @@
-.avatar__container{
+.avatar__container:has(.avatar_profile){
     display: flex;
     justify-content: center;
     flex-direction: column;
 }
 
-.avatar_image {
+.avatar__container:has(.chat_item_avatar){
+    width: fit-content;
+    margin-left: 10px;
+}
+
+.avatar_profile {
     width: 123px;
+    height: 123px;
+    border-radius: 50%;
+}
+
+.avatar_chat_content_header,
+.chat_item_avatar {
+    width: 63px;
+    height: 63px;
     border-radius: 50%;
 }
 

@@ -1,0 +1,11 @@
+.message_list {
+    padding-inline-start: 10px;
+    display: flex;
+}
+
+.message_list_container {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    max-height: 570px;
+}

@@ -1,3 +1,4 @@
 import "./profile_edit.css";
+import ProfilePageEdit from "./profile_edit.ts";
 
-export { default as ProfilePageEdit } from "./profile_edit.hbs?raw";
+export default ProfilePageEdit;
