@@ -18,10 +18,11 @@ export default class ProfilePageEdit extends Block {
         const onChangeLoginBind = this.onChangeLogin.bind(this);
         const onChangeEmailBind = this.onChangeEmail.bind(this);
         const onChangePhoneBind = this.onChangePhone.bind(this);
+        const onBackClickBind = this.onBackClick.bind(this);
 
         const onSaveBind = this.onSave.bind(this);
 
-        const buttonBack = new ButtonNav({ class: "button_back" });
+        const buttonBack = new ButtonNav({ class: "button_back", onClick: onBackClickBind  });
         const avatar = new Avatar({ label:"jamigo", class:"avatar_profile" });
         const inputName = new Input({ label:"Имя", placeholder:"Игорь", class:"profile_edit_input", name:"first_name", onBlur: onChangeFirstNameBind});
         const inputSecondName = new Input({ label:"Фамилия", placeholder:"Ямалеев", class:"profile_edit_input", name:"second_name", onBlur: onChangeSecondNameBind  });
@@ -142,6 +143,10 @@ export default class ProfilePageEdit extends Block {
             email: this.props.email,
             phone: this.props.phone,
         });
+    }
+
+    onBackClick() {
+        (window as any).router.back();
     }
 
     render(): string {

@@ -5,29 +5,32 @@ import * as validation from "../../utils/validation.ts";
 
 export default class PassEditPage extends Block {
     init() {
-        const on_change_password_bind = this.on_change_password.bind(this);
+        const onChangePasswordBind = this.onChangePassword.bind(this);
+        const onBackClickBind = this.onBackClick.bind(this);
 
-        const on_submit_bind = this.on_submit.bind(this);
+        const onSubmitBind = this.onSubmit.bind(this);
 
-        const buttonBack = new ButtonNav({ class: "button_back" });
-        const oldPassword = new Input({ label:"Старый пароль", placeholder:"·······", class:"pass_edit_input", name:"oldPassword", type: "password", onBlur: on_change_password_bind });
-        const newPassword = new Input({ label:"Новый пароль", placeholder:"·······", class:"pass_edit_input", name:"newPassword", type: "password", onBlur: on_change_password_bind });
-        const repeatPassword = new Input({ label:"Повторите пароль", placeholder:"·······", class:"pass_edit_input", name:"repeatPassword", type: "password", onBlur: on_change_password_bind });
-        const button_enter = new Button({ label:"Сохранить", type:"primary", onClick: on_submit_bind });
-        const button_registration = new Button({ label:"Выйти", type:"secondary"});
+        const oldPassword = new Input({ label:"Старый пароль", placeholder:"·······", class:"pass_edit_input", name:"oldPassword", type: "password", onBlur: onChangePasswordBind });
+        const newPassword = new Input({ label:"Новый пароль", placeholder:"·······", class:"pass_edit_input", name:"newPassword", type: "password", onBlur: onChangePasswordBind });
+        const repeatPassword = new Input({ label:"Повторите пароль", placeholder:"·······", class:"pass_edit_input", name:"repeatPassword", type: "password", onBlur: onChangePasswordBind });
+        const buttonEnter = new Button({ label:"Сохранить", type:"primary", onClick: onSubmitBind });
+        const buttonBack = new Button({ label:"Назад", type:"secondary", onClick: onBackClickBind });
 
         this.children = {
             ...this.children,
-            buttonBack,
             oldPassword, 
             newPassword,
             repeatPassword,
-            button_enter,
-            button_registration
+            buttonEnter,
+            buttonBack
         }
     }
 
-    on_change_password(event: any) {
+    onBackClick() {
+        (window as any).router.go('/login');
+    }
+
+    onChangePassword(event: any) {
         const inputValue = event.target.value;
         const inputName = event.target.name;
         if (this.is_password_error(inputName, inputValue)) return;
@@ -44,7 +47,7 @@ export default class PassEditPage extends Block {
         }
     }
 
-    on_submit() {
+    onSubmit() {
         if (this.is_password_error('oldPassword', this.props.oldPassword)
             || this.is_password_error('oldPassword', this.props.newPassword)
             || this.is_password_error('oldPassword', this.props.repeatPassword)) {
@@ -62,7 +65,6 @@ export default class PassEditPage extends Block {
     render(): string {
         return `
             <main class="pass_edit_container">
-                {{{ buttonBack }}}
                 <Form class="pass_edit_form">
                     <div class="pass_edit_input_container">
                         {{{ oldPassword }}}
@@ -70,8 +72,8 @@ export default class PassEditPage extends Block {
                         {{{ repeatPassword }}}
                     </div>
                     <div class="pass_edit_btn_container">
-                        {{{ button_enter }}}
-                        {{{ button_registration }}}
+                        {{{ buttonEnter }}}
+                        {{{ buttonBack }}}
                     </div>
                 </Form>
             </main>

@@ -1,12 +1,13 @@
 import { Input, Button } from "../../components";
 import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
-
+import { connect } from "../../utils/connect";
 export default class LoginPage extends Block {
     init() {
         const onChangeLoginBind = this.onChangeLogin.bind(this);
         const onChangePassword_bind = this.onChangePassword.bind(this);
         const onSubmitBind = this.onSubmit.bind(this);
+        const onRegistrationBind = this.onRegistration.bind(this);
 
         const inputLogin = new Input({ 
             placeholder: "Логин", 
@@ -24,7 +25,7 @@ export default class LoginPage extends Block {
         });
 
         const buttonEnter = new Button({ label:"Войти", type:"primary", onClick: onSubmitBind });
-        const buttonRegistration = new Button({ label:"Регистрация", type:"secondary" });
+        const buttonRegistration = new Button({ label:"Регистрация", type:"secondary", onClick: onRegistrationBind });
 
         this.children = {
             ...this.children,
@@ -76,25 +77,38 @@ export default class LoginPage extends Block {
         });
     }
 
+    onRegistration() {
+        (window as any).router.go('/sign-up');
+    }
+
     render() {
         return `
             <div class="container">
                 <main class="container">
-                    <Form class="login_form">
-                        <div class="login_header">
-                            <h2>Авторизация</h2>
-                        </div>
-                        <div class="login_input_container">
-                            {{{ inputLogin }}}
-                            {{{ inputPassword }}}
-                        </div>
-                        <div class="btn_container">
-                            {{{ buttonEnter }}}
-                            {{{ buttonRegistration }}}
-                        </div>
-                    </Form>
+                    {{#if isLoading}}
+                        <h2>SPINER</h2>
+                    {{else}}
+                        <Form class="login_form">
+                            <div class="login_header">
+                                <h2>Авторизация</h2>
+                            </div>
+                            <div class="login_input_container">
+                                {{{ inputLogin }}}
+                                {{{ inputPassword }}}
+                            </div>
+                            <div class="btn_container">
+                                {{{ buttonEnter }}}
+                                {{{ buttonRegistration }}}
+                            </div>
+                        </Form>
+                    {{/if}}
                 </main>
             </div>
         `
     }
 }
+
+
+// const mapStateToPropsShort = ({loginField, isLoading}) => ({loginField, isLoading})
+
+// export default connect(mapStateToPropsShort)(LoginPage)

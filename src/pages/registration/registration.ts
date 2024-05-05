@@ -12,6 +12,7 @@ export default class RegistrationPage extends Block {
         const onChangePhoneBind = this.onChangePhone.bind(this);
         const onChangePasswordBind = this.onChangePassword.bind(this);
         const onChangeRepeatPassword_bind = this.onChangeRepeatPassword.bind(this);
+        const onBackClickBind = this.onBackClick.bind(this);
 
         const onRegistrationBind = this.onRegistration.bind(this);
         
@@ -23,7 +24,7 @@ export default class RegistrationPage extends Block {
         const inputPassword = new Input({ placeholder:"Пароль", class:"reg_form_input", name:"password", type: "password", onBlur: onChangePasswordBind });
         const inputRepeatPassword = new Input({ placeholder:"Повторите пароль", class:"reg_form_input", name:"password", type: "password", onBlur: onChangeRepeatPassword_bind });
         const buttonEnter = new Button({ label:"Зарегистрироваться", type:"primary", onClick: onRegistrationBind });
-        const buttonRegistration = new Button({ label:"Войти", type:"secondary" });
+        const buttonRegistration = new Button({ label:"Назад", type:"secondary", onClick: onBackClickBind });
 
         this.children = {
             ...this.children,
@@ -171,6 +172,10 @@ export default class RegistrationPage extends Block {
             newPassword: this.props.newPassword,
             repeatPassword: this.props.repeatPassword,
         });
+    }
+
+    onBackClick() {
+        (window as any).router.go('/login');
     }
 
     render(): string {

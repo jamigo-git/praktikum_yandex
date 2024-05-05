@@ -6,11 +6,11 @@ import ava from "./assets/z.jpg";
 import fly from "./assets/fly.jpeg";
 import robot from "./assets/images.jpeg";
 import chatimg from "./assets/chatimg.png";
+import Router from "./core/Router";
 
 export type { ChatItemData };
 
 type ChatItemData = {[x: string]: string | number | boolean};
-
 
 const chat_items: ChatItemData[] = [
   {
@@ -55,45 +55,30 @@ const messages = [
   },
 ];
 
-const pages = {
-  "login": [ Pages.LoginPage ],
-  "registration": [ Pages.RegistrationPage ],
-  "error404": [ Pages.Error404 ],
-  "error500": [ Pages.Error500 ],
-  "profile": [ Pages.ProfilePage ],
-  "profile_edit": [ Pages.ProfilePageEdit ],
-  "pass_edit": [ Pages.PassEditPage ],
-  "chat": [ Pages.ChatPage, {chat_items, messages}],
-  "nav": [ Pages.NavigatePage ]
-};
-
 Object.entries(Components).forEach(([ name, component ]) => {
   Handlebars.registerPartial(name, component as any);
 });
 
-function navigate(page: string) {
-  //@ts-ignore
-  const [ source, context ] = pages[page];
-  const container = document.getElementById("app")!;
-  if (source instanceof Object) {
-    const page = new source(context);
-    container.innerHTML = '';
-    container.append(page.getContent());
-    return;
-  }
-  container.innerHTML = Handlebars.compile(source)(context);
-}
 
 
-document.addEventListener("DOMContentLoaded", () => navigate("nav"));
+const router = new Router('#app');
+(window as any).router = router;
 
-document.addEventListener("click", e => {
-  //@ts-ignore
-  const page = e.target.getAttribute("page");
-  if (page) {
-    navigate(page);
+// window.store = new Store({
+//   isLoading: false,
+//   loginError: null,
+//   cats: [],
+//   user: null,
+//   selectedCard: null
+// });
 
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-});
+
+router.use('/login', Pages.LoginPage)
+      .use('/settings', Pages.ProfilePage)
+      .use('/settings_edit', Pages.ProfilePageEdit)
+      .use('/500', Pages.Error500)
+      .use('/pass_edit', Pages.PassEditPage)
+      .use('/messenger', Pages.ChatPage)
+      .use('/sign-up', Pages.RegistrationPage)
+      .use('*', Pages.Error404)
+      .start();
