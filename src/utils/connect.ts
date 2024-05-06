@@ -1,20 +1,21 @@
 import { StoreEvents } from "../core/Store";
 import isEqual from './isEqual';
+import type { Props } from "../core/Block";
 
 export function connect(mapStateToProps, dispatch?) {
     return function(Component) {
       return class extends Component{
-        private onChangeStoreCallback: () => void;
-        constructor(props) {
-          const store = window.store;
+        static onChangeStoreCallback: () => void;
+        constructor(props: Props) {
+          const store = (window as any).store;
           // сохраняем начальное состояние
-          let state = mapStateToProps(store.getState());
+          let state = mapStateToProps(store?.getState() || {});
   
           super({...props, ...state});
 
           const dispatchHundler = {};
           Object.entries(dispatch || {}).forEach(([key, hundler]) => {
-            dispatchHundler[key] = (...args) => hundler(window.store.set.bind(window.store), ...args)
+            dispatchHundler[key] = (...args) => hundler((window as any).store.set.bind((window as any).store), ...args)
           })
 
           this.setProps({...dispatchHundler});
@@ -40,7 +41,7 @@ export function connect(mapStateToProps, dispatch?) {
 
       componentWillUnmount() {
         super.componentWillUnmount();
-        window.store.off(StoreEvents.Updated, this.onChangeStoreCallback);
+        (window as any).store.off(StoreEvents.Updated, this.onChangeStoreCallback);
       }
     }
   }

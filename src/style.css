@@ -100,3 +100,10 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+.api_error {
+  display: flex;
+  justify-content: center;
+  color: red;
+}

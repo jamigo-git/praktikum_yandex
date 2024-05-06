@@ -8,7 +8,7 @@ export class Store extends EventBus {
   private state = {};
   static __instance: Store;
 
-  constructor(defaultState) {
+  constructor(defaultState: any) {
     if (Store.__instance) {
       return Store.__instance;
     }
@@ -24,7 +24,7 @@ export class Store extends EventBus {
     return this.state;
   }
 
-  public set(nextState) {
+  public set(nextState: any) {
     const prevState = { ...this.state };
 
     this.state = { ...this.state, ...nextState };

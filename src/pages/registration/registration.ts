@@ -2,8 +2,10 @@ import "./registration.css";
 import { Input, Button } from "../../components";
 import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
+import { connect } from "../../utils/connect.ts";
+import { registration } from "../../services/auth.ts";
 
-export default class RegistrationPage extends Block {
+class RegistrationPage extends Block {
     init() {
         const onChangeFirstNameBind = this.onChangeFirstName.bind(this);
         const onChangeSecondNameBind = this.onChangeSecondName.bind(this);
@@ -152,7 +154,7 @@ export default class RegistrationPage extends Block {
         }
     }
 
-    onRegistration() {
+    onRegistration(event: any) {
         if (this.isFirstNameError(this.props.first_name)
             || this.isSecondNameError(this.props.second_name)
             || this.isLoginError(this.props.login)
@@ -172,6 +174,16 @@ export default class RegistrationPage extends Block {
             newPassword: this.props.newPassword,
             repeatPassword: this.props.repeatPassword,
         });
+
+        event.preventDefault();
+        registration({
+            first_name: this.props.first_name,
+            second_name: this.props.second_name,
+            login: this.props.login,
+            email: this.props.email,
+            phone: this.props.phone,
+            password: this.props.newPassword,
+        });
     }
 
     onBackClick() {
@@ -181,25 +193,41 @@ export default class RegistrationPage extends Block {
     render(): string {
         return `
             <main class="container">
-                <Form class="reg_form">
-                    <div class="reg_header">
-                        <h2>Регистрация</h2>
-                    </div>
-                    <div class="reg_form_input_container">
-                        {{{ inputEmail }}}
-                        {{{ inputLogin }}}
-                        {{{ inputName }}}
-                        {{{ inputLastName }}}
-                        {{{ inputPhone }}}
-                        {{{ inputPassword }}}
-                        {{{ inputRepeatPassword }}}
-                    </div>
-                    <div class="btn_container">
-                        {{{ buttonEnter }}}
-                        {{{ buttonRegistration }}}
-                    </div>
-                </Form>
+                {{#if isLoading}}
+                    <h2>SPINER</h2>
+                {{else}}
+                    <Form class="reg_form">
+                        <div class="reg_header">
+                            <h2>Регистрация</h2>
+                        </div>
+                        <div class="reg_form_input_container">
+                            {{{ inputEmail }}}
+                            {{{ inputLogin }}}
+                            {{{ inputName }}}
+                            {{{ inputLastName }}}
+                            {{{ inputPhone }}}
+                            {{{ inputPassword }}}
+                            {{{ inputRepeatPassword }}}
+                        </div>
+                        <div class="btn_container">
+                            {{{ buttonEnter }}}
+                            {{{ buttonRegistration }}}
+                        </div>
+                    </Form>
+                    {{#if loginError}}
+                        <div class="api_error"> {{registrationError}} <div>
+                    {{/if}}
+                {{/if}}
             </main>
         `
     }
 }
+
+const mapStateToProps = (store: any) => {
+    return {
+        registrationError: store.registrationError,
+        isLoading: store.isLoading
+    }
+}
+
+export default connect(mapStateToProps)(RegistrationPage);

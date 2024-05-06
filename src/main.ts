@@ -7,6 +7,7 @@ import fly from "./assets/fly.jpeg";
 import robot from "./assets/images.jpeg";
 import chatimg from "./assets/chatimg.png";
 import Router from "./core/Router";
+import { Store } from "./core/Store";
 
 export type { ChatItemData };
 
@@ -64,13 +65,13 @@ Object.entries(Components).forEach(([ name, component ]) => {
 const router = new Router('#app');
 (window as any).router = router;
 
-// window.store = new Store({
-//   isLoading: false,
-//   loginError: null,
-//   cats: [],
-//   user: null,
-//   selectedCard: null
-// });
+(window as any).store = new Store({
+  isLoading: false,
+  loginError: null,
+  cats: [],
+  user: null,
+  selectedCard: null
+});
 
 
 router.use('/login', Pages.LoginPage)

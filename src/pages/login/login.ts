@@ -2,7 +2,8 @@ import { Input, Button } from "../../components";
 import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
 import { connect } from "../../utils/connect";
-export default class LoginPage extends Block {
+import { login } from "../../services/auth";
+class LoginPage extends Block {
     init() {
         const onChangeLoginBind = this.onChangeLogin.bind(this);
         const onChangePassword_bind = this.onChangePassword.bind(this);
@@ -69,12 +70,17 @@ export default class LoginPage extends Block {
         }
     }
 
-    onSubmit() {
+    onSubmit(event: any) {
         if (this.isPasswordError(this.props.password) || this.isLoginError(this.props.login)) return;
+        
         console.log({
             login: this.props.login,
             password: this.props.password
         });
+
+        event.preventDefault();
+        login({login: this.props.login, password: this.props.password});
+
     }
 
     onRegistration() {
@@ -101,6 +107,9 @@ export default class LoginPage extends Block {
                                 {{{ buttonRegistration }}}
                             </div>
                         </Form>
+                        {{#if loginError}}
+                            <div class="api_error"> {{loginError}} <div>
+                        {{/if}}
                     {{/if}}
                 </main>
             </div>
@@ -108,7 +117,11 @@ export default class LoginPage extends Block {
     }
 }
 
+const mapStateToProps = (store: any) => {
+    return {
+        loginError: store.loginError,
+        isLoading: store.isLoading
+    }
+}
 
-// const mapStateToPropsShort = ({loginField, isLoading}) => ({loginField, isLoading})
-
-// export default connect(mapStateToPropsShort)(LoginPage)
+export default connect(mapStateToProps)(LoginPage);
