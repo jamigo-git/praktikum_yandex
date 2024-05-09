@@ -5,7 +5,7 @@
     display: flex;
 }
 
-.chat_list_container {
+.chat_item_conteiner {
     width: 430px;
     height: 720px;
     background-color: #FBFBFB;

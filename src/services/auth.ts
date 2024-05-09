@@ -7,26 +7,23 @@ export const login = async (model: LoginRequestData) => {
     (window as any).store.set({isLoading: true});
     try {
         const login_result = await authApi.login(model);
-        console.log(login_result)
         if (login_result.status !== 200) {
             throw new Error();
         } else {
-            (window as any).router.go('/chats')
+            (window as any).router.go('/messenger')
         }
         
     } catch (error) {
         (window as any).store.set({loginError: 'login error'});
     } finally {
-        (window as any).store.set({isLoading: false});
+        (window as any).store.set({isLoading: false, loginError: undefined});
     }
 }
 
 export const registration = async (model: signUpRequest) => {
     (window as any).store.set({isLoading: true});
     try {
-        console.log('model', model)
         const reg_result = await authApi.create(model);
-        console.log(reg_result)
         if (reg_result.status !== 200) {
             throw new Error();
         } else {

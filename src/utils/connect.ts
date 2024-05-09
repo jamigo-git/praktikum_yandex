@@ -13,12 +13,12 @@ export function connect(mapStateToProps, dispatch?) {
   
           super({...props, ...state});
 
-          const dispatchHundler = {};
-          Object.entries(dispatch || {}).forEach(([key, hundler]) => {
-            dispatchHundler[key] = (...args) => hundler((window as any).store.set.bind((window as any).store), ...args)
+          const dispatchHandler = {};
+          Object.entries(dispatch || {}).forEach(([key, handler]) => {
+            dispatchHandler[key] = (...args) => handler((window as any).store.set.bind((window as any).store), ...args)
           })
 
-          this.setProps({...dispatchHundler});
+          this.setProps({...dispatchHandler});
 
           this.onChangeStoreCallback = () => {
 

@@ -147,29 +147,81 @@ export default class Block {
         propsAndStubs[key] = `<div data-id="${child._id}"></div>`
     });
 
-    const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
+    const childrenProps = [];
+    Object.entries(propsAndStubs).forEach(([key, value]) => {
+      if(Array.isArray(value)) {
+        propsAndStubs[key] = value.map((item) => {
+          if(item instanceof Block) {
+            childrenProps.push(item)
+            return `<div data-id="${item._id}"></div>`
+          }
+
+          return item;
+        }).join('')
+      }
+  });
+    const fragment = this._createDocumentElement('template');
 
     fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
-    const newElement = fragment.content.firstElementChild as HTMLElement;
+    const newElement = fragment.content.firstElementChild;
 
-    Object.values(this.children).forEach(child => {
-        const stub: HTMLElement | null = fragment.content.querySelector(`[data-id="${child._id}"]`);
-        const childContent = child.getContent()
-        if (childContent) stub?.replaceWith(childContent);
+    [...Object.values(this.children), ...childrenProps].forEach(child => {
+        const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+        
+        stub?.replaceWith(child.getContent());
     });
 
+
     if (this._element) {
-        this._element.replaceWith(newElement);
-      }
+      newElement.style.display = this._element.style.display
+      this._element.replaceWith(newElement);
+    }
   
       this._element = newElement;
 
     this._addEvents();
+
+    // const propsAndStubs = { ...this.props };
+
+    // Object.entries(this.children).forEach(([key, child]) => {
+    //     propsAndStubs[key] = `<div data-id="${child._id}"></div>`
+    // });
+
+    // const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
+
+    // fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
+    // const newElement = fragment.content.firstElementChild as HTMLElement;
+
+    // Object.values(this.children).forEach(child => {
+    //     const stub: HTMLElement | null = fragment.content.querySelector(`[data-id="${child._id}"]`);
+    //     const childContent = child.getContent()
+    //     if (childContent) stub?.replaceWith(childContent);
+    // });
+
+    // if (this._element) {
+    //   newElement.style.display = this._element.style.display;
+    //   this._element.replaceWith(newElement);
+    // }
+  
+    // this._element = newElement;
+
+    // this._addEvents();
   }
   
   render(): void {}
   
   getContent(): HTMLElement | null{
+    // Хак, чтобы вызвать CDM только после добавления в DOM
+    if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+      setTimeout(() => {
+        if (
+          this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
+        ) {
+          this.dispatchComponentDidMount();
+        }
+      }, 100);
+    }
+
     return this.element;
   }
 

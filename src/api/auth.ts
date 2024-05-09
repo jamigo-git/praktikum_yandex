@@ -3,14 +3,6 @@ import { APIError, CreateUser, LoginRequestData, SignUpResponse, UserDTO } from 
 
 const authApi = new HTTPTransport(`/auth`);
 
-// const delay = (showError: boolean) => new Promise((resolve, reject) => {
-//     if(showError) {
-//         setTimeout(() => reject(), 2000)
-//     } else {
-//         setTimeout(() => resolve(), 3000)
-//     }
-// })
-
 export default class AuthApi {
     async create(data: CreateUser): Promise<XMLHttpRequest> {
         return authApi.post('/signup', {data})
