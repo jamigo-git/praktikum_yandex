@@ -25,6 +25,24 @@ export type CreateChat = {
     title: string
 }
 
+export type CreateChatResponse = {
+    id: number
+}
+
+export type DeleteChat = {
+    chatId: string
+}
+
+export type DeleteChatResponse = {
+    userId: number
+    result: {
+      id: number
+      title: string
+      avatar: string
+      created_by: number
+    }
+}
+
 export type LoginRequestData = {
     login: string,
     password: string

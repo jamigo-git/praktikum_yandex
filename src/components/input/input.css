@@ -15,6 +15,7 @@
     border: 0!important;
 }
 
+.input_chat_name,
 .reg_form_input,
 .login_form_input {
     width: 17rem;
@@ -29,6 +30,7 @@
     text-align: right;
 }
 
+.pass_edit_input,
 .pass_edit_input,
 .profile_edit_input {
     flex-direction: row;

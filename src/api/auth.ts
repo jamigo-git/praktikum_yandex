@@ -1,5 +1,5 @@
 import  HTTPTransport from "../core/HTTPTransport.ts";
-import { APIError, CreateUser, LoginRequestData, SignUpResponse, UserDTO } from "./type";
+import { CreateUser, LoginRequestData } from "./type";
 
 const authApi = new HTTPTransport(`/auth`);
 
@@ -12,11 +12,11 @@ export default class AuthApi {
         return authApi.post('/signin', {data});
     }
 
-    async me(): Promise<UserDTO | APIError> {
+    async me(): Promise<XMLHttpRequest> {
         return authApi.get('/user');
     }
 
-    async logout(): Promise<void | APIError> {
-        return authApi.post('/logout')
+    async logout(): Promise<XMLHttpRequest> {
+        return authApi.post('/logout', {});
     }
 }

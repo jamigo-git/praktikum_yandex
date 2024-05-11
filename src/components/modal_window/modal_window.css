@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.modal_window_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 30px 30px;
+    width: 340px;
+    height: 260px;
+    box-shadow: 0 0 6px 0 gray;
+    border-radius: 12px;
+    background-color: white;
+}   
+
+.modal_window_header {
+    display: flex;
+    justify-content: center;
+}
+
+.modal_window_footer {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal_window_body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+

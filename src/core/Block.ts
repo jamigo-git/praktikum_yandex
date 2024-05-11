@@ -12,7 +12,8 @@ export default class Block {
       INIT: "init",
       FLOW_CDM: "flow:component-did-mount",
       FLOW_CDU: "flow:component-did-update",
-      FLOW_RENDER: "flow:render"
+      FLOW_RENDER: "flow:render",
+      FLOW_CDUNMT: "flow:component-did-unmount"
     };
   
   private _element: HTMLElement | null = null;
@@ -65,6 +66,7 @@ export default class Block {
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CDUNMT, this._componentDidUnmount.bind(this));
   }
   
   _createResources(): void {
@@ -88,9 +90,26 @@ export default class Block {
         child.dispatchComponentDidMount();
     });
   }
+
+  _componentDidUnmount(): void {
+    this.componentDidUnmount();
+
+    Object.values(this.children).forEach(child => {
+      child.dispatchComponentDidUnmount();
+  });
+  }
+
+  /**Удаление компонента из DOM */
+  componentDidUnmount(): void {
+
+  }
   
   componentDidMount(oldProps?: Props): void {
     oldProps;
+  }
+
+  dispatchComponentDidUnmount() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDUNMT);
   }
   
   dispatchComponentDidMount() {

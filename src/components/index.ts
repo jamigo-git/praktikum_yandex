@@ -9,4 +9,8 @@ export { ChatList } from "./chat_list";
 export { ChatItem } from "./chat_item";
 export { MessageList } from "./message_list";
 export { Message } from "./message";
+export { FormWrapper } from "./form_wrapper";
+export { ModalWindow } from "./modal_window";
+export { Dropdown } from "./dropdown";
+export { DropdownItem } from "./dropdown_item";
 

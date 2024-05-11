@@ -47,7 +47,6 @@ export default class HTTPTransport {
 
         request = (url: string, options:any = {}, timeout = 5000) => {
                 const {headers = YA_HEADERS, method, data} = options;
-                console.log('YA_HEADERS ', YA_HEADERS);
 
                 return new Promise(function(resolve, reject) {
                         if (!method) {
@@ -76,13 +75,13 @@ export default class HTTPTransport {
                 
                         xhr.timeout = timeout;
                         xhr.ontimeout = reject;
-                        
-                        if (isGet || !data) {
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        xhr.withCredentials = true;
+                        const dataJSON = data ? JSON.stringify(data) : JSON.stringify({});
+                        if (isGet) {
                                 xhr.send();
                         } else {
-                                xhr.setRequestHeader("Content-Type", "application/json");
-                                console.log('httptransport data', data)
-                                xhr.send(JSON.stringify(data));
+                                xhr.send(dataJSON);
                         }
                 });
         };

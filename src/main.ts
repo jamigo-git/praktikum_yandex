@@ -26,7 +26,9 @@ const router = new Router('#app');
   registrationError: null,
   chats: [],
   user: null,
-  selectedChatId: null
+  selectedChatId: null,
+  showCreateChatModal: null,
+  showDeleteChatModal: null
 });
 
 
