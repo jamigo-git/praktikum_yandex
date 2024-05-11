@@ -1,7 +1,7 @@
 import  HTTPTransport from "../core/HTTPTransport.ts";
 import { CreateUser, LoginRequestData } from "./type";
 
-const authApi = new HTTPTransport(`/auth`);
+const authApi = new HTTPTransport(`auth`);
 
 export default class AuthApi {
     async create(data: CreateUser): Promise<XMLHttpRequest> {

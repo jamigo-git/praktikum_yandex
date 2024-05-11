@@ -28,9 +28,9 @@ const router = new Router('#app');
   user: null,
   selectedChatId: null,
   showCreateChatModal: null,
-  showDeleteChatModal: null
+  showDeleteChatModal: null,
+  showChangeAvatarModal: null,
 });
-
 
 router.use('/login', Pages.LoginPage)
       .use('/settings', Pages.ProfilePage)

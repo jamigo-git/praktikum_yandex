@@ -18,6 +18,9 @@ function isArrayOrObject(value: unknown): value is [] | PlainObject {
 }
 
 function isEqual(lhs: PlainObject, rhs: PlainObject) {
+    if (!lhs && !!rhs || !!lhs && !rhs) return false;
+
+    if (lhs === undefined && rhs === undefined || lhs === null && rhs === null) return true; 
     
     if (Object.keys(lhs).length !== Object.keys(rhs).length) {
         return false;

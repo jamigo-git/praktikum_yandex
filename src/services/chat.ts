@@ -1,6 +1,7 @@
 import ChatApi from "../api/chat";
 import type { ChatDTO, CreateChat, CreateChatResponse, DeleteChat, DeleteChatResponse } from "../api/type";
 import { logout } from "../services/auth";
+import { onShowModal } from "./modal";
 
 
 const chatApi = new ChatApi();
@@ -41,10 +42,13 @@ export const createChat = async (model: CreateChat) => {
     }
 }
 
-export const deleteChat = async (model: DeleteChat) => {
+/**Удаление выбранного чата */
+export const deleteChat = async () => {
+    const chatId = (window as any).store.state.selectedChatId;
+    if (!chatId) return;
     (window as any).store.set({isLoading: true});
     try {
-        const response = await chatApi.delete(model);
+        const response = await chatApi.delete({ chatId: chatId });
         if (response.status !== 200) {
             throw new Error(`Error status ${response.status}`)
         } else {
@@ -65,11 +69,15 @@ export const setActiveChat = (chatId: string) => {
 export const onCreateChatClick = (event: any) => {
     event.preventDefault();
     (window as any).store.set({ showCreateChatModal: true });
+    setTimeout(onShowModal, 1000);
 }
 
 export const onDeleteChatClick = (event: any) => {
+    const chatId = (window as any).store.state.selectedChatId;
+    if (!chatId) return;
     event.preventDefault();
     (window as any).store.set({ showDeleteChatModal: true });
+    setTimeout(onShowModal, 1000);
 }
 
 export const onLogoutClick = (event: any) => {

@@ -105,5 +105,7 @@ button:focus-visible {
 }
 
 .modal_window_container {
-  position: absolute;
+  position: fixed;
+  left: 0;
+  top: 0;
 }

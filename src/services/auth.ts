@@ -1,5 +1,5 @@
 import AuthApi from "../api/auth";
-import type { LoginRequestData, signUpRequest } from "../api/type";
+import type { LoginRequestData, UserDTO, signUpRequest } from "../api/type";
 
 const authApi = new AuthApi();
 
@@ -9,6 +9,7 @@ export const login = async (model: LoginRequestData) => {
     try {
         const login_result = await authApi.login(model);
         if (login_result.status !== 200) {
+            console.error(`Status: ${login_result.status}, Error: ${JSON.parse(login_result.responseText)?.reason}`)
             throw new Error();
         } else {
             (window as any).router.go('/messenger')
@@ -22,11 +23,12 @@ export const login = async (model: LoginRequestData) => {
 }
 
 /**Зарегистрировать пользователя */
-export const registration = async () => {
+export const registration = async (model: signUpRequest) => {
     (window as any).store.set({isLoading: true});
     try {
-        const reg_result = await authApi.logout();
+        const reg_result = await authApi.create(model);
         if (reg_result.status !== 200) {
+            console.error(`Status: ${reg_result.status}, Error: ${JSON.parse(reg_result.responseText)?.reason}`)
             throw new Error();
         } else {
             (window as any).router.go('/login');
@@ -44,8 +46,8 @@ export const logout = async () => {
     (window as any).store.set({isLoading: true});
     try {
         const logout = await authApi.logout();
-        debugger
         if (logout.status !== 200) {
+            console.error(`Status: ${logout.status}, Error: ${JSON.parse(logout.responseText)?.reason}`)
             throw new Error();
         } else {
             const timeoutId = setTimeout(() => {}, 2000);
@@ -58,13 +60,18 @@ export const logout = async () => {
     }
 }
 
+/**Получение инфо о пользователе */
 export const getUserInfo = async () => {
     (window as any).store.set({isLoading: true});
     try {
-        const reg_result = await authApi.me();
-        if (reg_result.status !== 200) {
+        let user_info: UserDTO;
+        let response = await authApi.me();
+        if (response.status !== 200) {
+            console.error(`Status: ${response.status}, Error: ${JSON.parse(response.responseText)?.reason}`)
             throw new Error();
         } else {
+            user_info = JSON.parse(response.responseText);
+            (window as any).store.set({user: user_info});
             (window as any).router.go('/settings')
         }
         

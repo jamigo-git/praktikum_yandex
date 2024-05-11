@@ -1,4 +1,3 @@
-import './button.css';
 import Block from "../../core/Block";
 import type { Props } from "../../core/Block";
 

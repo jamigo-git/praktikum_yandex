@@ -1,15 +1,46 @@
-import "./profile_edit.css";
 import { Input, Button, Avatar, ButtonNav } from "../../components";
-import Block from "../../core/Block";
+import Block, { Props } from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
-import type { Props } from "../../core/Block";
+import  AvatarChangeModal from "../profile_edit/avatar_change_modal.ts";
+import { connect } from "../../utils/connect.ts";
+import { onBackClick, onAvatarClick,  } from "../../services/profile";
+import { getUserInfo } from "../../services/auth.ts";
+import isEqual from "../../utils/isEqual.ts";
+import { BASEURL } from "../../core/Constants.ts";
 
-export default class ProfilePageEdit extends Block {
+class ProfilePageEdit extends Block {
 
     constructor(props: Props) {
         super({
             ...props,
         })
+    }
+
+    /**Запус загрузки данных пользователя после отрисовки компонента в DOM */
+    componentDidMount(oldProps: Props): void {
+        if (!(window as any).store.state.user) getUserInfo();
+    }
+
+    /**Обновление */
+    componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+        
+        if(!isEqual(oldProps.user, newProps.user)) {
+            const user = (window as any).store.state.user;
+            
+            this.children.formStrName.setProps({ value: user?.first_name });
+            this.children.formStrLastName.setProps({ value: user?.second_name });
+            this.children.formStrLogin.setProps({ value: user?.login });
+            this.children.formStrEmail.setProps({ value: user?.email });
+            this.children.formStrPhone.setProps({ value: user?.phone });
+            
+            const avatar_url = user?.avatar ? `${BASEURL}resources\\${user.avatar}` : '';
+            if (avatar_url) {
+                this.children.avatar.setProps({label: user?.login, avatar: avatar_url});
+            } else {
+                this.children.avatar.setProps({ label: user?.login });
+            }
+        }
+        return true;
     }
 
     init() {
@@ -18,19 +49,25 @@ export default class ProfilePageEdit extends Block {
         const onChangeLoginBind = this.onChangeLogin.bind(this);
         const onChangeEmailBind = this.onChangeEmail.bind(this);
         const onChangePhoneBind = this.onChangePhone.bind(this);
-        const onBackClickBind = this.onBackClick.bind(this);
+        const onBackClickBind = onBackClick.bind(this);
+        const onAvatarClickBind = onAvatarClick.bind(this);
 
         const onSaveBind = this.onSave.bind(this);
 
+        const user = (window as any).store.state.user;
+
         const buttonBack = new ButtonNav({ class: "button_back", onClick: onBackClickBind  });
-        const avatar = new Avatar({ label:"jamigo", class:"avatar_profile" });
-        const inputName = new Input({ label:"Имя", placeholder:"Игорь", class:"profile_edit_input", name:"first_name", onBlur: onChangeFirstNameBind});
-        const inputSecondName = new Input({ label:"Фамилия", placeholder:"Ямалеев", class:"profile_edit_input", name:"second_name", onBlur: onChangeSecondNameBind  });
-        const inputLogin = new Input({ label:"Логин", placeholder:"jamigo", class:"profile_edit_input", name:"login", onBlur: onChangeLoginBind });
-        const inputEmail = new Input({ label:"Почта", placeholder:"jamigo@ya.ru", class:"profile_edit_input", name:"email", onBlur: onChangeEmailBind });
-        const inputPhone = new Input({ label: "Телефон", placeholder:"+7 (917) 207 90 22", class:"profile_edit_input", name:"phone", onBlur: onChangePhoneBind });
+        const avatar = new Avatar({ label: user?.login, class:"avatar_profile", onClick: onAvatarClickBind });
+        const inputName = new Input({ label:"Имя", placeholder: user?.first_name, class:"profile_edit_input", name:"first_name", onBlur: onChangeFirstNameBind});
+        const inputSecondName = new Input({ label:"Фамилия", placeholder: user?.second_name, class:"profile_edit_input", name:"second_name", onBlur: onChangeSecondNameBind  });
+        const inputLogin = new Input({ label:"Логин", placeholder: user?.login, class:"profile_edit_input", name:"login", onBlur: onChangeLoginBind });
+        const inputEmail = new Input({ label:"Почта", placeholder: user?.email, class:"profile_edit_input", name:"email", onBlur: onChangeEmailBind });
+        const inputPhone = new Input({ label: "Телефон", placeholder: user?.phone, class:"profile_edit_input", name:"phone", onBlur: onChangePhoneBind });
         const buttonSave = new Button({ label:"Сохранить", type:"primary", onClick: onSaveBind });
         const buttonExit = new Button({ label:"Выйти", type:"secondary" });
+
+        /** Modal windows */
+        const avatarChangeModal = new AvatarChangeModal({});
 
         this.children = {
             ...this.children,
@@ -43,6 +80,7 @@ export default class ProfilePageEdit extends Block {
             inputPhone,
             buttonSave,
             buttonExit,
+            avatarChangeModal
         }
     }
 
@@ -145,10 +183,6 @@ export default class ProfilePageEdit extends Block {
         });
     }
 
-    onBackClick() {
-        (window as any).router.back();
-    }
-
     render(): string {
         return `
             <main class="profile_edit_container">
@@ -167,7 +201,21 @@ export default class ProfilePageEdit extends Block {
                         {{{ buttonExit }}}
                     </div>
                 </Form>
+                {{#if showChangeAvatarModal }}
+                    <div class="modal_window_container"> {{{ avatarChangeModal }}} </div>
+                {{/if}}
             </main>
         `
     }
 }
+
+/**Пропсы из store которые будут тригерить обновление */
+const mapStateToProps = (store: any) => {
+    return {
+        user: store.user,
+        isLoading: store.isLoading,
+        showChangeAvatarModal: store.showChangeAvatarModal,
+    }
+}
+
+export default connect(mapStateToProps)(ProfilePageEdit);

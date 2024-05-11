@@ -1,22 +1,21 @@
 import { connect } from "../../utils/connect";
 import Block from "../../core/Block";
-import { FormWrapper, ModalWindow, Button, FormString } from "../../components";
+import { FormWrapper, ModalWindow, Button } from "../../components";
 import { deleteChat } from "../../services/chat";
 
 class DeleteChatModal extends Block {
 
     init() {
-        const onDeleteBind = this.onDelete.bind(this);
+        const onDeleteBind = deleteChat.bind(this);
 
         const button = new Button({ label:"Удалить", type:"primary", onClick: onDeleteBind });
-        const modalBody = new FormString({label: "Внимание!", value: "Выбранный чат будет удален"});
+        const modalBody = `<h3>Выбранный чат будет удален</h3>`;
 
         const formWrapper = new FormWrapper({
-            formBody: new ModalWindow({modalBody: modalBody, button: button, title: `Удалить выбранный чат ${(window as any).store.state.selectedChatId}?`}),
+            formBody: new ModalWindow({modalBody: modalBody, button: button, title: `Удалить выбранный чат?`}),
             onSubmit: (event: any) => {
-                const chatId = (window as any).store.state.selectedChatId;
                 event.preventDefault();
-                deleteChat({ chatId: chatId })
+                deleteChat();
             }
         });
 
@@ -26,10 +25,7 @@ class DeleteChatModal extends Block {
         }
     }
 
-    onDelete() {
-        const chatId = (window as any).store.state.selectedChatId;
-        if (chatId) deleteChat({chatId: chatId});
-    }
+
 
     render() {
         return `
