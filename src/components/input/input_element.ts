@@ -11,8 +11,10 @@ export default class InputElement extends Block {
                 name: props.name,
                 type: props.type,
                 placeholder: props.placeholder,
+                value: props.value,
                 events: {
-                    blur: props.onBlur || (() => {}) 
+                    blur: props.onBlur || (() => {}),
+                    change: props.onChange || (() => {})
                 }
             }),
             validation_error: new ValidationError({

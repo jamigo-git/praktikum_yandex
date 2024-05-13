@@ -62,11 +62,25 @@ export type ChatDTO = {
     last_message: LastMessage | null
 }
 
-export type signUpRequest = {
+export type SignUpRequest = {
     first_name: string
     second_name: string
     login: string
     email: string
     password: string
     phone: string
+}
+
+export type ChangeUserProfile = {
+    first_name: string
+    second_name: string
+    display_name: string
+    login: string
+    email: string
+    phone: string
+}
+
+export type ChangeUserPassword = {
+    oldPassword: string
+    newPassword: string
 }

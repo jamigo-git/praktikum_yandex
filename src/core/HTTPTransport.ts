@@ -1,5 +1,4 @@
-import { BASEURL, YA_HEADERS} from "../core/Constants.ts";
-
+import { BASEURL } from "../core/Constants.ts";
 
 const METHODS = {
         GET: 'GET',
@@ -46,7 +45,7 @@ export default class HTTPTransport {
         };
 
         request = (url: string, options:any = {}, timeout = 5000) => {
-                const {headers = YA_HEADERS, method, data} = options;
+                const { method, data } = options;
 
                 return new Promise(function(resolve, reject) {
                         if (!method) {
@@ -65,19 +64,22 @@ export default class HTTPTransport {
                                         : url,
                         );
 
-                        Object.keys(headers).forEach(key => {
-                                xhr.setRequestHeader(key, headers[key]);
-                        });
-                
                         xhr.onload = function() { resolve(xhr); };
                         xhr.onabort = reject;
                         xhr.onerror = reject;
                 
                         xhr.timeout = timeout;
                         xhr.ontimeout = reject;
-                        xhr.setRequestHeader("Content-Type", "application/json");
+                        
+                        let dataJSON = data;
+                        
+                        /**Установка хедеров */
                         xhr.withCredentials = true;
-                        const dataJSON = data ? JSON.stringify(data) : JSON.stringify({});
+                        if (data instanceof FormData === false) {
+                                xhr.setRequestHeader("Content-Type", "application/json");
+                                dataJSON = data ? JSON.stringify(data) : JSON.stringify({});
+                        }
+
                         if (isGet) {
                                 xhr.send();
                         } else {

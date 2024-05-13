@@ -3,7 +3,7 @@ import Block, { Props } from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
 import  AvatarChangeModal from "../profile_edit/avatar_change_modal.ts";
 import { connect } from "../../utils/connect.ts";
-import { onBackClick, onAvatarClick,  } from "../../services/profile";
+import { onBackClick, onAvatarClick, changeProfile } from "../../services/profile";
 import { getUserInfo } from "../../services/auth.ts";
 import isEqual from "../../utils/isEqual.ts";
 import { BASEURL } from "../../core/Constants.ts";
@@ -23,22 +23,21 @@ class ProfilePageEdit extends Block {
 
     /**Обновление */
     componentDidUpdate(oldProps: Props, newProps: Props): boolean {
-        
         if(!isEqual(oldProps.user, newProps.user)) {
-            const user = (window as any).store.state.user;
+            // const user = (window as any).store.state.user;
             
-            this.children.formStrName.setProps({ value: user?.first_name });
-            this.children.formStrLastName.setProps({ value: user?.second_name });
-            this.children.formStrLogin.setProps({ value: user?.login });
-            this.children.formStrEmail.setProps({ value: user?.email });
-            this.children.formStrPhone.setProps({ value: user?.phone });
+            // this.children.inputName.setProps({ value: user?.first_name });
+            // this.children.inputSecondName.setProps({ value: user?.second_name });
+            // this.children.inputLogin.setProps({ value: user?.login });
+            // this.children.inputEmail.setProps({ value: user?.email });
+            // this.children.inputPhone.setProps({ value: user?.phone });
             
-            const avatar_url = user?.avatar ? `${BASEURL}resources\\${user.avatar}` : '';
-            if (avatar_url) {
-                this.children.avatar.setProps({label: user?.login, avatar: avatar_url});
-            } else {
-                this.children.avatar.setProps({ label: user?.login });
-            }
+            // const avatar_url = user?.avatar ? `${BASEURL}resources\\${user.avatar}` : '';
+            // if (avatar_url) {
+            //     this.children.avatar.setProps({label: user?.login, avatar: avatar_url});
+            // } else {
+            //     this.children.avatar.setProps({ label: user?.login });
+            // }
         }
         return true;
     }
@@ -55,19 +54,30 @@ class ProfilePageEdit extends Block {
         const onSaveBind = this.onSave.bind(this);
 
         const user = (window as any).store.state.user;
-
+        const avatar_url = user?.avatar ? `${BASEURL}resources\\${user.avatar}` : '';
         const buttonBack = new ButtonNav({ class: "button_back", onClick: onBackClickBind  });
-        const avatar = new Avatar({ label: user?.login, class:"avatar_profile", onClick: onAvatarClickBind });
-        const inputName = new Input({ label:"Имя", placeholder: user?.first_name, class:"profile_edit_input", name:"first_name", onBlur: onChangeFirstNameBind});
-        const inputSecondName = new Input({ label:"Фамилия", placeholder: user?.second_name, class:"profile_edit_input", name:"second_name", onBlur: onChangeSecondNameBind  });
-        const inputLogin = new Input({ label:"Логин", placeholder: user?.login, class:"profile_edit_input", name:"login", onBlur: onChangeLoginBind });
-        const inputEmail = new Input({ label:"Почта", placeholder: user?.email, class:"profile_edit_input", name:"email", onBlur: onChangeEmailBind });
-        const inputPhone = new Input({ label: "Телефон", placeholder: user?.phone, class:"profile_edit_input", name:"phone", onBlur: onChangePhoneBind });
+        const avatar = new Avatar({ label: user?.login, class:"avatar_profile", avatar: avatar_url, onClick: onAvatarClickBind });
+        const inputName = new Input({ label:"Имя", value: user?.first_name, class:"profile_edit_input", name:"first_name", onBlur: onChangeFirstNameBind});
+        const inputSecondName = new Input({ label:"Фамилия", value: user?.second_name, class:"profile_edit_input", name:"second_name", onBlur: onChangeSecondNameBind  });
+        const inputLogin = new Input({ label:"Логин", value: user?.login, class:"profile_edit_input", name:"login", onBlur: onChangeLoginBind });
+        const inputEmail = new Input({ label:"Почта", value: user?.email, class:"profile_edit_input", name:"email", onBlur: onChangeEmailBind });
+        const inputPhone = new Input({ label: "Телефон", value: user?.phone, class:"profile_edit_input", name:"phone", onBlur: onChangePhoneBind });
         const buttonSave = new Button({ label:"Сохранить", type:"primary", onClick: onSaveBind });
         const buttonExit = new Button({ label:"Выйти", type:"secondary" });
 
         /** Modal windows */
         const avatarChangeModal = new AvatarChangeModal({});
+
+        if (user) {
+            this.setProps({
+                first_name: user.first_name,
+                second_name: user.second_name,
+                email: user.email,
+                login: user.login,
+                phone: user.phone,
+                avatar: user.avatar
+            })
+        }
 
         this.children = {
             ...this.children,
@@ -173,34 +183,39 @@ class ProfilePageEdit extends Block {
             
             return;
         }
-
-        console.log({
+        
+        changeProfile({
             first_name: this.props.first_name,
             second_name: this.props.second_name,
             login: this.props.login,
+            display_name: this.props.login,
             email: this.props.email,
             phone: this.props.phone,
-        });
+        })
     }
 
     render(): string {
         return `
             <main class="profile_edit_container">
-                {{{ buttonBack }}}
-                <Form class="profile_edit_form">
-                    {{{ avatar }}}
-                    <div class="profile_edit_input_container">
-                        {{{ inputName }}}
-                        {{{ inputSecondName }}}
-                        {{{ inputLogin }}}
-                        {{{ inputEmail }}}
-                        {{{ inputPhone }}}
-                    </div>
-                    <div class="profile_edit_btn_container">
-                        {{{ buttonSave }}}
-                        {{{ buttonExit }}}
-                    </div>
-                </Form>
+                {{#if isLoading }}
+                    <h2>SPINER</h2>
+                {{ else }}
+                    {{{ buttonBack }}}
+                    <Form class="profile_edit_form">
+                        {{{ avatar }}}
+                        <div class="profile_edit_input_container">
+                            {{{ inputName }}}
+                            {{{ inputSecondName }}}
+                            {{{ inputLogin }}}
+                            {{{ inputEmail }}}
+                            {{{ inputPhone }}}
+                        </div>
+                        <div class="profile_edit_btn_container">
+                            {{{ buttonSave }}}
+                            {{{ buttonExit }}}
+                        </div>
+                    </Form>
+                {{/if}}
                 {{#if showChangeAvatarModal }}
                     <div class="modal_window_container"> {{{ avatarChangeModal }}} </div>
                 {{/if}}

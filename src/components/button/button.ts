@@ -13,7 +13,7 @@ export default class Button extends Block {
 
     render():string {
         return `
-            <button class="button button__{{type}}" >
+            <button class="button button__{{type}}" {{#if btn_type }}type="{{ btn_type }}" {{/if}}>
                 <a class="button_label">{{label}}</a>
             </button>
             `

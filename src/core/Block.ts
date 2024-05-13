@@ -199,32 +199,6 @@ export default class Block {
       this._element = newElement;
 
     this._addEvents();
-
-    // const propsAndStubs = { ...this.props };
-
-    // Object.entries(this.children).forEach(([key, child]) => {
-    //     propsAndStubs[key] = `<div data-id="${child._id}"></div>`
-    // });
-
-    // const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
-
-    // fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
-    // const newElement = fragment.content.firstElementChild as HTMLElement;
-
-    // Object.values(this.children).forEach(child => {
-    //     const stub: HTMLElement | null = fragment.content.querySelector(`[data-id="${child._id}"]`);
-    //     const childContent = child.getContent()
-    //     if (childContent) stub?.replaceWith(childContent);
-    // });
-
-    // if (this._element) {
-    //   newElement.style.display = this._element.style.display;
-    //   this._element.replaceWith(newElement);
-    // }
-  
-    // this._element = newElement;
-
-    // this._addEvents();
   }
   
   render(): void {}

@@ -1,20 +1,25 @@
 import { connect } from "../../utils/connect";
 import Block from "../../core/Block";
 import { Input, FormWrapper, ModalWindow, Button } from "../../components";
+import { onChangeAvatar, onSubmitAvatar } from "../../services/profile";
 
 class AvatarChangeModal extends Block {
     init() {
-        const onSubmitBind = this.onSubmit.bind(this);
+        const onChangeAvatarBind = onChangeAvatar.bind(this);
 
         const modalBody = new Input({ 
             name: "file", 
-            type: 'file'
+            type: "file",
+            class: "add_avatar_input",
+            onChange: onChangeAvatarBind,
+            onClick: onChangeAvatarBind
         });
 
         const button = new Button({ 
-            label:"Изменить", 
-            type:"primary", 
-            onClick: onSubmitBind 
+            label: "Сохранить", 
+            type: "primary", 
+            btn_type: "submit", 
+            // onClick: onSubmitBind
         });
         
 
@@ -26,7 +31,7 @@ class AvatarChangeModal extends Block {
             }),
             onSubmit: (event: any) => {
                 event.preventDefault();
-                // createChat({title: this.props.chatName})
+                onSubmitAvatar();
             }
         });
 
@@ -34,23 +39,6 @@ class AvatarChangeModal extends Block {
             ...this.children,
             formWrapper
         }
-
-        
-    }
-
-    onSubmit(event: any) {
-        const inputValue = event.target.value;
-
-        if (inputValue) {
-            this.setProps({ chatName: inputValue });
-            // changeAvatar({ title: this.props.chatName });
-        }
-
-    }
-
-    onChangeName(event: any) {
-        const inputValue = event.target.value;
-        this.setProps({ chatName: inputValue });
     }
 
     render() {

@@ -2,19 +2,54 @@ import "./pass_edit.css";
 import {Input, Button, ButtonNav} from "../../components"
 import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
-
-export default class PassEditPage extends Block {
+import { changePassword } from "../../services/profile";
+import { connect } from "../../utils/connect.ts";
+class PassEditPage extends Block {
     init() {
         const onChangePasswordBind = this.onChangePassword.bind(this);
         const onBackClickBind = this.onBackClick.bind(this);
 
         const onSubmitBind = this.onSubmit.bind(this);
 
-        const oldPassword = new Input({ label:"Старый пароль", placeholder:"·······", class:"pass_edit_input", name:"oldPassword", type: "password", onBlur: onChangePasswordBind });
-        const newPassword = new Input({ label:"Новый пароль", placeholder:"·······", class:"pass_edit_input", name:"newPassword", type: "password", onBlur: onChangePasswordBind });
-        const repeatPassword = new Input({ label:"Повторите пароль", placeholder:"·······", class:"pass_edit_input", name:"repeatPassword", type: "password", onBlur: onChangePasswordBind });
-        const buttonEnter = new Button({ label:"Сохранить", type:"primary", onClick: onSubmitBind });
-        const buttonBack = new Button({ label:"Назад", type:"secondary", onClick: onBackClickBind });
+        const oldPassword = new Input({ 
+            label:"Старый пароль", 
+            placeholder:"·······", 
+            class:"pass_edit_input", 
+            name:"oldPassword", 
+            type: "password", 
+            onBlur: onChangePasswordBind 
+        });
+
+        const newPassword = new Input({ 
+            label:"Новый пароль", 
+            placeholder:"·······", 
+            class:"pass_edit_input", 
+            name:"newPassword", 
+            type: "password", 
+            onBlur: onChangePasswordBind 
+        });
+
+        const repeatPassword = new Input({ 
+            label:"Повторите пароль", 
+            placeholder:"·······", 
+            class:"pass_edit_input", 
+            name:"repeatPassword", 
+            type: "password", 
+            onBlur: onChangePasswordBind 
+        });
+
+        const buttonEnter = new Button({ 
+            label:"Сохранить", 
+            type:"primary", 
+            bnt_type: "submit", 
+            onClick: onSubmitBind 
+        });
+
+        const buttonBack = new Button({ 
+            label:"Назад", 
+            type:"secondary", 
+            onClick: onBackClickBind 
+        });
 
         this.children = {
             ...this.children,
@@ -27,7 +62,7 @@ export default class PassEditPage extends Block {
     }
 
     onBackClick() {
-        (window as any).router.go('/login');
+        (window as any).router.go('/settings');
     }
 
     onChangePassword(event: any) {
@@ -55,32 +90,45 @@ export default class PassEditPage extends Block {
             return;
 
         }
-        console.log({
+
+        changePassword({
             oldPassword: this.props.oldPassword,
             newPassword: this.props.newPassword,
-            repeatPassword: this.props.repeatPassword,
-        });
+        })
     }
 
     render(): string {
         return `
             <main class="pass_edit_container">
-                <Form class="pass_edit_form">
-                    <div class="pass_edit_input_container">
-                        {{{ oldPassword }}}
-                        {{{ newPassword }}}
-                        {{{ repeatPassword }}}
-                    </div>
-                    <div class="pass_edit_btn_container">
-                        {{{ buttonEnter }}}
-                        {{{ buttonBack }}}
-                    </div>
-                </Form>
+                {{#if isLoading }}
+                    <h2>SPINER</h2>
+                {{ else }}
+                    <Form class="pass_edit_form">
+                        <div class="pass_edit_input_container">
+                            {{{ oldPassword }}}
+                            {{{ newPassword }}}
+                            {{{ repeatPassword }}}
+                        </div>
+                        <div class="pass_edit_btn_container">
+                            {{{ buttonEnter }}}
+                            {{{ buttonBack }}}
+                        </div>
+                    </Form>
+                {{/if}}
             </main>
         `
     }
 }
 
 
+/**Пропсы из store которые будут тригерить обновление */
+const mapStateToProps = (store: any) => {
+    return {
+        isLoading: store.isLoading,
+        passChangeError: store.passChangeError
+    }
+}
+
+export default connect(mapStateToProps)(PassEditPage);
 
 

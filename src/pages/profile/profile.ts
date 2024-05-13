@@ -5,7 +5,7 @@ import { getUserInfo } from "../../services/auth"
 import { connect } from "../../utils/connect";
 import { BASEURL } from "../../core/Constants";
 import isEqual from "../../utils/isEqual";
-import { onBackClick, onEditDataClick, onPassEditClick, onLogoutClick } from "../../services/profile";
+import { onEditDataClick, onPassEditClick, onLogoutClick } from "../../services/profile";
 
 class ProfilePage extends Block {
 
@@ -34,6 +34,7 @@ class ProfilePage extends Block {
             this.children.formStrPhone.setProps({ value: user?.phone });
             
             const avatar_url = user?.avatar ? `${BASEURL}resources\\${user.avatar}` : '';
+            
             if (avatar_url) {
                 this.children.avatar.setProps({label: user?.login, avatar: avatar_url});
             } else {
@@ -44,12 +45,12 @@ class ProfilePage extends Block {
     }
 
     init() {
-        const onBackClickBind = onBackClick.bind(this);
+
+        const onBackClickBind = this.onBackClick.bind(this);
         const onEditDataClickBind = onEditDataClick.bind(this);
         const onPassEditClickBind = onPassEditClick.bind(this);
         const onLogoutClickBind = onLogoutClick.bind(this);
         
-
         const buttonBack = new ButtonNav({ class: "button_back", onClick: onBackClickBind });
         const avatar = new Avatar({ label: '', class: "avatar_profile" });
         const formStrName = new FormString({ label:"Имя", value: '' });
@@ -60,8 +61,6 @@ class ProfilePage extends Block {
         const buttonEditData = new Button({ label:"Изменить данные", type:"secondary", onClick: onEditDataClickBind });
         const buttonEditPassword = new Button({ label:"Изменить пароль", type:"secondary", onClick: onPassEditClickBind });
         const buttonExit = new Button({ label:"Выйти", type:"secondary", onClick: onLogoutClickBind });
-
-
 
         this.children = {
             ...this.children,
@@ -76,6 +75,10 @@ class ProfilePage extends Block {
             buttonEditPassword,
             buttonExit
         }
+    }
+    
+    onBackClick() {
+        (window as any).router.go('/messenger');
     }
 
     render(): string {
@@ -105,6 +108,9 @@ class ProfilePage extends Block {
         `;
     }
 }
+
+
+
 
 /**Пропсы из store которые будут тригерить обновление */
 const mapStateToProps = (store: any) => {

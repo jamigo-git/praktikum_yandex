@@ -1,5 +1,5 @@
 import AuthApi from "../api/auth";
-import type { LoginRequestData, UserDTO, signUpRequest } from "../api/type";
+import type { LoginRequestData, UserDTO, SignUpRequest } from "../api/type";
 
 const authApi = new AuthApi();
 
@@ -23,7 +23,7 @@ export const login = async (model: LoginRequestData) => {
 }
 
 /**Зарегистрировать пользователя */
-export const registration = async (model: signUpRequest) => {
+export const registration = async (model: SignUpRequest) => {
     (window as any).store.set({isLoading: true});
     try {
         const reg_result = await authApi.create(model);
