@@ -6,12 +6,14 @@ class Route {
     _blockClass: Block;
     _block: Block | null;
     _props: Props | undefined;
+    _checkAuth: Function | undefined;
 
-    constructor(pathname: string, view: Block, props: Props) {
+    constructor(pathname: string, view: Block, props: Props, checkAuth?: Function) {
         this._pathname = pathname;
         this._blockClass = view;
         this._block = null;
         this._props = props;
+        this._checkAuth = checkAuth;
     }
 
     navigate(pathname: string) {

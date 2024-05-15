@@ -1,5 +1,4 @@
 import Route from "./Route";
-import Block from "./Block";
 
 class Router {
   history: History | undefined;
@@ -21,8 +20,8 @@ class Router {
     Router.__instance = this;
   }
 
-  use(pathname: string, block: any) {
-    const route = new Route(pathname, block, {rootQuery: this._rootQuery});
+  use(pathname: string, block: any, checkAuth?: Function) {
+    const route = new Route(pathname, block, {rootQuery: this._rootQuery}, checkAuth);
     if (this.routes) this.routes.push(route);
     return this;
   }
@@ -35,10 +34,12 @@ class Router {
     this._onRoute(window.location.pathname);
   }
 
-  _onRoute(pathname: string) {
+  async _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
-
     if (!route) {
+      return;
+    }
+    if (route._checkAuth !== undefined && !(await route._checkAuth())) {
       return;
     }
 

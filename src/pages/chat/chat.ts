@@ -114,7 +114,7 @@ const mapStateToProps = (store: any) => {
         chats: store.chats,
         isLoading: store.isLoading,
         showCreateChatModal: store.showCreateChatModal,
-        showDeleteChatModal: store.showDeleteChatModal
+        showDeleteChatModal: store.showDeleteChatModal,
     }
 }
 

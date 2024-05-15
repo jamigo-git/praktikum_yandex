@@ -4,7 +4,7 @@ import * as Pages from "./pages";
 
 import Router from "./core/Router";
 import { Store } from "./core/Store";
-import { getUserInfo } from "./services/auth";
+import { checkAuth, getUserInfo } from "./services/auth";
 
 export type { ChatItemData };
 
@@ -36,13 +36,15 @@ const router = new Router('#app');
   }
 });
 
+const checkAuthBind = checkAuth.bind(this);
+
 router.use('/', Pages.LoginPage)
       .use('/login', Pages.LoginPage)
-      .use('/settings', Pages.ProfilePage)
-      .use('/settings_edit', Pages.ProfilePageEdit)
+      .use('/settings', Pages.ProfilePage, checkAuthBind)
+      .use('/settings_edit', Pages.ProfilePageEdit, checkAuthBind)
       .use('/500', Pages.Error500)
-      .use('/pass_edit', Pages.PassEditPage)
-      .use('/messenger', Pages.ChatPage)
-      .use('/sign-up', Pages.RegistrationPage)
+      .use('/pass_edit', Pages.PassEditPage, checkAuthBind)
+      .use('/messenger', Pages.ChatPage, checkAuthBind)
+      .use('/sign-up', Pages.RegistrationPage, checkAuthBind)
       .use('*', Pages.Error404)
       .start();

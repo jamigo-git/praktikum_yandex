@@ -54,15 +54,15 @@ export const logout = async () => {
             (window as any).router.go('/login')
         }
     } catch (error) {
-        (window as any).store.set({logoutError: 'Logout error'});
+        (window as any).store.set({ logoutError: 'Logout error' });
     } finally {
-        (window as any).store.set({isLoading: false});
+        (window as any).store.set({ isLoading: false });
     }
 }
 
 /**Получение инфо о пользователе */
 export const getUserInfo = async () => {
-    (window as any).store.set({isLoading: true});
+    (window as any).store.set({ isLoading: true });
     try {
         let user_info: UserDTO;
         let response = await authApi.me();
@@ -71,13 +71,37 @@ export const getUserInfo = async () => {
             throw new Error();
         } else {
             user_info = JSON.parse(response.responseText);
-            (window as any).store.set({user: user_info});
+            (window as any).store.set({ user: user_info });
             (window as any).router.go('/settings')
         }
         
     } catch (error) {
-        (window as any).store.set({getUserInfoError: 'getUserInfo error'});
+        (window as any).store.set({ getUserInfoError: 'getUserInfo error' });
     } finally {
-        (window as any).store.set({isLoading: false});
+        (window as any).store.set({ isLoading: false });
     }
+}
+
+/**Проверка авторизован ли пользователь */
+export const checkAuth = async(): Promise<boolean> => {
+    (window as any).store.set({ isLoading: true });
+    try {
+        let user_info: UserDTO;
+        let response = await authApi.me();
+        if (response.status !== 200) {
+            let error = JSON.parse(response.responseText)?.reason;
+            console.error(`Status: ${response.status}, Error: ${error}`);
+            throw new Error(error);
+        } else {
+            user_info = JSON.parse(response.responseText);
+            (window as any).store.set({ user: user_info, checkAuthError: undefined });
+            return true;
+        }
+        
+    } catch (error) {
+        (window as any).store.set({ checkAuthError: error });
+    } finally {
+        (window as any).store.set({ isLoading: false });
+    }
+    return false;
 }
