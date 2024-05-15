@@ -1,12 +1,12 @@
 import  HTTPTransport from "../core/HTTPTransport.ts";
-import { ChangeUserProfile, ChangeUserPassword } from "./type.ts";
+import { ChangeUserProfile, ChangeUserPassword, UserSearch } from "./type.ts";
 
 const userApi = new HTTPTransport(`user`);
 
 export default class UserApi {
     /**Запрос на изменение данных профиля пользователя */
     async profileChange(data: ChangeUserProfile): Promise<XMLHttpRequest> {
-        let result = userApi.put('/profile', {data})
+        let result = userApi.put('/profile', { data })
         return result;
     }
 
@@ -18,7 +18,14 @@ export default class UserApi {
 
     /**Запрос на изменение пароля пользователя */
     async passwordChange(data: ChangeUserPassword): Promise<XMLHttpRequest> {
-        let result = userApi.put('/password', {data})
+        let result = userApi.put('/password', { data })
+        return result;
+    }
+
+    /**Поиск пользователя по логину */
+    async userSearch(data: UserSearch): Promise<XMLHttpRequest> {
+        let result = userApi.post('/search', { data })
         return result;
     }
 }
+

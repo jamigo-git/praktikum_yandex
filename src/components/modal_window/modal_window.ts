@@ -23,8 +23,8 @@ class ModalWindow extends Block {
                 <div class="modal_window_footer">
                     {{{ button }}}
                 </div>
-                {{#if loginError}}
-                    <div class="api_error"> {{modalWindowError}} <div>
+                {{#if modalWindowError}}
+                    <div class="api_error"> {{ modalWindowError }} <div>
                 {{/if}}
             </main>
         `

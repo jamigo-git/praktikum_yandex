@@ -2,9 +2,9 @@ import Handlebars from "handlebars";
 import * as Components from "./components";
 import * as Pages from "./pages";
 
-
 import Router from "./core/Router";
 import { Store } from "./core/Store";
+import { getUserInfo } from "./services/auth";
 
 export type { ChatItemData };
 
@@ -15,8 +15,6 @@ Object.entries(Components).forEach(([ name, component ]) => {
   Handlebars.registerPartial(name, component as any);
 });
 
-
-
 const router = new Router('#app');
 (window as any).router = router;
 
@@ -26,13 +24,20 @@ const router = new Router('#app');
   registrationError: null,
   chats: [],
   user: null,
+  users: [],
   selectedChatId: null,
   showCreateChatModal: null,
   showDeleteChatModal: null,
   showChangeAvatarModal: null,
+  showAddUserModal: null,
+  selectedChat: {
+    chatId: null,
+    users: []
+  }
 });
 
-router.use('/login', Pages.LoginPage)
+router.use('/', Pages.LoginPage)
+      .use('/login', Pages.LoginPage)
       .use('/settings', Pages.ProfilePage)
       .use('/settings_edit', Pages.ProfilePageEdit)
       .use('/500', Pages.Error500)

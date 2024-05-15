@@ -31,7 +31,7 @@ export const registration = async (model: SignUpRequest) => {
             console.error(`Status: ${reg_result.status}, Error: ${JSON.parse(reg_result.responseText)?.reason}`)
             throw new Error();
         } else {
-            (window as any).router.go('/login');
+            (window as any).router.go('/messenger');
         }
         
     } catch (error) {

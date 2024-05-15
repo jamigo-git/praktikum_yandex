@@ -9,6 +9,7 @@ export const onShowModal = () => {
                         showCreateChatModal: null,
                         showDeleteChatModal: null,
                         showChangeAvatarModal: null,
+                        showAddUserModal: null,
                     });
                     document.onclick = () => {};
                 }

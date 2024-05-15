@@ -1,6 +1,6 @@
 import { connect } from "../../utils/connect";
 import  isEqual from "../../utils/isEqual";
-import { Input, ButtonNav, ButtonMenu, ChatList, ChatItem,  Avatar, Dropdown, DropdownItem } from "../../components";
+import { Input, ButtonNav, ButtonMenu, ChatList, ChatItem, Dropdown, DropdownItem, ChatContent} from "../../components";
 import Block, { Props }  from "../../core/Block";
 import { getChats, onCreateChatClick, onDeleteChatClick, onLogoutClick, onProfileClick, onChatClick } from "../../services/chat";
 import { ChatItemData } from "../../main.ts";
@@ -33,9 +33,8 @@ class ChatPage extends Block {
     }
 
     init() {
+        /**Chatlist functions */
         const onChatClickBind = onChatClick.bind(this);
-        const onChangeMessageBind = this.onChangeMessage.bind(this);
-        const onSubmitBind = this.onSubmit.bind(this);
         const onLogoutBind = onLogoutClick.bind(this);
         const onProfileBind = onProfileClick.bind(this);
 
@@ -43,21 +42,21 @@ class ChatPage extends Block {
         const onCreateChatBind = onCreateChatClick.bind(this);
         const onDeleteChatBind = onDeleteChatClick.bind(this);
         
-        const chatList = new ChatList({chats: this.mapChatToComponent(this.chats, onChatClickBind) || []});
         const buttonBack = new ButtonNav({ class: "button_back" });
+        
+        /**Selected chat content */
+        const chatContent = new ChatContent({ });
+        
+        /**Chatlist elements */        
+        const chatList = new ChatList({chats: this.mapChatToComponent(this.chats, onChatClickBind) || []});
         const buttonMenu = new ButtonMenu({ });
         const inputSearch = new Input({ placeholder:"Поиск", class:"chat_search_input", name:"search" });
-        const avatar = new Avatar({class:"avatar_chat_content_header" });
-        const buttonChatSettings = new ButtonNav({ class: "chat_header_menu" });
-        const buttonAdd = new ButtonNav({ class: "chat_footer_add" });
-        const inputMessage = new Input({ placeholder:"Сообщение", class:"chat_content_send_message", name:"message", onBlur: onChangeMessageBind});
-        const buttonSubmit = new ButtonNav({ class: "chat_footer_send", onClick: onSubmitBind });
         
         /**Modal windows */
         const createChatModal = new CreateChatModal({});
         const deleteChatModal = new DeleteChatModal({});
 
-        /**Dropdown parameters */
+        /**Dropdown elements */
         const createChat = new DropdownItem({label: "Создать чат", onClick: onCreateChatBind});
         const deleteChat = new DropdownItem({label: "Удалить чат", onClick: onDeleteChatBind});
         const userInfo = new DropdownItem({label: "Профиль", onClick: onProfileBind}); 
@@ -70,12 +69,6 @@ class ChatPage extends Block {
             buttonMenu,
             chatList,
             inputSearch,
-            avatar,
-            buttonChatSettings,
-            // messageList,
-            buttonAdd,
-            inputMessage,
-            buttonSubmit,
             createChatModal,
             deleteChatModal,
             createChat,
@@ -83,30 +76,8 @@ class ChatPage extends Block {
             logout,
             userInfo,
             dropdown,
+            chatContent
         }
-    }
-
-    onChangeMessage(event: any) {
-
-        // const input_value = event.target.value;
-        // if(input_value) {
-        //     this.children.inputMessage.setProps({error: false, error_text: null});
-        // } else {
-        //     this.children.inputMessage.setProps({error: true, error_text: 'Невозможно отправить пустое сообщение'});
-        //     return;
-        // }
-        // this.setProps({message: input_value});
-    }
-
-    onSubmit() {
-        // if (!this.props.message) {
-        //     this.children.inputMessage.setProps({error: true, error_text: 'Невозможно отправить пустое сообщение'});
-        //     return;
-        // } else {
-        //     console.log({
-        //         message: this.props.message
-        //     });
-        // }
     }
 
     render() {
@@ -125,21 +96,7 @@ class ChatPage extends Block {
                         {{{ chatList }}}
                     </div>
                 </div>
-                <div class="chat_content">
-                    <header class="chat_content_header">
-                        {{{ avatar }}}
-                        <div class="chat_content_header_label">"Label"</div>
-                        {{!-- <div class="chat_content_settings">Settings</div> --}}
-                        {{{ buttonChatSettings }}}
-                    </header>
-                    <main class="messageList">
-                    </main>
-                    <footer class="chat_content_footer">
-                        {{{ buttonAdd }}}
-                        {{{ inputMessage }}}
-                        {{{ buttonSubmit }}}
-                    </footer>
-                </div>
+                {{{ chatContent }}} 
                 {{#if showCreateChatModal }}
                     <div class="modal_window_container"> {{{ createChatModal }}} </div>
                 {{/if}}

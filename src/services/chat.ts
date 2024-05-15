@@ -1,11 +1,14 @@
 import ChatApi from "../api/chat";
-import type { ChatDTO, CreateChat, CreateChatResponse, DeleteChat, DeleteChatResponse } from "../api/type";
+import UserApi from "../api/user";
+import type { ChatDTO, CreateChat, CreateChatResponse, DeleteChatResponse, UserDTO, AddUserToChat } from "../api/type";
 import { logout } from "../services/auth";
 import { onShowModal } from "./modal";
 
 
 const chatApi = new ChatApi();
+const userApi = new UserApi();
 
+/**Получение списка чатов */
 export const getChats = async () => {
     (window as any).store.set({isLoading: true});
     try {
@@ -25,6 +28,7 @@ export const getChats = async () => {
     }
 }
 
+/**Создание нового чата */
 export const createChat = async (model: CreateChat) => {
     (window as any).store.set({isLoading: true});
     try {
@@ -36,9 +40,10 @@ export const createChat = async (model: CreateChat) => {
         }
         getChats();
     } catch (error) {
-        (window as any).store.set({createChatError: 'createChatError error'});
+        (window as any).store.set({modalWindowError: 'createChatError error'});
     } finally {
-        (window as any).store.set({isLoading: false, createChatError: undefined, showCreateChatModal: false});
+        document.onclick = () => {};
+       (window as any).store.set({isLoading: false, modalWindowError: undefined, showCreateChatModal: false});
     }
 }
 
@@ -56,9 +61,10 @@ export const deleteChat = async () => {
         }
         getChats();
     } catch (error) {
-        (window as any).store.set({deleteChatError: 'deleteChatError error'});
+        (window as any).store.set({modalWindowError: 'deleteChatError error'});
     } finally {
-        (window as any).store.set({isLoading: false, deleteChatError: undefined, showDeleteChatModal: false});
+        document.onclick = () => {};
+        (window as any).store.set({isLoading: false, modalWindowError: undefined, showDeleteChatModal: false});
     }
 }
 
@@ -93,4 +99,161 @@ export const onProfileClick = (event: any) => {
 
 export const onChatClick = (event: any) => {
 
+}
+
+export const onSubmitMessage = (event: any) => {
+
+}
+
+/**Вызов модального окна "Удалить пользователя" */
+export const onDeleteUser = (event: any) => {
+    event.preventDefault();
+    (window as any).store.set({ showDeleteUserModal: true });
+    setTimeout(onShowModal, 1000);
+}
+
+/**Функция вызывается при нажатии на клавишу Удалить (пользователя из чата) */
+export const onSubmitDeleteUser = async () => {
+    let user_id: number = (window as any).store.state.selectedUser;
+
+    if (!user_id) {
+        window.alert('Пользователь не найден в системе');
+        return;
+    }
+    try {
+        (window as any).store.set({isLoading: true});
+        /**Пользователи которые уже были добавлены в чат */
+        let current_chat_id: number = (window as any).store.state.selectedChatId;
+        let current_chat_users: number[] = await getChatUsers();
+        /**Если пользователя нет в чате кидаем ошибку */
+        if (current_chat_users.some(f => f === user_id) === false) {
+            window.alert('Пользователь отсутствует в чате');
+            throw new Error(`Пользователь отсутствует в чате`);
+        }
+
+        /**Удаляем пользователя из чата (массив id пользоватей) */
+        current_chat_users = current_chat_users.filter(f => f !== user_id);
+        const chat_obj: AddUserToChat  = {
+            users: current_chat_users, 
+            chatId: current_chat_id
+        };
+        /**Записываем в стор новый массив без пользователя */
+        (window as any).store.set({selectedChat: chat_obj  });
+        /**Запрос в БД на удаление пользователя */
+        chat_obj.users = [user_id];
+        const response = await chatApi.deleteUser(chat_obj);
+        if (response.status !== 200) {
+            throw new Error(`Error status ${response.status}`);
+        }
+        window.alert('Пользователь был успешно удален из чата');
+
+        (window as any).store.set({ showDeleteUserModal: false ,isLoading: false, deleteUserError: undefined });
+        document.onclick = () => {};
+
+    } catch (error) {
+        (window as any).store.set({ deleteUserError: 'deleteUserError error' });
+    } 
+}
+
+/**Вызов модального окна "Добавить пользователя" */
+export const onAddUser = (event: any) => {
+    event.preventDefault();
+    (window as any).store.set({ showAddUserModal: true });
+    setTimeout(onShowModal, 1000);
+}
+
+/**Функция вызывается при нажатии на клавишу Добавить (пользователя в чат) */
+export const onSubmitAddUser = async () => {
+    let user_id: number = (window as any).store.state.selectedUser;
+    if (!user_id) {
+        window.alert('Пользователь не найден в системе');
+        return;
+    }
+    try {
+        (window as any).store.set({isLoading: true});
+        /**Пользователи которые уже были добавлены в чат */
+        let current_chat_id: number = (window as any).store.state.selectedChatId;
+        let current_chat_users: number[] = (window as any).store.state.selectedChat.users;
+        /**Если пользователь уже есть в чате просто выходим */
+        if (current_chat_users.some(f => f === user_id)) {
+            window.alert('Пользователь уже был добавлен в чат ранее');
+            throw new Error(`Пользователь уже был добавлен в чат ранее`);
+        }
+
+        /**Добавляем пользователя в инфо чата в store */
+        current_chat_users.push(user_id);
+        const chat_obj: AddUserToChat  = {
+            users: current_chat_users, 
+            chatId: current_chat_id
+        };
+
+        (window as any).store.set({ selectedChat: chat_obj });
+        /**Запрос в БД на добавление пользователя */
+        const response = await chatApi.addUser(chat_obj);
+        if (response.status !== 200) {
+            throw new Error(`Error status ${response.status}`);
+        }
+        window.alert('Пользователь был успешно добавлен в чат');
+        document.onclick = () => {};
+        (window as any).store.set({ showAddUserModal: false ,isLoading: false, getChatsError: undefined });
+
+    } catch (error) {
+        (window as any).store.set({ modalWindowError: 'getChatsError error' });
+    }
+}
+
+/**При изменении поля ввода логина пользователя пытаемся найти пользователя в store или в БД */
+export const onChangeUserName = async (event: any) => {
+    event.preventDefault();
+    (window as any).store.set({isLoading: true, selectedUser: null});
+    const input_login_user = event.target.value;
+    try {
+        if (!input_login_user) return;
+        const users_from_store: UserDTO[] = (window as any).store.state.users;
+        const user_from_store = users_from_store?.find(f => f.login === input_login_user);
+        let user_id = user_from_store?.id;
+        if (!user_from_store) {
+            /**Если пользователя нет в store нужно искать в БД */
+            const user_from_db = await searchUser(input_login_user);
+            if (!user_from_db) throw new Error('Не удалось получить пользователя из ответа');
+            users_from_store.push(user_from_db);
+            user_id = user_from_db?.id;
+            /**Сохраняем пользователя в массив в store для будущих запросов по этому пользователю, 
+             * мы используем только id, поэтому изменение его инфо для нас не важно */
+            (window as any).store.set({users: users_from_store});
+        }
+        (window as any).store.set({ selectedUser: user_id, isLoading: false, modalWindowError: undefined });
+    } catch (error) {
+        (window as any).store.set({ modalWindowError: error });
+    } 
+}
+
+/**Поиск пользователя в БД по логину */
+const searchUser = async(login: string): Promise<UserDTO> => {
+    const response = await userApi.userSearch({login: login});
+    if (response.status !== 200) {
+        console.error(response.status, response.responseText)
+        throw new Error(`${response.responseText}`);
+    } else {
+        const user: UserDTO[] = JSON.parse(response.responseText);
+        return user[0];
+    }
+}
+
+/**Получить пользователей чата */
+const getChatUsers = async(): Promise<number[]> => {
+    let current_chat_id: number = (window as any).store.state.selectedChatId;
+
+    const response = await chatApi.getUsers(current_chat_id);
+    if (response.status !== 200) {
+        console.error(response.status, response.responseText);
+        throw new Error(`${response.responseText}`);
+    } else {
+        const users: UserDTO[] = JSON.parse(response.responseText);
+        return users.map(user => user.id);
+    }
+}
+
+export const onChatInfo = (event: any) => {
+    
 }

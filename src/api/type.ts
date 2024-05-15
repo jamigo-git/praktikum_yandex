@@ -84,3 +84,12 @@ export type ChangeUserPassword = {
     oldPassword: string
     newPassword: string
 }
+
+export type AddUserToChat = {
+    users: number[]
+    chatId: number
+}
+
+export type UserSearch = {
+    login: string
+}
