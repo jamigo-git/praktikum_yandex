@@ -1,8 +1,12 @@
-import express from 'express';
+const express = require('express');
+const path = require('path');
+const history = require('./http-rewrite/history-plugin');
 
-const PORT = 3000;
+const PORT = process.env.SERVER_PORT || 3000;
 const app = express();
-app.use("/*", (req, res) => {
+const entryPoint = path.resolve(__dirname, 'dist', 'index.html');
+
+app.use("*", (req, res) => {
     res.sendFile(`${__dirname}/dist/index.html`);
 });
 
