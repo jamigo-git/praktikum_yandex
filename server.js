@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
-const history = require('./http-rewrite/history-plugin');
+// const history = require('./http-rewrite/history-plugin');
 
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = 3000;
 const app = express();
 const entryPoint = path.resolve(__dirname, 'dist', 'index.html');
 
