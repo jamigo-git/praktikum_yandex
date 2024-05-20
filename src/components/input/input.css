@@ -124,14 +124,3 @@ form.profile_edit_form .input_error .input_validation_error {
     transform: translateY(0px);
 }
 
-/* .input_element.submit_input {
-    background-color: var(--main-color);
-    border: none;
-    font-weight: 500;
-    display: block;
-    width: 100%;
-    padding: 12px 0;
-    border-radius: 8px;
-    cursor: pointer;
-    color: white;
-  } */
