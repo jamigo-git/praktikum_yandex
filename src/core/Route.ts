@@ -39,7 +39,6 @@ class Route {
 
     render() {
         if (!this._block) {
-            debugger
             this._block = new this._blockClass({});
             this._renderDom(this._props?.rootQuery, this._block);
             return;
