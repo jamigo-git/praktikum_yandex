@@ -50,3 +50,4 @@ router.use('/', Pages.LoginPage)
       .use('/sign-up', Pages.RegistrationPage, checkAuthBind)
       .use('*', Pages.Error404)
       .start();
+
