@@ -2,8 +2,8 @@ import { StoreEvents } from "../core/Store";
 import isEqual from './isEqual';
 import type { Props } from "../core/Block";
 
-export function connect(mapStateToProps, dispatch?) {
-    return function(Component) {
+export function connect(mapStateToProps: Function, dispatch?: any) {
+    return function(Component: any) {
       return class extends Component{
         static onChangeStoreCallback: () => void;
         constructor(props: Props) {
@@ -13,10 +13,10 @@ export function connect(mapStateToProps, dispatch?) {
   
           super({...props, ...state});
 
-          const dispatchHandler = {};
+          const dispatchHandler = Object.create({});
           Object.entries(dispatch || {}).forEach(([key, handler]) => {
-            dispatchHandler[key] = (...args) => handler((window as any).store.set.bind((window as any).store), ...args)
-          })
+            dispatchHandler[key] = (...args: any) => handler((window as any).store.set.bind((window as any).store), ...args);
+          });
 
           this.setProps({...dispatchHandler});
 

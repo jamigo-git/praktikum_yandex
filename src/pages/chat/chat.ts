@@ -6,6 +6,7 @@ import { getChats, onCreateChatClick, onDeleteChatClick, onLogoutClick, onProfil
 import { ChatItemData } from "../../main.ts";
 import  CreateChatModal from "../../pages/chat/create_chat_modal.ts";
 import  DeleteChatModal from "../../pages/chat/delete_chat_modal.ts";
+import { BASEURL } from "../../core/Constants.ts";
 
 class ChatPage extends Block {
 
@@ -29,7 +30,7 @@ class ChatPage extends Block {
     }
     
     mapChatToComponent(chats: ChatItemData[] | undefined, handler: Function) {
-        return chats?.map(({title, avatar, datetime, text, unread_count, id}) =>  new ChatItem({label: title, avatar, datetime, text, counter: unread_count, click: handler, id}))
+        return chats?.map(({ title, avatar, datetime, text, unread_count, id }) => new ChatItem({label: title, avatar: avatar ? `${BASEURL}/resources/${avatar}` : undefined, datetime, text, counter: unread_count, click: handler, id}))
     }
 
     init() {
@@ -45,7 +46,7 @@ class ChatPage extends Block {
         const buttonBack = new ButtonNav({ class: "button_back" });
         
         /**Selected chat content */
-        const chatContent = new ChatContent({ });
+        const chatContent = new ChatContent({  });
         
         /**Chatlist elements */        
         const chatList = new ChatList({chats: this.mapChatToComponent(this.chats, onChatClickBind) || []});
@@ -115,6 +116,7 @@ const mapStateToProps = (store: any) => {
         isLoading: store.isLoading,
         showCreateChatModal: store.showCreateChatModal,
         showDeleteChatModal: store.showDeleteChatModal,
+        
     }
 }
 

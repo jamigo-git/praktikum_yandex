@@ -1,35 +1,30 @@
-import Block from "../../core/Block";
-import { Message } from "..";
-import type { Props } from "../../core/Block";
+import Block, { Props } from "../../core/Block";
 
 export default class MessageList extends Block {
-    constructor(props: Props) {
-        // const messages = props.messages.reduce((acc: any, data: any) => {
-        //     const component = new Message({
-        //         text: data.text, 
-        //         image: data.image, 
-        //         datetime: data.datetime,
-        //         class: data.class
-        //     });
-        //     acc[component._id] = component;
-        //     return acc;
-        // }, {});
 
+    constructor(props: Props) {
         super({
             ...props,
-            // messageKeys: Object.keys(messages),
-            // ...messages
+            events: {
+                click: props.onClick
+            }
         });
     }
 
     render(): string {
+        const showEmpty = this.props.messages.length === 0;
         return `
-            <div class="message_list_container">
+        <div class="message_list_container">
+            {{#if ${showEmpty} }}
+                <h3> сообщений нет </h3>
+            {{ else }}
                 <ul class="message_list">
+                    {{{ messages }}}
                 </ul>
-                </div>
-                `;
-            }
-        }
+            {{/if }}
+        </div>
+        `;
+    }
+}
         
-        // ${this.props.messageKeys.map((key: string) => `{{{ ${key} }}}`).join('')}
+        

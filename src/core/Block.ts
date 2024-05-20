@@ -166,7 +166,7 @@ export default class Block {
         propsAndStubs[key] = `<div data-id="${child._id}"></div>`
     });
 
-    const childrenProps = [];
+    const childrenProps: any = [];
     Object.entries(propsAndStubs).forEach(([key, value]) => {
       if(Array.isArray(value)) {
         propsAndStubs[key] = value.map((item) => {
@@ -174,7 +174,6 @@ export default class Block {
             childrenProps.push(item)
             return `<div data-id="${item._id}"></div>`
           }
-
           return item;
         }).join('')
       }
@@ -182,10 +181,10 @@ export default class Block {
     const fragment = this._createDocumentElement('template');
 
     fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
-    const newElement = fragment.content.firstElementChild;
+    const newElement = (fragment as any).content.firstElementChild;
 
     [...Object.values(this.children), ...childrenProps].forEach(child => {
-        const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+        const stub = (fragment as any).content.querySelector(`[data-id="${child._id}"]`);
         
         stub?.replaceWith(child.getContent());
     });

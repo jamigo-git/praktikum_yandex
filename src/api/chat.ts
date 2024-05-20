@@ -1,5 +1,7 @@
+import { WSBASEURL } from "../core/Constants.ts";
 import  HTTPTransport from "../core/HTTPTransport.ts";
-import { CreateChat, DeleteChat, AddUserToChat } from "./type";
+import  WSTransport from "../core/WSTransport.ts";
+import { CreateChat, DeleteChat, AddUserToChat, OpenWS } from "./type";
 
 const chatApi = new HTTPTransport(`chats`);
 
@@ -26,5 +28,15 @@ export default class ChatApi {
 
     async getUsers(chatId: number): Promise<XMLHttpRequest> {
         return chatApi.get(`/${chatId}/users`);
+    }
+
+    /** Получить токен для открытия WS соединения */
+    async getToken(chatId: number): Promise<XMLHttpRequest> {
+        return chatApi.post(`/token/${chatId}`);
+    }
+
+    /** Открыть новое соединение */
+    async createWS(data: OpenWS) {
+        return new WSTransport(`${WSBASEURL}${data.userId}/${data.chatId}/${data.token}`);
     }
 }

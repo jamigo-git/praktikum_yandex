@@ -12,6 +12,7 @@ export default class InputElement extends Block {
                 type: props.type,
                 placeholder: props.placeholder,
                 value: props.value,
+                id: props.id,
                 events: {
                     blur: props.onBlur || (() => {}),
                     change: props.onChange || (() => {})

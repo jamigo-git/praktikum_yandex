@@ -85,11 +85,38 @@ export type ChangeUserPassword = {
     newPassword: string
 }
 
-export type AddUserToChat = {
-    users: number[]
-    chatId: number
-}
+// export type AddUserToChat = {
+//     users: number[]
+//     chatId: number
+// }
 
 export type UserSearch = {
     login: string
+}
+
+export type OpenWS = {
+    chatId: number
+    userId: number
+    token: string
+}
+
+// export enum WSMessageTypes {"message", "get old", "user"}
+
+export type getMessages = {
+    content: string
+    type: string
+}
+
+export type Message = {
+    content: string
+    user_id: number
+    chat_id: number
+    time: string
+    id: number
+}
+
+export type SelectedChat = {
+    chatId: number | null
+    users: number[]
+    messages?: Message[]
 }

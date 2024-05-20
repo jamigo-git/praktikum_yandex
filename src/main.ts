@@ -5,6 +5,7 @@ import * as Pages from "./pages";
 import Router from "./core/Router";
 import { Store } from "./core/Store";
 import { checkAuth, getUserInfo } from "./services/auth";
+// import type { UserDTO, Messages } from "./api/type";
 
 export type { ChatItemData };
 
@@ -32,7 +33,8 @@ const router = new Router('#app');
   showAddUserModal: null,
   selectedChat: {
     chatId: null,
-    users: []
+    users: [],
+    messages: []
   }
 });
 

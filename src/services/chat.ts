@@ -1,12 +1,14 @@
 import ChatApi from "../api/chat";
 import UserApi from "../api/user";
-import type { ChatDTO, CreateChat, CreateChatResponse, DeleteChatResponse, UserDTO, AddUserToChat } from "../api/type";
+import type { ChatDTO, CreateChat, CreateChatResponse, DeleteChatResponse, UserDTO, getMessages, Message, SelectedChat } from "../api/type";
 import { logout } from "../services/auth";
 import { onShowModal } from "./modal";
+import WSTransport from "../core/WSTransport";
 
 
 const chatApi = new ChatApi();
 const userApi = new UserApi();
+let activeWS: WSTransport<unknown>;
 
 /**Получение списка чатов */
 export const getChats = async () => {
@@ -101,8 +103,16 @@ export const onChatClick = (event: any) => {
 
 }
 
+/**Отправка сообщения из чата (WS возвращает сообщение с айдишником которые запишется автоматически) */
 export const onSubmitMessage = (event: any) => {
-
+    event.preventDefault();
+    const lastMessage = (window as any).store.state.lastMessage;
+    if (activeWS && lastMessage) activeWS.send({content: lastMessage, type: "message"});
+    let input_send_message = document.getElementById('input_send_message') as HTMLInputElement;
+    if (input_send_message?.value) {
+        (window as any).store.set({ lastMessage: '' });
+        input_send_message.value = '';
+    } 
 }
 
 /**Вызов модального окна "Удалить пользователя" */
@@ -133,7 +143,7 @@ export const onSubmitDeleteUser = async () => {
 
         /**Удаляем пользователя из чата (массив id пользоватей) */
         current_chat_users = current_chat_users.filter(f => f !== user_id);
-        const chat_obj: AddUserToChat  = {
+        const chat_obj: SelectedChat  = {
             users: current_chat_users, 
             chatId: current_chat_id
         };
@@ -182,7 +192,7 @@ export const onSubmitAddUser = async () => {
 
         /**Добавляем пользователя в инфо чата в store */
         current_chat_users.push(user_id);
-        const chat_obj: AddUserToChat  = {
+        const chat_obj: SelectedChat  = {
             users: current_chat_users, 
             chatId: current_chat_id
         };
@@ -205,7 +215,7 @@ export const onSubmitAddUser = async () => {
 /**При изменении поля ввода логина пользователя пытаемся найти пользователя в store или в БД */
 export const onChangeUserName = async (event: any) => {
     event.preventDefault();
-    (window as any).store.set({isLoading: true, selectedUser: null});
+    // (window as any).store.set({isLoading: true, selectedUser: null});
     const input_login_user = event.target.value;
     try {
         if (!input_login_user) return;
@@ -222,7 +232,7 @@ export const onChangeUserName = async (event: any) => {
              * мы используем только id, поэтому изменение его инфо для нас не важно */
             (window as any).store.set({users: users_from_store});
         }
-        (window as any).store.set({ selectedUser: user_id, isLoading: false, modalWindowError: undefined });
+        (window as any).store.set({ selectedUser: user_id, modalWindowError: undefined });
     } catch (error) {
         (window as any).store.set({ modalWindowError: error });
     } 
@@ -254,6 +264,83 @@ const getChatUsers = async(): Promise<number[]> => {
     }
 }
 
+/**TODO Реализация в будущем */
 export const onChatInfo = (event: any) => {
-    
+    let current_chat_id: number = (window as any).store.state.selectedChatId;
+}
+
+/**Загрузка данных по чату */
+export const loadAllData = async() => {
+    /**При открытии нового вебсокета закрываем старый */
+    if (activeWS) activeWS.close();
+    /**Инициализируем объект для стора */
+    const current_chat_id: number = (window as any).store.state.selectedChatId;
+    let selectedChat: SelectedChat = {
+        chatId: current_chat_id,
+        users: await getChatUsers(),
+        messages: []
+    }
+
+    /**Подключаем вебсокет */
+    await connectWS();
+    (window as any).store.set({ selectedChat: selectedChat });
+    /**Загружаем старые сообщения */
+    await getOldMessages({type: 'get old', content: '0'});
+}
+
+/**Получить токен для открытия WS соединения, открыть соединение */
+export const connectWS = async () => {
+
+    const current_chat_id: number = (window as any).store.state.selectedChatId;
+    const curren_user_id: number = (window as any).store.state?.user?.id;
+    try {
+        const response = await chatApi.getToken(current_chat_id);
+        if (response.status !== 200) {
+            console.error(response.status, response.responseText);
+            throw new Error(`${response.responseText}`);
+        } else {
+            const token_obj: {token: string} = JSON.parse(response.responseText);
+            (window as any).store.set({ WSToken: token_obj });
+            activeWS = await chatApi.createWS({chatId: current_chat_id, userId: curren_user_id, token: token_obj.token});
+            await activeWS.connect(getNewMessages);
+        }
+    }
+    catch(error) {
+        (window as any).store.set({ connectWSError: error });
+    }
+}
+
+/**Получить старые сообщения и записать их в стор */
+export const getOldMessages = async (data: getMessages): Promise<void | Message[]> => {
+    if (!activeWS) return;
+    try {
+        activeWS.send(data);
+    }
+    catch(error) {
+        (window as any).store.set({ getTokenError: error });
+    }
+}
+
+/**Обработчик полученных сообщений */
+export const getNewMessages = (data: any) => {
+    let selectedChat = Object.assign((window as any).store.state.selectedChat);
+    let messages: Message[] | undefined = selectedChat.messages ? Array.from(selectedChat.messages) : [];
+    if (Array.isArray(data)) {
+        if (messages.length) {
+            /**Отфильтруем те сообщения которые уже есть в сторе */
+            let data_filtered: Message[] = (data as Message[]).filter(message => messages!.every(old_message => old_message !== message));
+            messages = data_filtered;
+        } else {
+            messages = data;
+        }
+    } 
+    else {
+        if (messages && messages.every(message => message.id !== data.id)) {
+            messages.push(data);
+        } else {
+            messages = [data];
+        }
+    }
+    selectedChat.messages = messages;
+    (window as any).store.set({ selectedChat: selectedChat });
 }

@@ -1,12 +1,10 @@
 import Block from "../../core/Block";
 import type { Props } from "../../core/Block";
-import { connect } from "../../utils/connect";
 
-class ChatList extends Block {
+export default class ChatList extends Block {
     constructor(props: Props) {
         super({
             ...props,
-            showEmpty: props.chats.length === 0,
             events: {
                 click: props.onClick
             }
@@ -14,17 +12,18 @@ class ChatList extends Block {
     }
 
     render(): string {
+        const showEmpty = this.props.chats.length === 0;
         return `
             <div class="chat_items_container">
-                {{#if showEmpty}}
+                {{#if ${showEmpty}}}
                     <h3> чатов нет </h3>
+                {{else}}
+                    <ul class="chat_list">
+                        {{{ chats }}}
+                    </ul>
                 {{/if}}
-                <ul class="chat_list">
-                    {{{ chats }}}
-                </ul>
             </div>
         `;
     }
 }
 
-export default connect(({isLoading}) => ({isLoading}))(ChatList);
