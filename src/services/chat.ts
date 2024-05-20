@@ -1,6 +1,6 @@
 import ChatApi from "../api/chat";
 import UserApi from "../api/user";
-import type { ChatDTO, CreateChat, CreateChatResponse, DeleteChatResponse, UserDTO, getMessages, Message, SelectedChat } from "../api/type";
+import type { ChatDTO, CreateChat, CreateChatResponse, DeleteChatResponse, UserDTO, getMessages, Message, SelectedChat, AddUserToChat } from "../api/type";
 import { logout } from "../services/auth";
 import { onShowModal } from "./modal";
 import WSTransport from "../core/WSTransport";
@@ -8,7 +8,7 @@ import WSTransport from "../core/WSTransport";
 
 const chatApi = new ChatApi();
 const userApi = new UserApi();
-let activeWS: WSTransport<unknown>;
+let activeWS: WSTransport;
 
 /**Получение списка чатов */
 export const getChats = async () => {
@@ -22,31 +22,30 @@ export const getChats = async () => {
             chats = JSON.parse(response.responseText);
         }
 
-        (window as any).store.set({chats});
+        (window as any).store.set({chats, getChatsError: undefined});
     } catch (error) {
-        (window as any).store.set({getChatsError: 'getChatsError error'});
+        (window as any).store.set({ getChatsError: 'getChatsError error'});
     } finally {
-        (window as any).store.set({isLoading: false, getChatsError: undefined});
+        (window as any).store.set({ isLoading: false });
     }
 }
 
 /**Создание нового чата */
 export const createChat = async (model: CreateChat) => {
-    (window as any).store.set({isLoading: true});
     try {
         const response = await chatApi.create(model);
         if (response.status !== 200) {
             throw new Error(`Error status ${response.status}`)
         } else {
             let new_chat_id: CreateChatResponse = JSON.parse(response.responseText);
+            new_chat_id; //Для использования в будущем
         }
+        document.onclick = null;
+       (window as any).store.set({ modalWindowError: undefined, showCreateChatModal: false});
         getChats();
     } catch (error) {
         (window as any).store.set({modalWindowError: 'createChatError error'});
-    } finally {
-        document.onclick = () => {};
-       (window as any).store.set({isLoading: false, modalWindowError: undefined, showCreateChatModal: false});
-    }
+    } 
 }
 
 /**Удаление выбранного чата */
@@ -60,14 +59,15 @@ export const deleteChat = async () => {
             throw new Error(`Error status ${response.status}`)
         } else {
             let delete_chat_result: DeleteChatResponse = JSON.parse(response.responseText);
+            delete_chat_result;
         }
+        document.onclick = null;
+        (window as any).store.set({ modalWindowError: undefined, showDeleteChatModal: false });
+
         getChats();
     } catch (error) {
         (window as any).store.set({modalWindowError: 'deleteChatError error'});
-    } finally {
-        document.onclick = () => {};
-        (window as any).store.set({isLoading: false, modalWindowError: undefined, showDeleteChatModal: false});
-    }
+    } 
 }
 
 export const setActiveChat = (chatId: string) => {
@@ -100,7 +100,7 @@ export const onProfileClick = (event: any) => {
 }
 
 export const onChatClick = (event: any) => {
-
+    event;
 }
 
 /**Отправка сообщения из чата (WS возвращает сообщение с айдишником которые запишется автоматически) */
@@ -143,7 +143,7 @@ export const onSubmitDeleteUser = async () => {
 
         /**Удаляем пользователя из чата (массив id пользоватей) */
         current_chat_users = current_chat_users.filter(f => f !== user_id);
-        const chat_obj: SelectedChat  = {
+        const chat_obj: AddUserToChat  = {
             users: current_chat_users, 
             chatId: current_chat_id
         };
@@ -158,7 +158,7 @@ export const onSubmitDeleteUser = async () => {
         window.alert('Пользователь был успешно удален из чата');
 
         (window as any).store.set({ showDeleteUserModal: false ,isLoading: false, deleteUserError: undefined });
-        document.onclick = () => {};
+        document.onclick = null;
 
     } catch (error) {
         (window as any).store.set({ deleteUserError: 'deleteUserError error' });
@@ -192,7 +192,7 @@ export const onSubmitAddUser = async () => {
 
         /**Добавляем пользователя в инфо чата в store */
         current_chat_users.push(user_id);
-        const chat_obj: SelectedChat  = {
+        const chat_obj: AddUserToChat  = {
             users: current_chat_users, 
             chatId: current_chat_id
         };
@@ -204,7 +204,7 @@ export const onSubmitAddUser = async () => {
             throw new Error(`Error status ${response.status}`);
         }
         window.alert('Пользователь был успешно добавлен в чат');
-        document.onclick = () => {};
+        document.onclick = null;
         (window as any).store.set({ showAddUserModal: false ,isLoading: false, getChatsError: undefined });
 
     } catch (error) {
@@ -265,9 +265,9 @@ const getChatUsers = async(): Promise<number[]> => {
 }
 
 /**TODO Реализация в будущем */
-export const onChatInfo = (event: any) => {
-    let current_chat_id: number = (window as any).store.state.selectedChatId;
-}
+// export const onChatInfo = (event: any) => {
+//     let current_chat_id: number = (window as any).store.state.selectedChatId;
+// }
 
 /**Загрузка данных по чату */
 export const loadAllData = async() => {

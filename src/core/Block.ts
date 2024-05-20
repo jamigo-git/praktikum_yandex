@@ -3,7 +3,7 @@ import {nanoid} from 'nanoid';
 import Handlebars from "handlebars";
 
 type Props = Record<string, any>;
-type Children = Record<string, Block>;
+type Children = Record<string, Block | any>;
 
 export type {Props, Children};
 

@@ -16,7 +16,7 @@ class DeleteUserModal extends Block {
         });
 
         const button = new Button({ 
-            label:"Добавить", 
+            label:"Удалить", 
             type:"primary", 
             bnt_type: "submit", 
             onClick: onSubmitBind 

@@ -1,13 +1,11 @@
 import Block from "../../core/Block";
 import { Avatar } from "..";
 import { setActiveChat } from "../../services/chat";
-import { connect } from "../../utils/connect";
-class ChatItem extends Block {
+export default class ChatItem extends Block {
     constructor(props: any) {
         super({
             ...props,
             avatar: new Avatar({ class:"chat_item_avatar", label:"", avatar: props?.avatar }),
-            // active: props?.selectedChatId === props?.id,
             events: { 
                 click: () => { 
                     setActiveChat(props.id);
@@ -32,4 +30,3 @@ class ChatItem extends Block {
 }
 
 
-export default connect(({selectedChatId}) => ({selectedChatId}))(ChatItem);

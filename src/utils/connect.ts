@@ -2,13 +2,14 @@ import { StoreEvents } from "../core/Store";
 import isEqual from './isEqual';
 import type { Props } from "../core/Block";
 
-export function connect(mapStateToProps: Function, dispatch?: any) {
+export function connect(mapStateToProps: Function, dispatch?: {key: any, handler: () => {}}) {
     return function(Component: any) {
       return class extends Component{
         static onChangeStoreCallback: () => void;
+        
         constructor(props: Props) {
           const store = (window as any).store;
-          // сохраняем начальное состояние
+          /**сохраняем начальное состояние*/
           let state = mapStateToProps(store?.getState() || {});
   
           super({...props, ...state});

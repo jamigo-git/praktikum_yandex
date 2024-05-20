@@ -11,7 +11,7 @@ export const onShowModal = () => {
                         showChangeAvatarModal: null,
                         showAddUserModal: null,
                     });
-                    document.onclick = () => {};
+                    document.onclick = null;
                 }
             }
         }

@@ -12,6 +12,7 @@ class ChatPage extends Block {
 
     /**Запус загрузки чатов после отрисовки компонента в DOM */
     componentDidMount(oldProps: Props): void {
+        oldProps;
         getChats();
     }
 
@@ -49,7 +50,7 @@ class ChatPage extends Block {
         const chatContent = new ChatContent({  });
         
         /**Chatlist elements */        
-        const chatList = new ChatList({chats: this.mapChatToComponent(this.chats, onChatClickBind) || []});
+        const chatList = new ChatList({chats: this.mapChatToComponent(this.props.chats, onChatClickBind) || []});
         const buttonMenu = new ButtonMenu({ });
         const inputSearch = new Input({ placeholder:"Поиск", class:"chat_search_input", name:"search" });
         

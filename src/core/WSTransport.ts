@@ -8,7 +8,7 @@ const WSTransportEvents = {
     Message: 'Message'
 }
 
-export default class WSTransport<Message> extends EventBus {
+export default class WSTransport extends EventBus {
     private socket?: WebSocket;
     private pingInterval?: ReturnType<typeof setInterval>;
     private readonly pingIntervalTime = 30000;

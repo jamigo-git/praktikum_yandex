@@ -1,6 +1,6 @@
 import Block, { Props } from "../../core/Block";
 import { Input, ButtonNav, Avatar, Dropdown, DropdownItem, MessageList } from "../../components";
-import { onSubmitMessage, onAddUser, onDeleteUser, onChatInfo, loadAllData } from "../../services/chat";
+import { onSubmitMessage, onAddUser, onDeleteUser, loadAllData } from "../../services/chat";
 import { connect } from "../../utils/connect";
 import  AddUserModal from "./add_user_modal.ts";
 import  DeleteUserModal from "./delete_user_modal.ts";
@@ -46,7 +46,6 @@ class ChatContent extends Block {
         const onSubmitBind = this.onSubmitMessage.bind(this);
         const onAddUserBind = onAddUser.bind(this);
         const onDeleteUserBind = onDeleteUser.bind(this);
-        const onChatInfoBind = onChatInfo.bind(this);
 
         /**Children */
         const avatar = new Avatar({ class:"avatar_chat_content_header" });
@@ -65,7 +64,7 @@ class ChatContent extends Block {
         /**Dropdown elements */
         const addUser = new DropdownItem({label: "Добавить пользователя", onClick: onAddUserBind });
         const deleteUser = new DropdownItem({label: "Удалить пользователя", onClick: onDeleteUserBind });
-        const chatInfo = new DropdownItem({label: "Информация о чате", onClick: onChatInfoBind });
+        const chatInfo = new DropdownItem({label: "Информация о чате" });
         const dropdown = new Dropdown({dropdownItems: [addUser, deleteUser, chatInfo] });
 
         /**Modal windows */
