@@ -1,6 +1,5 @@
-const express = require('express');
-const path = require('path');
-// const history = require('./http-rewrite/history-plugin');
+import express from 'express';
+import path from 'path';
 
 const PORT = 3000;
 const app = express();
