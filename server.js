@@ -13,8 +13,8 @@ const app = express();
 app.use(express.static(resolve(__dirname, 'dist')));
 // app.use(history);
 
-app.use("*", (req, res) => {
-    res.sendFile(`${__dirname}/dist/index.html`);
+app.get("*", (req, res) => {
+    res.sendFile(resolve(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
