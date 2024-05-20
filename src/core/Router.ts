@@ -1,3 +1,4 @@
+import Block from "./Block";
 import Route from "./Route";
 
 class Router {
@@ -20,7 +21,7 @@ class Router {
     Router.__instance = this;
   }
 
-  use(pathname: string, block: any, checkAuth?: Function) {
+  use(pathname: string, block: Block, checkAuth?: Function) {
     const route = new Route(pathname, block, {rootQuery: this._rootQuery}, checkAuth);
     if (this.routes) this.routes.push(route);
     return this;
@@ -48,7 +49,6 @@ class Router {
     }
     this._currentRoute = route;
     if(route !== null){
-      // route.render(route, pathname);
       route.render();
     }
   }

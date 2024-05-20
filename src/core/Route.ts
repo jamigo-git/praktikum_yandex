@@ -1,14 +1,13 @@
-import type { Props } from "./Block";
-import Block from "./Block";
+import Block, { BlockClass, Props } from "./Block";
 
 class Route {
     _pathname: string;
-    _blockClass: Block;
+    _blockClass: BlockClass<Props>;
     _block: Block | null;
     _props: Props | undefined;
     _checkAuth: Function | undefined;
 
-    constructor(pathname: string, view: Block, props: Props, checkAuth?: Function) {
+    constructor(pathname: string, view: BlockClass<Props>, props: Props, checkAuth?: Function) {
         this._pathname = pathname;
         this._blockClass = view;
         this._block = null;
@@ -40,6 +39,7 @@ class Route {
 
     render() {
         if (!this._block) {
+            debugger
             this._block = new this._blockClass({});
             this._renderDom(this._props?.rootQuery, this._block);
             return;
@@ -50,3 +50,4 @@ class Route {
 }
 
 export default Route;
+

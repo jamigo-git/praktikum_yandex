@@ -50,7 +50,7 @@ export const logout = async () => {
             console.error(`Status: ${logout.status}, Error: ${JSON.parse(logout.responseText)?.reason}`)
             throw new Error();
         } else {
-            const timeoutId = setTimeout(() => {}, 2000);
+            setTimeout(() => {}, 2000);
             (window as any).router.go('/login')
         }
     } catch (error) {

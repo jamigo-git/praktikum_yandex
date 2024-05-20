@@ -1,5 +1,5 @@
 import "./pass_edit.css";
-import {Input, Button, ButtonNav} from "../../components"
+import {Input, Button} from "../../components"
 import Block from "../../core/Block";
 import * as validation from "../../utils/validation.ts";
 import { changePassword } from "../../services/profile";

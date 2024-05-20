@@ -20,6 +20,7 @@ class ChatContent extends Block {
 
     /**Запус загрузки чатов после отрисовки компонента в DOM */
     componentDidMount(oldProps: Props): void {
+        oldProps;
         if (this.props.selectedChatId) loadAllData();
     }
 

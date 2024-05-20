@@ -1,5 +1,5 @@
 import { connect } from "../../utils/connect";
-import Block, { Props } from "../../core/Block";
+import Block from "../../core/Block";
 import { Input, FormWrapper, ModalWindow, Button } from "..";
 import { onChangeUserName, onSubmitAddUser } from "../../services/chat.ts"
 

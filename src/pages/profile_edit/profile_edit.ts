@@ -18,6 +18,7 @@ class ProfilePageEdit extends Block {
 
     /**Запус загрузки данных пользователя после отрисовки компонента в DOM */
     componentDidMount(oldProps: Props): void {
+        oldProps;
         if (!(window as any).store.state.user) getUserInfo();
     }
 

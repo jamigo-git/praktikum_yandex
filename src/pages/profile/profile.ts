@@ -17,6 +17,7 @@ class ProfilePage extends Block {
 
     /**Запус загрузки данных пользователя после отрисовки компонента в DOM */
     componentDidMount(oldProps: Props): void {
+        oldProps;
         getUserInfo();
     }
 
