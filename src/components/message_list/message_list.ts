@@ -26,5 +26,4 @@ export default class MessageList extends Block {
         `;
     }
 }
-        
-        
+
