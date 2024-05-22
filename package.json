@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dist": "tsc && vite build --watch",
+    "dist": "tsc && vite build",
     "preview": "vite preview",
-    "start": " vite build --watch && node ./server.js "
+    "start": " vite build && node ./server.js "
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
