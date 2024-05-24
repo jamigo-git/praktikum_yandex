@@ -13,7 +13,7 @@ export default class FormWrapper extends Block {
 
     render() {
         return `      
-            <Form class="form_wrapper">
+            <Form class="{{class}}">
                 {{{ formBody }}} 
             </Form>
         `

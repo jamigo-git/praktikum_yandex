@@ -1,12 +1,13 @@
 import { connect } from "../../utils/connect";
-import Block from "../../core/Block";
+import Block, { Props } from "../../core/Block";
 import { Input, FormWrapper, ModalWindow, Button } from "../../components";
 import { createChat } from "../../services/chat";
+import isEqual from "../../utils/isEqual";
 
 class CreateChatModal extends Block {
     init() {
         const onChangeNameBind = this.onChangeName.bind(this);
-        const onSubmitBind = this.onSubmit.bind(this);
+        const onCreateBind = this.onCreate.bind(this);
 
         const modalBody = new Input({ 
             placeholder: "Название чата", 
@@ -15,14 +16,18 @@ class CreateChatModal extends Block {
             onBlur: onChangeNameBind 
         });
 
-        const button = new Button({ label:"Создать", type:"primary", onClick: onSubmitBind });
+        const button = new Button({ label:"Создать", type:"primary", onClick: onCreateBind });
         
 
         const formWrapper = new FormWrapper({
             formBody: new ModalWindow({modalBody: modalBody, button: button, title: "Создать новый чат"}),
+            class: 'form_wrapper_modal',
             onSubmit: (event: any) => {
                 event.preventDefault();
-                createChat({title: this.props.chatName})
+                this.setProps({
+                    is_submit: true,
+                    chatName: event.target.elements.newChatName.value
+                })
             }
         });
 
@@ -32,19 +37,25 @@ class CreateChatModal extends Block {
         }
     }
 
-    onSubmit(event: any) {
-        const inputValue = event.target.value;
-
-        if (inputValue) {
-            this.setProps({ chatName: inputValue });
+    onCreate(event?: any) {
+        event?.preventDefault();
+        if (this.props.chatName) {
             createChat({ title: this.props.chatName });
         }
-
     }
 
     onChangeName(event: any) {
         const inputValue = event.target.value;
-        this.setProps({ chatName: inputValue });
+        this.setProps({ chatName: inputValue, is_submit: false });
+    }
+
+    componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+        if (!isEqual(oldProps, newProps)) {
+            if (newProps.is_submit && newProps.chatName) {
+                this.onCreate();
+            }
+        }
+        return true;
     }
 
     render() {

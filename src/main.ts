@@ -35,6 +35,10 @@ const router = new Router('#app');
     chatId: null,
     users: [],
     messages: []
+  },
+  credentials: {
+    login: null,
+    password: null
   }
 });
 
@@ -47,7 +51,7 @@ router.use('/', Pages.LoginPage)
       .use('/500', Pages.Error500)
       .use('/pass_edit', Pages.PassEditPage, checkAuthBind)
       .use('/messenger', Pages.ChatPage, checkAuthBind)
-      .use('/sign-up', Pages.RegistrationPage, checkAuthBind)
+      .use('/sign-up', Pages.RegistrationPage)
       .use('*', Pages.Error404)
       .start();
 

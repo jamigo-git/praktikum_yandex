@@ -70,6 +70,7 @@ export const deleteChat = async () => {
     } 
 }
 
+/**Установка в стор активного чата при клике на нем */
 export const setActiveChat = (chatId: string) => {
     (window as any).store.set({ selectedChatId: chatId });
 }
@@ -96,21 +97,19 @@ export const onLogoutClick = (event: any) => {
 export const onProfileClick = (event: any) => {
     event.preventDefault();
     (window as any).router.go('/settings');
-        
 }
 
 export const onChatClick = (event: any) => {
-    event;
+    // (window as any).store.set({ selectedChatId: event });
 }
 
 /**Отправка сообщения из чата (WS возвращает сообщение с айдишником которые запишется автоматически) */
-export const onSubmitMessage = (event: any) => {
-    event.preventDefault();
+export const onSubmitMessage = () => {
+    // event.preventDefault();
     const lastMessage = (window as any).store.state.lastMessage;
     if (activeWS && lastMessage) activeWS.send({content: lastMessage, type: "message"});
     let input_send_message = document.getElementById('input_send_message') as HTMLInputElement;
     if (input_send_message?.value) {
-        (window as any).store.set({ lastMessage: '' });
         input_send_message.value = '';
     } 
 }

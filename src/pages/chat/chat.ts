@@ -85,27 +85,29 @@ class ChatPage extends Block {
     render() {
 
         return `
-            <main class="chat_container">
-                <div class="chat_item_conteiner">
-                    <div class="chat_top_menu">
-                        <div class="dropdown">
-                            {{{ buttonMenu }}}
-                            {{{ dropdown }}}
+            <div>
+                <main class="chat_container">
+                    <div class="chat_item_conteiner">
+                        <div class="chat_top_menu">
+                            <div class="dropdown">
+                                {{{ buttonMenu }}}
+                                {{{ dropdown }}}
+                            </div>
+                            {{{ inputSearch }}}
                         </div>
-                        {{{ inputSearch }}}
+                        <div class="chat_item_list">
+                            {{{ chatList }}}
+                        </div>
                     </div>
-                    <div class="chat_item_list">
-                        {{{ chatList }}}
-                    </div>
-                </div>
-                {{{ chatContent }}} 
-                {{#if showCreateChatModal }}
-                    <div class="modal_window_container"> {{{ createChatModal }}} </div>
-                {{/if}}
-                {{#if showDeleteChatModal }}
-                    <div class="modal_window_container"> {{{ deleteChatModal }}} </div>
-                {{/if}}
-            </main>
+                    {{{ chatContent }}} 
+                    {{#if showCreateChatModal }}
+                        <div class="modal_window_container"> {{{ createChatModal }}} </div>
+                    {{/if}}
+                    {{#if showDeleteChatModal }}
+                        <div class="modal_window_container"> {{{ deleteChatModal }}} </div>
+                    {{/if}}
+                </main>
+            </div>
         `
     }
 }
@@ -117,7 +119,7 @@ const mapStateToProps = (store: any) => {
         isLoading: store.isLoading,
         showCreateChatModal: store.showCreateChatModal,
         showDeleteChatModal: store.showDeleteChatModal,
-        
+        selectedChatId: store.selectedChatId
     }
 }
 

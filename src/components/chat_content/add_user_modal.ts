@@ -26,6 +26,7 @@ class AddUserModal extends Block {
 
         const formWrapper = new FormWrapper({
             formBody: new ModalWindow({ modalBody: modalBody, button: button, title: "Добавить пользователя в чат" }),
+            class: "form_wrapper_modal",
             onSubmit: (event: any) => {
                 event.preventDefault();
                 onSubmitBind

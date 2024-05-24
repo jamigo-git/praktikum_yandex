@@ -18,7 +18,7 @@ export function email(email: string): boolean {
  * @return boolean, true - нет ошибки, false - есть ошибка
 */
 export function login(login: string): boolean {
-    const validLoginRegex = /^[A-ZА-Я][A-Za-zА-Яа-я0-9\-_]{2,19}$/;
+    const validLoginRegex = /[A-Za-zА-Яа-я0-9\-_]{2,19}$/;
     return validLoginRegex.test(login);
 }
 

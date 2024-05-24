@@ -89,26 +89,18 @@ export default class Block {
     }
 
     _componentDidUnmount(): void {
-        this.componentDidUnmount();
-
-        Object.values(this.children).forEach(child => {
-        child.dispatchComponentDidUnmount();
-    });
+        this.dispatchComponentDidUnmount();
     }
 
     /**Удаление компонента из DOM */
     componentDidUnmount(): void {
-
     }
     
     componentDidMount(oldProps?: Props): void {
         oldProps;
     }
 
-    /**
-     * Хелпер, который проверяет, находится ли элемент в DOM дереве
-     * И есть нет, триггерит событие COMPONENT_WILL_UNMOUNT
-     */
+    /** Хелпер, который проверяет, находится ли элемент в DOM дереве */
      _checkInDom() {
         const elementInDOM = document.body.contains(this._element);
     
@@ -124,10 +116,9 @@ export default class Block {
         this.dispatchComponentDidUnmount();
     }
   
-
     dispatchComponentDidUnmount() {
-        this.eventBus().emit(Block.EVENTS.FLOW_CDUNMT);
-        Object.values(this.children).forEach(child => child.dispatchComponentDidUnmount());
+        // this._removeEvents();
+        // if (this._element) this._element.remove();
     }
   
     dispatchComponentDidMount() {
@@ -138,7 +129,7 @@ export default class Block {
     _componentDidUpdate(oldProps: Props, newProps: Props): void {
         const response = this.componentDidUpdate(oldProps, newProps);
         if (!response) {
-        return;
+            return;
         }
         this._render();
     }
@@ -204,9 +195,11 @@ export default class Block {
         const newElement = (fragment as any).content.firstElementChild;
 
         [...Object.values(this.children), ...childrenProps].forEach(child => {
-            const stub = (fragment as any).content.querySelector(`[data-id="${child._id}"]`);
-            
-            stub?.replaceWith(child.getContent());
+            // if (this._element?.contains(child)) {
+                const stub = (fragment as any).content.querySelector(`[data-id="${child._id}"]`);
+                stub?.replaceWith(child.getContent());
+
+            // }
         });
 
 
@@ -223,17 +216,13 @@ export default class Block {
     render(): void {}
     
     getContent(): HTMLElement | null{
-        // Хак, чтобы вызвать CDM только после добавления в DOM
         if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
-        setTimeout(() => {
-            if (
-            this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
-            ) {
-            this.dispatchComponentDidMount();
-            }
-        }, 100);
+            setTimeout(() => {
+                if (this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
+                    this.dispatchComponentDidMount();
+                }
+            }, 100);
         }
-
         return this.element;
     }
 

@@ -1,7 +1,8 @@
 import Block from "../../core/Block";
 import { Avatar } from "..";
 import { setActiveChat } from "../../services/chat";
-export default class ChatItem extends Block {
+import { connect } from "../../utils/connect";
+class ChatItem extends Block {
     constructor(props: any) {
         super({
             ...props,
@@ -29,4 +30,12 @@ export default class ChatItem extends Block {
     }
 }
 
+/**Пропсы из store которые будут тригерить обновление */
+const mapStateToProps = (store: any) => {
+    return {
+        selectedChatId: store.selectedChatId
+    }
+}
+
+export default connect(mapStateToProps)(ChatItem);
 

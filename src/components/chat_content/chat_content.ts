@@ -1,6 +1,6 @@
 import Block, { Props } from "../../core/Block";
-import { Input, ButtonNav, Avatar, Dropdown, DropdownItem, MessageList } from "../../components";
-import { onSubmitMessage, onAddUser, onDeleteUser, loadAllData } from "../../services/chat";
+import { ButtonNav, Avatar, Dropdown, DropdownItem, MessageList, SendMessage, FormWrapper } from "../../components";
+import { onAddUser, onDeleteUser, loadAllData } from "../../services/chat";
 import { connect } from "../../utils/connect";
 import  AddUserModal from "./add_user_modal.ts";
 import  DeleteUserModal from "./delete_user_modal.ts";
@@ -43,30 +43,37 @@ class ChatContent extends Block {
     }
 
     init() {
-        const onChangeMessageBind = this.onChangeMessage.bind(this);
-        const onSubmitBind = this.onSubmitMessage.bind(this);
+
         const onAddUserBind = onAddUser.bind(this);
         const onDeleteUserBind = onDeleteUser.bind(this);
 
         /**Children */
         const avatar = new Avatar({ class:"avatar_chat_content_header" });
         const buttonChatSettings = new ButtonNav({ class: "chat_header_menu" });
-
-        /**Send message elements */
-        const buttonAdd = new ButtonNav({ class: "chat_footer_add" });
-        const inputMessage = new Input({ placeholder: "Сообщение", class: "chat_content_send_message", name: "message", id: "input_send_message", onBlur: onChangeMessageBind });
-        const buttonSubmit = new ButtonNav({ class: "chat_footer_send", onClick: onSubmitBind });
         
         /**Messages */
         const messages_from_store = (window as any).store.state.selectedChat?.messages;
         const messages = this.mapMessageToComponent(messages_from_store);
         const messageList = messages ? new MessageList({ messages: messages }) : new MessageList({ });
 
+        /**Send messages component */
+        const formWrapper = new FormWrapper({
+            formBody: new SendMessage({}),
+            onSubmit: (event: any) => {
+                event.preventDefault();
+                (window as any).store.set({lastMessage: event.target.elements.input_send_message.value});
+                this.children.formWrapper.children.formBody.setProps({
+                    is_submit: true
+                });
+
+            }
+        });
+
         /**Dropdown elements */
         const addUser = new DropdownItem({label: "Добавить пользователя", onClick: onAddUserBind });
         const deleteUser = new DropdownItem({label: "Удалить пользователя", onClick: onDeleteUserBind });
-        const chatInfo = new DropdownItem({label: "Информация о чате" });
-        const dropdown = new Dropdown({dropdownItems: [addUser, deleteUser, chatInfo] });
+        // const chatInfo = new DropdownItem({label: "Информация о чате" });
+        const dropdown = new Dropdown({dropdownItems: [addUser, deleteUser] });
 
         /**Modal windows */
         const addUserModal = new AddUserModal({});
@@ -76,32 +83,13 @@ class ChatContent extends Block {
             ...this.children,
             avatar,
             buttonChatSettings,
-            buttonAdd,
-            inputMessage,
             dropdown,
-            buttonSubmit,
             addUserModal,
             deleteUserModal,
-            messageList
+            messageList,
+            formWrapper
         }
 
-    }
-
-    onChangeMessage(event: any) {
-        const input_value = event.target.value;
-        (window as any).store.set({lastMessage: input_value});
-        // this.setProps({message: input_value});
-    }
-
-    onSubmitMessage(event: any) {
-        const input_value = (window as any).store.state.lastMessage;
-        if(input_value) {
-            this.children.inputMessage.setProps({error: false, error_text: null});
-            onSubmitMessage(event);
-        } else {
-            this.children.inputMessage.setProps({error: true, error_text: 'Невозможно отправить пустое сообщение'});
-            return;
-        }
     }
 
     render(): string {
@@ -121,11 +109,7 @@ class ChatContent extends Block {
                 <main class="messageList">
                     {{{ messageList }}}
                 </main>
-                <footer class="chat_content_footer">
-                    {{{ buttonAdd }}}
-                    {{{ inputMessage }}}
-                    {{{ buttonSubmit }}}
-                </footer>
+                {{{ formWrapper }}}
                 {{#if showAddUserModal }}
                     <div class="modal_window_container"> {{{ addUserModal }}} </div>
                 {{/if}}            

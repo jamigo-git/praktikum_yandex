@@ -29,6 +29,7 @@ class AvatarChangeModal extends Block {
                 button: button, 
                 title: "Изменить аватар"
             }),
+            class: "form_wrapper_modal",
             onSubmit: (event: any) => {
                 event.preventDefault();
                 onSubmitAvatar();

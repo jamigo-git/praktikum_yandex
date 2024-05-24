@@ -24,6 +24,7 @@ class DeleteUserModal extends Block {
 
         const formWrapper = new FormWrapper({
             formBody: new ModalWindow({modalBody: modalBody, button: button, title: "Удалить пользователя из чата"}),
+            class: "form_wrapper_modal",
             onSubmit: (event: any) => {
                 event.preventDefault();
                 onDeleteUser({});

@@ -23,8 +23,6 @@ class ProfilePage extends Block {
 
     /**Обновление */
     componentDidUpdate(oldProps: Props, newProps: Props): boolean {
-    // const onChatClickBind = onChatClick.bind(this);
-        
         if(!isEqual(oldProps.user, newProps.user)) {
             const user = (window as any).store.state.user;
             
@@ -51,14 +49,15 @@ class ProfilePage extends Block {
         const onEditDataClickBind = onEditDataClick.bind(this);
         const onPassEditClickBind = onPassEditClick.bind(this);
         const onLogoutClickBind = onLogoutClick.bind(this);
+        const user = (window as any).store.state.user;
         
         const buttonBack = new ButtonNav({ class: "button_back", onClick: onBackClickBind });
-        const avatar = new Avatar({ label: '', class: "avatar_profile" });
-        const formStrName = new FormString({ label:"Имя", value: '' });
-        const formStrLastName = new FormString({ label:"Фамилия", value: '' });
-        const formStrLogin = new FormString({ label:"Логин", value: '' });
-        const formStrEmail = new FormString({ label:"Почта", value: '' });
-        const formStrPhone = new FormString({ label:"Телефон", value: '' });
+        const avatar = new Avatar({ label: user?.login, class: "avatar_profile", avatar: user?.avatar ? `${BASEURL}resources\\${user.avatar}` : undefined });
+        const formStrName = new FormString({ label:"Имя", value: user?.first_name });
+        const formStrLastName = new FormString({ label:"Фамилия", value: user?.second_name });
+        const formStrLogin = new FormString({ label:"Логин", value: user?.login });
+        const formStrEmail = new FormString({ label:"Почта", value: user?.email });
+        const formStrPhone = new FormString({ label:"Телефон", value: user?.phone });
         const buttonEditData = new Button({ label:"Изменить данные", type:"secondary", onClick: onEditDataClickBind });
         const buttonEditPassword = new Button({ label:"Изменить пароль", type:"secondary", onClick: onPassEditClickBind });
         const buttonExit = new Button({ label:"Выйти", type:"secondary", onClick: onLogoutClickBind });

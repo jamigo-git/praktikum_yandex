@@ -14,4 +14,6 @@ export { ModalWindow } from "./modal_window";
 export { Dropdown } from "./dropdown";
 export { DropdownItem } from "./dropdown_item";
 export { ChatContent } from "./chat_content";
+export { FormLogin } from "./form_login";
+export { SendMessage } from "./send_message";
 

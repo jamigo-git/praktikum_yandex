@@ -14,7 +14,7 @@ app.get("*", (req, res) => {
     res.sendFile(resolve(__dirname, 'dist', 'index.html'));
 });
 
-app.listen(PORT, () => {
-    console.log(`Сервер запущен на порту ${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`Сервер запущен на порту ${PORT}`);
+// });
 
