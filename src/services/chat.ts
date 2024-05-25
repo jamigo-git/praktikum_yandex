@@ -100,7 +100,7 @@ export const onProfileClick = (event: any) => {
 }
 
 export const onChatClick = (event: any) => {
-    // (window as any).store.set({ selectedChatId: event });
+    (window as any).store.set({ selectedChatId: event });
 }
 
 /**Отправка сообщения из чата (WS возвращает сообщение с айдишником которые запишется автоматически) */

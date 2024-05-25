@@ -195,11 +195,8 @@ export default class Block {
         const newElement = (fragment as any).content.firstElementChild;
 
         [...Object.values(this.children), ...childrenProps].forEach(child => {
-            // if (this._element?.contains(child)) {
-                const stub = (fragment as any).content.querySelector(`[data-id="${child._id}"]`);
-                stub?.replaceWith(child.getContent());
-
-            // }
+            const stub = (fragment as any).content.querySelector(`[data-id="${child._id}"]`);
+            stub?.replaceWith(child.getContent());
         });
 
 
