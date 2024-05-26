@@ -26,7 +26,7 @@ export default class FormLogin extends Block {
             onBlur: onChangePassword_bind, 
         });
 
-        const buttonEnter = new Button({ label:"Войти", btn_type: "submit", type:"primary", onClick: onClickSend });
+        const buttonEnter = new Button({ label:"Войти", type:"primary", onClick: onClickSend });
         const buttonRegistration = new Button({ label:"Регистрация", type:"secondary", onClick: onRegistrationBind });
 
         this.children = {
@@ -38,8 +38,8 @@ export default class FormLogin extends Block {
         }
     }
 
-    onChangeLogin(event: any) {
-        const inputValue = event.target.value;
+    onChangeLogin(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
         if (this.isLoginError(inputValue)) return;
         this.setProps({login: inputValue});
         (window as any).store.set({credentials: { login: inputValue, password: this.props.password }});
@@ -55,8 +55,8 @@ export default class FormLogin extends Block {
         }
     }
 
-    onChangePassword(event: any) {
-        const inputValue = event.target.value;
+    onChangePassword(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
         if (this.isPasswordError(inputValue)) return;
         this.setProps({password: inputValue});
         (window as any).store.set({credentials: { login: this.props.login , password: inputValue  }});
@@ -74,7 +74,7 @@ export default class FormLogin extends Block {
         }
     }
 
-    onClickSend(event?: any) {
+    onClickSend(event?: Event) {
         let login_str = '';
         let password_str ='';
         if (event) { /**Срабатывает при нажатии на Enter */

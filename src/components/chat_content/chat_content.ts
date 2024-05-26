@@ -6,17 +6,11 @@ import  AddUserModal from "./add_user_modal.ts";
 import  DeleteUserModal from "./delete_user_modal.ts";
 import { ChatDTO } from "src/api/type.ts";
 import isEqual from "../../utils/isEqual";
-import type { Message}  from "../../api/type"
+import type { Message, UserDTO}  from "../../api/type"
 import { ChatMessage } from "../message";
 import { BASEURL } from "../../core/Constants.ts";
 
 class ChatContent extends Block {
-
-    constructor(props: any) {
-        super({
-            ...props,
-        });
-    }
 
     /**Запус загрузки чатов после отрисовки компонента в DOM */
     componentDidMount(oldProps: Props): void {
@@ -27,15 +21,22 @@ class ChatContent extends Block {
     componentDidUpdate(oldProps: Props, newProps: Props): boolean {
         if (this.props.selectedChatId && oldProps.selectedChatId !== newProps.selectedChatId) {
             loadAllData();
+            const chat = (this.props.chats as ChatDTO[])?.find(f => f.id === this.props.selectedChatId);
+            const avatar_img = chat?.avatar ? `${BASEURL}resources${chat.avatar}` : undefined;
+            this.children.avatar.setProps({ avatar: avatar_img });
         }
         /**Если пришло обновление по сообщениям обновим messageList */
         if (!isEqual(oldProps.selectedChatMessages, newProps.selectedChatMessages)) {
             this.children.messageList.setProps({ messages: this.mapMessageToComponent(newProps.selectedChatMessages) });
+            setTimeout(this.setLastMessageVisible, 100);
         }
-        const chat = (this.props.chats as ChatDTO[])?.find(f => f.id === this.props.selectedChatId);
-        const avatar_img = chat?.avatar ? `${BASEURL}resources${chat.avatar}` : undefined;
-        this.children.avatar.setProps({ avatar: avatar_img });
+
         return true;
+    }
+
+    setLastMessageVisible() {
+        let element = document.querySelector('.message_current_user:last-child')
+        element?.scrollIntoView(true);
     }
 
     mapMessageToComponent(messages: Message[] | undefined) {
@@ -61,11 +62,10 @@ class ChatContent extends Block {
             formBody: new SendMessage({}),
             onSubmit: (event: any) => {
                 event.preventDefault();
-                (window as any).store.set({lastMessage: event.target.elements.input_send_message.value});
                 this.children.formWrapper.children.formBody.setProps({
-                    is_submit: true
+                    is_submit: true,
+                    message: event.target.elements.inputSendMessage.value
                 });
-
             }
         });
 
@@ -89,17 +89,20 @@ class ChatContent extends Block {
             messageList,
             formWrapper
         }
-
     }
 
     render(): string {
-        const chatTitle = (this.props.chats as ChatDTO[])?.find(f => f.id === this.props.selectedChatId)?.title || 'Без названия';
+        const chat = (this.props.chats as ChatDTO[])?.find(f => f.id === this.props.selectedChatId);
+        const chatTitle = chat?.title || 'Без названия';
+        const chatUsersIds: number[] = (window as any).store.state.selectedChat.users;
+        const chatUsersLogins = ((window as any).store.state.users as UserDTO[]).filter(f => chatUsersIds.some(q => q === f.id)).map(user => user.login).join(', ');
+
         return `
         <div class="chat_content">
             {{#if selectedChatId }}
                 <header class="chat_content_header">
                     {{{ avatar }}}
-                    <div class="chat_content_header_label">${ chatTitle }</div>
+                    <div class="chat_content_header_label">${ chatTitle } (${chatUsersLogins})</div>
                     {{!-- <div class="chat_content_settings"> Settings </div> --}}
                     <div class="dropdown">
                         {{{ buttonChatSettings }}}
@@ -131,7 +134,6 @@ const mapStateToProps = (store: any) => {
         activeChatContent: store.activeChatContent,
         showAddUserModal: store.showAddUserModal,
         showDeleteUserModal: store.showDeleteUserModal,
-        isLoading: store.isLoading,
         selectedChatId: store.selectedChatId,
         chats: store.chats,
         selectedChatMessages: store.selectedChat.messages,

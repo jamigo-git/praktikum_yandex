@@ -12,7 +12,7 @@ export default class MessageList extends Block {
     }
 
     render(): string {
-        const showEmpty = this.props.messages.length === 0;
+        const showEmpty = !this.props.messages || this.props.messages.length === 0;
         return `
         <div class="message_list_container">
             {{#if ${showEmpty} }}

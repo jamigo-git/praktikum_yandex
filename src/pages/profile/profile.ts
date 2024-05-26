@@ -31,11 +31,12 @@ class ProfilePage extends Block {
             this.children.formStrLogin.setProps({ value: user?.login });
             this.children.formStrEmail.setProps({ value: user?.email });
             this.children.formStrPhone.setProps({ value: user?.phone });
+            this.children.formStrChatName.setProps({ value: user?.display_name });
             
             const avatar_url = user?.avatar ? `${BASEURL}resources\\${user.avatar}` : '';
             
             if (avatar_url) {
-                this.children.avatar.setProps({label: user?.login, avatar: avatar_url});
+                this.children.avatar.setProps({ label: user?.display_name, avatar: avatar_url });
             } else {
                 this.children.avatar.setProps({ label: user?.login });
             }
@@ -52,12 +53,14 @@ class ProfilePage extends Block {
         const user = (window as any).store.state.user;
         
         const buttonBack = new ButtonNav({ class: "button_back", onClick: onBackClickBind });
-        const avatar = new Avatar({ label: user?.login, class: "avatar_profile", avatar: user?.avatar ? `${BASEURL}resources\\${user.avatar}` : undefined });
+        const avatar = new Avatar({ label: user?.display_name, class: "avatar_profile", avatar: user?.avatar ? `${BASEURL}resources\\${user.avatar}` : undefined });
         const formStrName = new FormString({ label:"Имя", value: user?.first_name });
         const formStrLastName = new FormString({ label:"Фамилия", value: user?.second_name });
         const formStrLogin = new FormString({ label:"Логин", value: user?.login });
         const formStrEmail = new FormString({ label:"Почта", value: user?.email });
         const formStrPhone = new FormString({ label:"Телефон", value: user?.phone });
+        const formStrChatName = new FormString({ label:"Имя в чате", value: user?.display_name });
+
         const buttonEditData = new Button({ label:"Изменить данные", type:"secondary", onClick: onEditDataClickBind });
         const buttonEditPassword = new Button({ label:"Изменить пароль", type:"secondary", onClick: onPassEditClickBind });
         const buttonExit = new Button({ label:"Выйти", type:"secondary", onClick: onLogoutClickBind });
@@ -73,7 +76,8 @@ class ProfilePage extends Block {
             formStrPhone,
             buttonEditData,
             buttonEditPassword,
-            buttonExit
+            buttonExit,
+            formStrChatName
         }
     }
     
@@ -85,7 +89,7 @@ class ProfilePage extends Block {
         return `
             <main class="container">
                 {{#if isLoading }}
-                    <h2>SPINER</h2>
+                    <h2>SPINNER</h2>
                 {{ else }}
                     {{{ buttonBack }}}
                     <Form class="profile_form">
@@ -96,6 +100,7 @@ class ProfilePage extends Block {
                             {{{ formStrLogin }}}
                             {{{ formStrEmail }}}
                             {{{ formStrPhone }}}
+                            {{{ formStrChatName }}}
                         </div>
                         <div class="btn_container">
                             {{{ buttonEditData }}}

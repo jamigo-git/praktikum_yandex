@@ -15,7 +15,6 @@ export default class Button extends Block {
         return `
             <button 
                 class="button button__{{type}}" 
-                {{#if btn_type }} type="{{ btn_type }}" {{/if}}
                 {{#if disabled }} disabled {{/if}}
                 >
                 

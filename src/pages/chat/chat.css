@@ -6,10 +6,11 @@
 }
 
 .chat_item_conteiner {
-    width: 430px;
+    min-width: 430px;
     height: 720px;
     background-color: #FBFBFB;
     border: 1px solid lightgray;
+    overflow: auto;
 }
 
 .chat_top_menu {

@@ -41,7 +41,6 @@ class PassEditPage extends Block {
         const buttonEnter = new Button({ 
             label:"Сохранить", 
             type:"primary", 
-            bnt_type: "submit", 
             onClick: onSubmitBind 
         });
 
@@ -65,9 +64,9 @@ class PassEditPage extends Block {
         (window as any).router.go('/settings');
     }
 
-    onChangePassword(event: any) {
-        const inputValue = event.target.value;
-        const inputName = event.target.name;
+    onChangePassword(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
+        const inputName = (event.target as HTMLInputElement).name;
         if (this.is_password_error(inputName, inputValue)) return;
         this.setProps({[inputName]: inputValue});
     }
@@ -101,7 +100,7 @@ class PassEditPage extends Block {
         return `
             <main class="pass_edit_container">
                 {{#if isLoading }}
-                    <h2>SPINER</h2>
+                    <h2>SPINNER</h2>
                 {{ else }}
                     <Form class="pass_edit_form">
                         <div class="pass_edit_input_container">

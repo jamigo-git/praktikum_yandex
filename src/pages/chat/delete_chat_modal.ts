@@ -1,5 +1,5 @@
 import { connect } from "../../utils/connect";
-import Block from "../../core/Block";
+import Block, { Props } from "../../core/Block";
 import { FormWrapper, ModalWindow, Button } from "../../components";
 import { deleteChat } from "../../services/chat";
 
@@ -12,11 +12,11 @@ class DeleteChatModal extends Block {
         const modalBody = `<h3>Выбранный чат будет удален</h3>`;
 
         const formWrapper = new FormWrapper({
-            formBody: new ModalWindow({modalBody: modalBody, button: button, title: `Удалить выбранный чат?`}),
+            formBody: new ModalWindow({ modalBody: modalBody, button: button, title: `Удалить выбранный чат?` }),
             class: 'form_wrapper_modal',
-            onSubmit: (event: any) => {
+            onSubmit: (event: Event) => {
                 event.preventDefault();
-                deleteChat();
+                onDeleteBind;
             }
         });
 
@@ -29,13 +29,9 @@ class DeleteChatModal extends Block {
     render() {
         return `
             <div class="create_chat_modal">
-                {{#if isLoading}}
-                    <h2>SPINER</h2>
-                {{else}}
-                    {{{ formWrapper }}}
-                    {{#if deleteChatError}}
-                        <p>{{{ deleteChatError }}}</p>
-                    {{/if}}
+                {{{ formWrapper }}}
+                {{#if deleteChatError}}
+                    <p>{{{ deleteChatError }}}</p>
                 {{/if}}
             </div>
         `
@@ -45,7 +41,6 @@ class DeleteChatModal extends Block {
 /**Пропсы из store которые будут тригерить обновление */
 const mapStateToProps = (store: any) => {
     return {
-        isLoading: store.isLoading,
         deleteChatError: store.deleteChatError,
         selectedChatId: store.selectedChatId
     }

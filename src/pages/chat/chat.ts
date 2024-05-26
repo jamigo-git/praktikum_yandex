@@ -116,7 +116,6 @@ class ChatPage extends Block {
 const mapStateToProps = (store: any) => {
     return {
         chats: store.chats,
-        isLoading: store.isLoading,
         showCreateChatModal: store.showCreateChatModal,
         showDeleteChatModal: store.showDeleteChatModal,
         selectedChatId: store.selectedChatId

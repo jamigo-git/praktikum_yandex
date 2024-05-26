@@ -66,16 +66,16 @@ export const logout = async () => {
 
 /**Получение инфо о пользователе */
 export const getUserInfo = async () => {
-    debugger
     try {
-        let user_info: UserDTO;
+        let userInfo: UserDTO;
         let response = await authApi.me();
         if (response.status !== 200) {
             console.error(`Status: ${response.status}, Error: ${JSON.parse(response.responseText)?.reason}`)
             throw new Error();
         } else {
-            user_info = JSON.parse(response.responseText);
-            (window as any).store.set({ user: user_info });
+            userInfo = JSON.parse(response.responseText);
+            addUserInfoToArr(userInfo);
+            (window as any).store.set({ user: userInfo });
             (window as any).router.go('/settings')
         }
         
@@ -86,19 +86,32 @@ export const getUserInfo = async () => {
     }
 }
 
+/**Добавление информации о пользователи в массив пользователей */
+const addUserInfoToArr = (userInfo: UserDTO) => {
+    let users_arr: UserDTO[] = Array.from((window as any).store.state.users);
+    let user_in_users = users_arr?.length ? users_arr.find(f => f.id === userInfo.id) : undefined;
+    if (user_in_users) {
+        user_in_users = userInfo;
+    } else {
+        users_arr.push(userInfo);
+    }
+    (window as any).store.set({ users: users_arr });
+}
+
 /**Проверка авторизован ли пользователь */
 export const checkAuth = async(): Promise<boolean> => {
     (window as any).store.set({ isLoading: true });
     try {
-        let user_info: UserDTO;
+        let userInfo: UserDTO;
         let response = await authApi.me();
         if (response.status !== 200) {
             let error = JSON.parse(response.responseText)?.reason;
             console.error(`Status: ${response.status}, Error: ${error}`);
             throw new Error(error);
         } else {
-            user_info = JSON.parse(response.responseText);
-            (window as any).store.set({ user: user_info, checkAuthError: undefined });
+            userInfo = JSON.parse(response.responseText);
+            addUserInfoToArr(userInfo);
+            (window as any).store.set({ user: userInfo, checkAuthError: undefined });
             return true;
         }
         

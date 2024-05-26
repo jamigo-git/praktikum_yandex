@@ -24,7 +24,7 @@ class LoginPage extends Block {
             <div class="container">
                 <main class="container">
                     {{#if isLoading}}
-                        <h2>SPINER</h2>
+                        <h2>SPINNER</h2>
                     {{else}}
                         {{{ formWrapper }}}
                         {{#if loginError}}

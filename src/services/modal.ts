@@ -5,15 +5,26 @@ export const onShowModal = () => {
         if (modal_windows?.length) {
             for (let modal of modal_windows) {
                 if (!modal.contains(event.target)) {
-                    (window as any).store.set({
-                        showCreateChatModal: null,
-                        showDeleteChatModal: null,
-                        showChangeAvatarModal: null,
-                        showAddUserModal: null,
-                    });
+                    closeModals();
                     document.onclick = null;
                 }
             }
         }
     }
+}
+
+/**Закрыть все модальные окна */
+export const closeModals = () => {
+    (window as any).store.set({
+        showCreateChatModal: null,
+        showDeleteChatModal: null,
+        showChangeAvatarModal: null,
+        showAddUserModal: null,
+        showDeleteUserModal: null,
+        modalWindowError: null,
+        deleteUserError: null,
+        getChatsError: null,
+        deleteChatError: null,
+    });
+    document.onclick = null;
 }

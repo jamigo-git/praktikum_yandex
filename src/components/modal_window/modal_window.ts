@@ -4,10 +4,7 @@ import { connect } from "../../utils/connect";
 class ModalWindow extends Block {
     constructor(props: Props) {
         super({
-            ...props,
-            events: {
-                submit: props.onSubmit
-            }
+            ...props
         });
     }
     
@@ -17,6 +14,7 @@ class ModalWindow extends Block {
                 <div class="modal_window_header">
                     <h2 class="modal_title">{{ title }}</h2>
                 </div>
+                {{#if textBody}} <div> {{ textBody }} </div> {{/if}}
                 <div class="modal_window_body">
                     {{{ modalBody }}}
                 </div>
@@ -33,8 +31,7 @@ class ModalWindow extends Block {
 
 const mapStateToProps = (store: any) => {
     return {
-        modalWindowError: store.modalWindowError,
-        isLoading: store.isLoading
+        modalWindowError: store.modalWindowError
     }
 }
 

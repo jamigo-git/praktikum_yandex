@@ -18,7 +18,6 @@ class AvatarChangeModal extends Block {
         const button = new Button({ 
             label: "Сохранить", 
             type: "primary", 
-            btn_type: "submit", 
             // onClick: onSubmitBind
         });
         
@@ -30,7 +29,7 @@ class AvatarChangeModal extends Block {
                 title: "Изменить аватар"
             }),
             class: "form_wrapper_modal",
-            onSubmit: (event: any) => {
+            onSubmit: (event: Event) => {
                 event.preventDefault();
                 onSubmitAvatar();
             }
@@ -46,7 +45,7 @@ class AvatarChangeModal extends Block {
         return `
             <div class="change_avatar_modal">
                 {{#if isLoading}}
-                    <h2>SPINER</h2>
+                    <h2>SPINNER</h2>
                 {{else}}
                     {{{ formWrapper }}}
                     {{#if avatarChangeError}}

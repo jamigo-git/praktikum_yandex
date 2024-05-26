@@ -7,7 +7,7 @@ import isEqual from "../../utils/isEqual.ts";
 export default class SendMessage extends Block {
     init() {
         const onChangeMessageBind = this.onChangeMessage.bind(this);
-        const onSubmitBind = this.onSubmitMessage.bind(this);
+        const onClickSendBind = this.onClickSend.bind(this);
 
         /**Send message elements */
         const buttonAdd = new ButtonNav({ class: "chat_footer_add" });
@@ -16,13 +16,13 @@ export default class SendMessage extends Block {
             placeholder: "Сообщение", 
             class: "chat_content_send_message", 
             name: "message", 
-            id: "input_send_message", 
+            id: "inputSendMessage",
             onBlur: onChangeMessageBind 
         });
 
         const buttonSubmit = new ButtonNav({ 
             class: "chat_footer_send", 
-            onClick: onSubmitBind 
+            onClick: onClickSendBind
         });
 
         this.children = {
@@ -33,33 +33,29 @@ export default class SendMessage extends Block {
         }
     }
 
-    onChangeMessage(event: any) {
-        const input_value = event.target.value;
-        this.setProps({message: input_value});
+    onChangeMessage(event: Event) {
+        const input_value = (event.target as HTMLInputElement).value;
         (window as any).store.set({lastMessage: input_value});
     }
 
-    onSubmitMessage(event?: any) {
+    onClickSend(event?: Event) {
         event?.preventDefault();
         const input_value = (window as any).store.state.lastMessage;
         if(input_value) {
-            this.children.inputMessage.setProps({error: false, error_text: null});
+            this.children.inputMessage.setProps({error: false, error_text: null, is_submit: false });
             onSubmitMessage();
         } else {
-            this.children.inputMessage.setProps({error: true, error_text: 'Невозможно отправить пустое сообщение'});
+            this.children.inputMessage.setProps({error: true, error_text: 'Невозможно отправить пустое сообщение', is_submit: false});
             return;
         }
-        (window as any).store.set({ lastMessage: '' });
-
     }
 
     componentDidUpdate(oldProps: Props, newProps: Props): boolean {
         if (!isEqual(oldProps, newProps)) {
             if (newProps.is_submit) {
-                this.onSubmitMessage();
+                this.onClickSend();
             }
         }
-
         return true;
     }
 

@@ -115,3 +115,9 @@ button:focus-visible {
     left: 0;
     top: 0;
 }
+
+.spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}

@@ -88,6 +88,7 @@ export type ChangeUserPassword = {
 export type AddUserToChat = {
     users: number[]
     chatId: number
+    messages: Message[]
 }
 
 export type UserSearch = {

@@ -7,7 +7,6 @@ const userApi = new UserApi();
 
 /**Изменить данные профиля пользователя */
 export const changeProfile = async (model: ChangeUserProfile) => {
-    (window as any).store.set({isLoading: true});
     try {
         let user_info: UserDTO;
         const response = await userApi.profileChange(model);
@@ -22,9 +21,7 @@ export const changeProfile = async (model: ChangeUserProfile) => {
         
     } catch (error) {
         (window as any).store.set({ changeProfileError: 'Change profile error' });
-    } finally {
-        (window as any).store.set({isLoading: false});
-    }
+    } 
 }
 
 /**Изменить пароль пользователя */
@@ -32,7 +29,6 @@ export const changePassword = async (model: ChangeUserPassword) => {
     (window as any).store.set({isLoading: true});
     try {
         const response = await userApi.passwordChange(model);
-        debugger
         if (response.status !== 200) {
             console.error(`Status: ${response.status}, Error: ${JSON.parse(response.responseText)?.reason}`)
             throw new Error();
@@ -48,15 +44,14 @@ export const changePassword = async (model: ChangeUserPassword) => {
 }
 
 /**Переход назад к чатам */
-export const onBackClick = (event: any) => {
-    debugger
+export const onBackClick = (event: Event) => {
     event.preventDefault();
     (window as any).router.go('/settings');
 }
 
 
 /**Переход назад к чатам */
-export const onAvatarClick = (event: any) => {
+export const onAvatarClick = (event: Event) => {
     event.preventDefault();
     /**Показываем модальное окно по смене аватара */
     (window as any).store.set({ showChangeAvatarModal: true });
@@ -66,14 +61,14 @@ export const onAvatarClick = (event: any) => {
 
 
 /**Переход на страницу редактирования профиля */
-export const onEditDataClick = (event: any) => {
+export const onEditDataClick = (event: Event) => {
     event.preventDefault();
     (window as any).router.go('/settings_edit');
 }
 
 
 /**Переход на страницу редактирования пароля */
-export const onPassEditClick = (event: any) => {
+export const onPassEditClick = (event: Event) => {
     event.preventDefault();
     (window as any).router.go('/pass_edit');
 }
@@ -81,7 +76,7 @@ export const onPassEditClick = (event: any) => {
 
 
 /**Переход на страницу редактирования пароля */
-export const onLogoutClick = (event: any) => {
+export const onLogoutClick = (event: Event) => {
     event.preventDefault();
     logout();
 }

@@ -1,33 +1,34 @@
 import { connect } from "../../utils/connect";
 import Block from "../../core/Block";
 import { Input, FormWrapper, ModalWindow, Button } from "..";
-import { onDeleteUser, onChangeUserName, onSubmitDeleteUser } from "../../services/chat";
+import { onChangeUserLogin, onSubmitDeleteUser } from "../../services/chat";
 
 class DeleteUserModal extends Block {
     init() {
-        const onChangeNameBind = onChangeUserName.bind(this);
-        const onSubmitBind = onSubmitDeleteUser.bind(this);
+        const onChangeLoginBind = onChangeUserLogin.bind(this);
+        const onClickDeleteUserBind = this.onClickDeleteUser.bind(this);
 
         const modalBody = new Input({ 
             placeholder: "Введите логин пользователя", 
             class: "input_user_login", 
-            name: "userLogin", 
-            onBlur: onChangeNameBind 
+            name: "deleteUserLogin", 
+            id: "deleteUserLogin",
+            onBlur: onChangeLoginBind 
         });
 
         const button = new Button({ 
             label:"Удалить", 
             type:"primary", 
-            bnt_type: "submit", 
-            onClick: onSubmitBind 
+            onClick: onClickDeleteUserBind 
         });
 
         const formWrapper = new FormWrapper({
-            formBody: new ModalWindow({modalBody: modalBody, button: button, title: "Удалить пользователя из чата"}),
+            formBody: new ModalWindow({ modalBody: modalBody, button: button, title: "Удалить пользователя из чата"}),
             class: "form_wrapper_modal",
-            onSubmit: (event: any) => {
+            onSubmit: (event: Event) => {
                 event.preventDefault();
-                onDeleteUser({});
+                (window as any).store.set({ deleteUserLogin: (document.getElementById("deleteUserLogin") as HTMLInputElement)?.value });
+                onSubmitDeleteUser();
             }
         });
 
@@ -37,16 +38,21 @@ class DeleteUserModal extends Block {
         }
     }
 
+    onClickDeleteUser(event: Event) {
+        event.preventDefault();
+        let inputValue = (document.getElementById("deleteUserLogin") as HTMLInputElement)?.value;
+        if (inputValue) {
+            (window as any).store.set({ deleteUserLogin: inputValue });
+            onSubmitDeleteUser();
+        }
+    }
+
     render() {
         return `
             <div class="create_chat_modal">
-                {{#if isLoading}}
-                    <h2>SPINER</h2>
-                {{else}}
-                    {{{ formWrapper }}}
-                    {{#if deleteUserError}}
-                        <p>{{{ deleteUserError }}}</p>
-                    {{/if}}
+                {{{ formWrapper }}}
+                {{#if deleteUserError}}
+                    <p>{{{ deleteUserError }}}</p>
                 {{/if}}
             </div>
         `
@@ -56,7 +62,6 @@ class DeleteUserModal extends Block {
 /**Пропсы из store которые будут тригерить обновление */
 const mapStateToProps = (store: any) => {
     return {
-        isLoading: store.isLoading,
         deleteUserError: store.deleteUserError,
     }
 }

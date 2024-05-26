@@ -42,8 +42,8 @@ class RegistrationPage extends Block {
         }
     }
 
-    onChangeFirstName(event: any) {
-        const inputValue = event.target.value;
+    onChangeFirstName(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
         if (this.isFirstNameError(inputValue)) return;
         this.setProps({first_name: inputValue});
     }
@@ -58,8 +58,8 @@ class RegistrationPage extends Block {
         }
     }
 
-    onChangeSecondName(event: any) {
-        const inputValue = event.target.value;
+    onChangeSecondName(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
         if (this.isSecondNameError(inputValue)) return
         this.setProps({second_name: inputValue});
     }
@@ -74,8 +74,8 @@ class RegistrationPage extends Block {
         }
     }
 
-    onChangeLogin(event: any) {
-        const inputValue = event.target.value;
+    onChangeLogin(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
         if (this.isLoginError(inputValue)) return;
         this.setProps({login: inputValue});
     }
@@ -90,8 +90,8 @@ class RegistrationPage extends Block {
         }
     }
     
-    onChangeEmail(event: any) {
-        const inputValue = event.target.value;
+    onChangeEmail(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
         if (this.isEmailError(inputValue)) return;
         this.setProps({email: inputValue});
     }
@@ -106,8 +106,8 @@ class RegistrationPage extends Block {
         }
     }
 
-    onChangePhone(event: any) {
-        const inputValue = event.target.value;
+    onChangePhone(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
         if (this.isPhoneError(inputValue)) return;
         this.setProps({phone: inputValue});
     }
@@ -122,8 +122,8 @@ class RegistrationPage extends Block {
         }
     }
 
-    onChangePassword(event: any) {
-        const inputValue = event.target.value;
+    onChangePassword(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
         if (this.isPasswordError(inputValue)) return;
         this.setProps({newPassword: inputValue});
     }
@@ -138,8 +138,8 @@ class RegistrationPage extends Block {
         }
     }
 
-    onChangeRepeatPassword(event: any) {
-        const inputValue = event.target.value;
+    onChangeRepeatPassword(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
         if (this.isRepeatPasswordError(inputValue)) return;
         this.setProps({repeatPassword: inputValue});
     }
@@ -154,7 +154,7 @@ class RegistrationPage extends Block {
         }
     }
 
-    onRegistration(event: any) {
+    onRegistration(event: Event) {
         if (this.isFirstNameError(this.props.first_name)
             || this.isSecondNameError(this.props.second_name)
             || this.isLoginError(this.props.login)
@@ -194,7 +194,7 @@ class RegistrationPage extends Block {
         return `
             <main class="container">
                 {{#if isLoading}}
-                    <h2>SPINER</h2>
+                    <h2>SPINNER</h2>
                 {{else}}
                     <Form class="reg_form">
                         <div class="reg_header">
