@@ -1,16 +1,68 @@
 import Block, { Props } from "../../core/Block";
 import { ButtonNav, Avatar, Dropdown, DropdownItem, MessageList, SendMessage, FormWrapper } from "../../components";
-import { onAddUser, onDeleteUser, loadAllData } from "../../services/chat";
+import { onAddUser, onDeleteUser, loadAllData, onAvatarClick } from "../../services/chat";
 import { connect } from "../../utils/connect";
 import  AddUserModal from "./add_user_modal.ts";
 import  DeleteUserModal from "./delete_user_modal.ts";
+import  AvatarChangeModal from "./avatar_change_modal.ts";
 import { ChatDTO } from "src/api/type.ts";
 import isEqual from "../../utils/isEqual";
 import type { Message, UserDTO}  from "../../api/type"
 import { ChatMessage } from "../message";
-import { BASEURL } from "../../core/Constants.ts";
+import { BASEURL } from "../../utils/Constants.ts";
 
 class ChatContent extends Block {
+    init() {
+
+        const onAddUserBind = onAddUser.bind(this);
+        const onDeleteUserBind = onDeleteUser.bind(this);
+        const onAvatarClickBind = onAvatarClick.bind(this);
+
+        /**Children */
+        const avatar = new Avatar({ class:"avatar_chat_content_header", onClick: onAvatarClickBind });
+        const buttonChatSettings = new ButtonNav({ class: "chat_header_menu" });
+        
+        /**Messages */
+        const messages_from_store = (window as any).store.state.selectedChat?.messages;
+        const messages = this.mapMessageToComponent(messages_from_store);
+        const messageList = messages ? new MessageList({ messages: messages }) : new MessageList({ });
+
+        /**Send messages component */
+        const formWrapper = new FormWrapper({
+            formBody: new SendMessage({}),
+            onSubmit: (event: Event) => {
+                event.preventDefault();
+                this.children.formWrapper.children.formBody.setProps({
+                    is_submit: true,
+                    message: (event.target as any).elements.inputSendMessage.value
+                });
+            }
+        });
+
+        /**Dropdown elements */
+        const addUser = new DropdownItem({label: "Добавить пользователя", onClick: onAddUserBind });
+        const deleteUser = new DropdownItem({label: "Удалить пользователя", onClick: onDeleteUserBind });
+        // const chatInfo = new DropdownItem({label: "Информация о чате" });
+        const dropdown = new Dropdown({dropdownItems: [addUser, deleteUser] });
+
+        /**Modal windows */
+        const addUserModal = new AddUserModal({});
+        const deleteUserModal = new DeleteUserModal({});
+        const avatarChangeModal = new AvatarChangeModal({});
+
+
+        this.children = {
+            ...this.children,
+            avatar,
+            buttonChatSettings,
+            dropdown,
+            addUserModal,
+            deleteUserModal,
+            messageList,
+            formWrapper,
+            avatarChangeModal
+        }
+    }
 
     /**Запус загрузки чатов после отрисовки компонента в DOM */
     componentDidMount(oldProps: Props): void {
@@ -22,6 +74,7 @@ class ChatContent extends Block {
         if (this.props.selectedChatId && oldProps.selectedChatId !== newProps.selectedChatId) {
             loadAllData();
             const chat = (this.props.chats as ChatDTO[])?.find(f => f.id === this.props.selectedChatId);
+            
             const avatar_img = chat?.avatar ? `${BASEURL}resources${chat.avatar}` : undefined;
             this.children.avatar.setProps({ avatar: avatar_img });
         }
@@ -43,52 +96,8 @@ class ChatContent extends Block {
         return messages?.sort((a,b) => (a.id - b.id)).map(({ content, user_id, time, id }) => new ChatMessage({ text: content, datatime: time, user_id, id }));
     }
 
-    init() {
-
-        const onAddUserBind = onAddUser.bind(this);
-        const onDeleteUserBind = onDeleteUser.bind(this);
-
-        /**Children */
-        const avatar = new Avatar({ class:"avatar_chat_content_header" });
-        const buttonChatSettings = new ButtonNav({ class: "chat_header_menu" });
-        
-        /**Messages */
-        const messages_from_store = (window as any).store.state.selectedChat?.messages;
-        const messages = this.mapMessageToComponent(messages_from_store);
-        const messageList = messages ? new MessageList({ messages: messages }) : new MessageList({ });
-
-        /**Send messages component */
-        const formWrapper = new FormWrapper({
-            formBody: new SendMessage({}),
-            onSubmit: (event: any) => {
-                event.preventDefault();
-                this.children.formWrapper.children.formBody.setProps({
-                    is_submit: true,
-                    message: event.target.elements.inputSendMessage.value
-                });
-            }
-        });
-
-        /**Dropdown elements */
-        const addUser = new DropdownItem({label: "Добавить пользователя", onClick: onAddUserBind });
-        const deleteUser = new DropdownItem({label: "Удалить пользователя", onClick: onDeleteUserBind });
-        // const chatInfo = new DropdownItem({label: "Информация о чате" });
-        const dropdown = new Dropdown({dropdownItems: [addUser, deleteUser] });
-
-        /**Modal windows */
-        const addUserModal = new AddUserModal({});
-        const deleteUserModal = new DeleteUserModal({});
-
-        this.children = {
-            ...this.children,
-            avatar,
-            buttonChatSettings,
-            dropdown,
-            addUserModal,
-            deleteUserModal,
-            messageList,
-            formWrapper
-        }
+    onAvatarClick() {
+        (window as any).store.set({ showChatAvatarChangeModal: true });
     }
 
     render(): string {
@@ -119,6 +128,9 @@ class ChatContent extends Block {
                 {{#if showDeleteUserModal }}
                     <div class="modal_window_container"> {{{ deleteUserModal }}} </div>
                 {{/if}}
+                {{#if showChatAvatarChangeModal }}
+                    <div class="modal_window_container"> {{{ avatarChangeModal }}} </div>
+                {{/if}}
             {{else}}
                 <h2>Выберите чат чтобы начать общение</h2>
             {{/if}}
@@ -134,6 +146,7 @@ const mapStateToProps = (store: any) => {
         activeChatContent: store.activeChatContent,
         showAddUserModal: store.showAddUserModal,
         showDeleteUserModal: store.showDeleteUserModal,
+        showChatAvatarChangeModal: store.showChatAvatarChangeModal,
         selectedChatId: store.selectedChatId,
         chats: store.chats,
         selectedChatMessages: store.selectedChat.messages,

@@ -3,7 +3,7 @@ import Block, { Props } from "../../core/Block.ts";
 import * as validation from "../../utils/validation.ts";
 import { getUserInfo } from "../../services/auth.ts";
 import isEqual from "../../utils/isEqual.ts";
-import { BASEURL } from "../../core/Constants.ts";
+import { BASEURL } from "../../utils/Constants.ts";
 import { onAvatarClick, changeProfile, onLogoutClick } from "../../services/profile";
 import { connect } from "../../utils/connect.ts";
 
@@ -27,19 +27,67 @@ class FormProfile extends Block {
         const onChangeDisplayNameBind = this.onChangeDisplayName.bind(this);
         const onAvatarClickBind = onAvatarClick.bind(this);
         const onLogoutClickBind = onLogoutClick.bind(this);
-
-        const onSaveBind = this.onSave.bind(this);
+        const onSaveClickBind = this.onSaveClick.bind(this);
 
         const user = (window as any).store.state.user;
-        const avatar_url = user?.avatar ? `${BASEURL}resources\\${user.avatar}` : '';
-        const avatar = new Avatar({ label: user?.display_name, class:"avatar_profile", avatar: avatar_url, onClick: onAvatarClickBind });
-        const inputName = new Input({ label:"Имя", value: user?.first_name, class:"profile_edit_input", name:"first_name", onBlur: onChangeFirstNameBind});
-        const inputSecondName = new Input({ label:"Фамилия", value: user?.second_name, class:"profile_edit_input", name:"second_name", onBlur: onChangeSecondNameBind  });
-        const inputLogin = new Input({ label:"Логин", value: user?.login, class:"profile_edit_input", name:"login", onBlur: onChangeLoginBind });
-        const inputEmail = new Input({ label:"Почта", value: user?.email, class:"profile_edit_input", name:"email", onBlur: onChangeEmailBind });
-        const inputPhone = new Input({ label: "Телефон", value: user?.phone, class:"profile_edit_input", name:"phone", onBlur: onChangePhoneBind });
-        const formStrChatName = new Input({ label:"Имя в чате", value: user?.display_name, class:"profile_edit_input", name:"display_name", onBlur: onChangeDisplayNameBind });
-        const buttonSave = new Button({ label:"Сохранить", type:"primary", onClick: onSaveBind });
+        const avatar_url = user?.avatar ? `${BASEURL}resources${user.avatar}` : '';
+
+        const avatar = new Avatar({ 
+            label: user?.display_name, 
+            class:"avatar_profile", 
+            avatar: avatar_url, 
+            onClick: onAvatarClickBind 
+        });
+
+        const inputName = new Input({ 
+            label:"Имя", 
+            value: user?.first_name, 
+            class:"profile_edit_input", 
+            name:"first_name", 
+            onBlur: onChangeFirstNameBind
+        });
+
+        const inputSecondName = new Input({ 
+            label:"Фамилия", 
+            value: user?.second_name, 
+            class:"profile_edit_input", 
+            name:"second_name", 
+            onBlur: onChangeSecondNameBind  
+        });
+
+        const inputLogin = new Input({ 
+            label:"Логин", 
+            value: user?.login, 
+            class:"profile_edit_input", 
+            name:"login", 
+            validation: onChangeLoginBind 
+        });
+
+        const inputEmail = new Input({ 
+            label:"Почта", 
+            value: user?.email, 
+            class:"profile_edit_input", 
+            name:"email", 
+            onBlur: onChangeEmailBind 
+        });
+        
+        const inputPhone = new Input({ 
+            label: "Телефон", 
+            value: user?.phone, 
+            class:"profile_edit_input", 
+            name:"phone", 
+            onBlur: onChangePhoneBind 
+        });
+
+        const formStrChatName = new Input({ 
+            label:"Имя в чате", 
+            value: user?.display_name, 
+            class:"profile_edit_input", 
+            name:"display_name", 
+            onBlur: onChangeDisplayNameBind 
+        });
+
+        const buttonSave = new Button({ label:"Сохранить", type:"primary", onClick: onSaveClickBind });
         const buttonExit = new Button({ label:"Выйти", type:"secondary", onClick: onLogoutClickBind });
 
         const propsObj = form_fields.reduce((obj, current) => {
@@ -71,10 +119,12 @@ class FormProfile extends Block {
 
     /**Обновление */
     componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+        if (!isEqual(oldProps, newProps) && !oldProps.is_submit && newProps.is_submit) {
+            this.Save();
+        }
         if(!isEqual(oldProps.user, newProps.user)) {
             const user = (window as any).store.state.user;
-
-            const avatar_url = user?.avatar ? `${BASEURL}resources\\${user.avatar}` : '';
+            const avatar_url = user?.avatar ? `${BASEURL}resources${user.avatar}` : '';
             if (avatar_url) {
                 this.children.avatar.setProps({label: user?.display_name, avatar: avatar_url});
             } else {
@@ -92,10 +142,10 @@ class FormProfile extends Block {
 
     isFirstNameError(value: string): boolean {
         if(validation.name(value)) {
-            this.children.inputName.setProps({error: false, error_text: null});
+            this.children.inputName.children?.validation_error?.setProps({ error_text: null});
             return false;
         } else {
-            this.children.inputName.setProps({error: true, error_text: 'Имя не соответствует требованиям'});
+            this.children.inputName.children?.validation_error?.setProps({ error_text: 'Имя не соответствует требованиям'});
             return true;
         }
     }
@@ -108,30 +158,29 @@ class FormProfile extends Block {
 
     isSecondNameError(value: string): boolean {
         if(validation.name(value)) {
-            this.children.inputSecondName.setProps({error: false, error_text: null});
+            this.children.inputSecondName.children.validation_error?.setProps({ error_text: null});
             return false;
         } else {
-            this.children.inputSecondName.setProps({error: true, error_text: 'Фамилия не соответствует требованиям'});
+            this.children.inputSecondName.children.validation_error?.setProps({ error_text: 'Фамилия не соответствует требованиям'});
             return true;
         }
     }
 
-    onChangeLogin(event: Event) {
-        const inputValue = (event.target as HTMLInputElement).value;
-        if (this.isLoginError(inputValue)) return;
-        this.setProps({ login: inputValue });
+    onChangeLogin() {
+        const inputValue = (document.getElementsByName('login')[0] as HTMLInputElement)?.value;
+        return this.isLoginError(inputValue);
     }
 
     isLoginError(value: string): boolean {
         if(validation.login(value)) {
-            this.children.inputLogin.setProps({error: false, error_text: null});
+            this.children.inputLogin?.сhildren?.validation_error?.setProps({ error_text: null });
             return false;
         } else {
-            this.children.inputLogin.setProps({error: true, error_text: 'Логин не соответствует требованиям'});
+            this.children.inputLogin?.children?.validation_error?.setProps({ error_text: 'Логин не соответствует требованиям' });
             return true;
         }
     }
-    
+
     onChangeEmail(event: Event) {
         const inputValue = (event.target as HTMLInputElement).value;
         if (this.isEmailError(inputValue)) return;
@@ -140,10 +189,10 @@ class FormProfile extends Block {
 
     isEmailError(value: string): boolean {
         if(validation.email(value)) {
-            this.children.inputEmail.setProps({error: false, error_text: null});
+            this.children.inputEmail.children.validation_error?.setProps({ error_text: null});
             return false;
         } else {
-            this.children.inputEmail.setProps({error: true, error_text: 'Email не соответствует требованиям'});
+            this.children.inputEmail.children.validation_error?.setProps({ error_text: 'Email не соответствует требованиям'});
             return true;
         }
     }
@@ -156,10 +205,10 @@ class FormProfile extends Block {
 
     isPhoneError(value: string): boolean {
         if(validation.phone(value)) {
-            this.children.inputPhone?.setProps({ error: false, error_text: null });
+            this.children.inputPhone?.children.validation_error?.setProps({ error_text: null });
             return false;
         } else {
-            this.children.inputPhone?.setProps({ error: true, error_text: 'Телефон не соответствует требованиям' });
+            this.children.inputPhone?.children.validation_error?.setProps({ error_text: 'Телефон не соответствует требованиям' });
             return true;
         }
     }
@@ -169,32 +218,29 @@ class FormProfile extends Block {
         this.setProps({ display_name: inputValue });
     }
 
-    onSave(event?: Event) {
-        event?.preventDefault();
+    onSaveClick(event: Event) {
+        event.preventDefault();
+        this.Save();
+    }
 
-        if (this.isFirstNameError((document.getElementsByName('first_name')[0] as HTMLInputElement)?.value)
-            || this.isSecondNameError((document.getElementsByName('second_name')[0] as HTMLInputElement)?.value)
-            || this.isLoginError((document.getElementsByName('login')[0] as HTMLInputElement)?.value)
-            || this.isEmailError((document.getElementsByName('email')[0] as HTMLInputElement)?.value)
-            || this.isPhoneError((document.getElementsByName('phone')[0] as HTMLInputElement)?.value)) {
-            
-            return;
-        }
-
+    Save() {
+        let result = [
+            this.isFirstNameError((document.getElementsByName('first_name')[0] as HTMLInputElement)?.value),
+            this.isSecondNameError((document.getElementsByName('second_name')[0] as HTMLInputElement)?.value),
+            this.isLoginError((document.getElementsByName('login')[0] as HTMLInputElement)?.value),
+            this.isEmailError((document.getElementsByName('email')[0] as HTMLInputElement)?.value),
+            this.isPhoneError((document.getElementsByName('phone')[0] as HTMLInputElement)?.value)
+        ];
+        if (result.some(res => res === true)) return;
+        
         const propsObj = form_fields.reduce((acc, current) => {
             acc[current as keyof typeof acc] = (document.getElementsByName(`${current}`)[0] as HTMLInputElement)?.value as any;
             return acc;
         }, new Object());
 
-        changeProfile(propsObj as any)
+        changeProfile(propsObj as any);
     }
 
-    _componentDidUpdate(oldProps: Props, newProps: Props): void {
-        if (!isEqual(oldProps, newProps) && newProps.is_submit) {
-            this.onSave();
-        }
-    }
- 
     render() {
         return `
             <div class="form_profile">
@@ -219,7 +265,7 @@ class FormProfile extends Block {
 /**Пропсы из store которые будут тригерить обновление */
 const mapStateToProps = (store: any) => {
     return {
-        user: store.user,
+        user: store.user
     }
 }
 

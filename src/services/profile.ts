@@ -89,14 +89,12 @@ export const onChangeAvatar = (event: any) => {
     let formData = new FormData();
     formData.append("avatar", inputValue, inputValue.name);
     (window as any).store.set({ newAvatarFile: formData });
-
 }
 
 /**Событие на отправку аватара */
 export const onSubmitAvatar = async () => {
     let file: FormData = (window as any).store.state.newAvatarFile;
     if (!file) return
-    (window as any).store.set({isLoading: true});
     try {
         let user_info: UserDTO;
         const response = await userApi.avatarChange(file);
@@ -105,13 +103,11 @@ export const onSubmitAvatar = async () => {
             throw new Error();
         } else {
             user_info = JSON.parse(response.responseText);
-            (window as any).store.set({ user: user_info });
             window.alert('Поздравляем, аватар успешно обновлен!');
+            (window as any).store.set({ user: user_info, showChangeAvatarModal: false });
         }
         
     } catch (error) {
         (window as any).store.set({ changeAvatarError: 'Change avatar error' });
-    } finally {
-        (window as any).store.set({showChangeAvatarModal: false, isLoading: false});
-    }
+    } 
 }

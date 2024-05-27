@@ -6,7 +6,7 @@ import { getChats, onCreateChatClick, onDeleteChatClick, onLogoutClick, onProfil
 import { ChatItemData } from "../../main.ts";
 import  CreateChatModal from "../../pages/chat/create_chat_modal.ts";
 import  DeleteChatModal from "../../pages/chat/delete_chat_modal.ts";
-import { BASEURL } from "../../core/Constants.ts";
+import { BASEURL } from "../../utils/Constants.ts";
 
 class ChatPage extends Block {
 

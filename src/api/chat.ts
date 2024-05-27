@@ -1,4 +1,4 @@
-import { WSBASEURL } from "../core/Constants.ts";
+import { WSBASEURL } from "../utils/Constants.ts";
 import  HTTPTransport from "../core/HTTPTransport.ts";
 import  WSTransport from "../core/WSTransport.ts";
 import { CreateChat, DeleteChat, AddUserToChat, OpenWS } from "./type";
@@ -35,8 +35,15 @@ export default class ChatApi {
         return chatApi.post(`/token/${chatId}`);
     }
 
+    /**Запрос на изменение аватара чата */
+    async avatarChange(data: FormData): Promise<XMLHttpRequest> {
+        let result = chatApi.put('/avatar', { data })
+        return result;
+    }
+
     /** Открыть новое соединение */
     async createWS(data: OpenWS) {
         return new WSTransport(`${WSBASEURL}${data.userId}/${data.chatId}/${data.token}`);
     }
+
 }

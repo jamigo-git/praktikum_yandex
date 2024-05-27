@@ -26,7 +26,7 @@ class ProfilePageEdit extends Block {
             formBody: new FormProfile({}),
             onSubmit: (event: Event) => {
                 event.preventDefault();
-                this.children.formBody.setProps({
+                this.children.formWrapper.children.formBody.setProps({
                     is_submit: true
                 });
             }

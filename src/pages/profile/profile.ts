@@ -3,7 +3,7 @@ import Block from "../../core/Block";
 import type { Props } from "../../core/Block";
 import { getUserInfo } from "../../services/auth"
 import { connect } from "../../utils/connect";
-import { BASEURL } from "../../core/Constants";
+import { BASEURL } from "../../utils/Constants";
 import isEqual from "../../utils/isEqual";
 import { onEditDataClick, onPassEditClick, onLogoutClick } from "../../services/profile";
 

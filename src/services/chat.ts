@@ -120,6 +120,13 @@ export const onDeleteUser = (event?: Event) => {
     setTimeout(onShowModal, 1000);
 }
 
+/**Вызов модального окна "Изменить аватар чата" */
+export const onAvatarClick = (event?: Event) => {
+    event?.preventDefault();
+    (window as any).store.set({ showChatAvatarChangeModal: true });
+    setTimeout(onShowModal, 1000);
+}
+
 /**Функция вызывается при нажатии на клавишу Удалить (пользователя из чата) */
 export const onSubmitDeleteUser = async () => {
     const deleteUserLogin: string = (window as any).store.state.deleteUserLogin;
@@ -141,23 +148,26 @@ export const onSubmitDeleteUser = async () => {
             throw new Error(`Пользователь отсутствует в чате`);
         }
 
-        /**Удаляем пользователя из чата (массив id пользоватей) */
-        currentChatUsers = currentChatUsers.filter(f => f !== userId);
         const chatObj: AddUserToChat  = {
             users: currentChatUsers, 
             chatId: currentChatId,
             messages: currentChat.messages ? Array.from(currentChat.messages) : []
         };
         
-        /**Записываем в стор новый массив без пользователя */
-        (window as any).store.set({ selectedChat: chatObj });
-
         /**Запрос в БД на удаление пользователя */
         chatObj.users = [userId];
         const response = await chatApi.deleteUser(chatObj);
         if (response.status !== 200) {
             throw new Error(`Error status ${response.status}`);
         }
+
+        /**Удаляем пользователя из чата (массив id пользоватей) */
+        currentChatUsers = currentChatUsers.filter(f => f !== userId);
+        chatObj.users = currentChatUsers;
+
+        /**Записываем в стор новый массив без пользователя */
+        (window as any).store.set({ selectedChat: chatObj });
+
         window.alert('Пользователь был успешно удален из чата');
 
         closeModals();
@@ -362,4 +372,47 @@ export const getNewMessages = (data: any) => {
     }
     selectedChat.messages = messages;
     (window as any).store.set({ selectedChat: selectedChat });
+}
+
+
+/**Событие на изменение аватара */
+export const onChangeChatAvatar = (event: any) => {
+    event.preventDefault();
+    const inputValue = event.target.files[0];
+    if (!inputValue) return;
+    let formData = new FormData();
+    formData.append("avatar", inputValue, inputValue.name);
+    (window as any).store.set({ newChatAvatarFile: formData });
+}
+
+
+/**Событие на отправку аватара */
+export const onSubmitChatAvatar = async () => {
+    let file: FormData = (window as any).store.state.newChatAvatarFile;
+    let chatId: number = (window as any).store.state.selectedChat?.chatId;
+    file.append('chatId', String(chatId));
+    if (!file) return
+    try {
+        let chat_info: ChatDTO;
+        debugger
+        const response = await chatApi.avatarChange(file);
+        if (response.status !== 200) {
+            console.error(`Status: ${response.status}, Error: ${JSON.parse(response.responseText)?.reason}`)
+            throw new Error();
+        } else {
+            chat_info = JSON.parse(response.responseText);
+            let chats = Array.from((window as any).store.state.chats as ChatDTO[]);
+            let chat_index = chats.findIndex(f => f.id === chatId);
+            chats[chat_index] = chat_info;
+
+            (window as any).store.set({ chats: chats, showChangeChatAvatarModal: false });
+
+
+            window.alert('Поздравляем, аватар чата успешно обновлен!');
+            
+        }
+        
+    } catch (error) {
+        (window as any).store.set({ changeChatAvatarError: 'Change avatar error' });
+    } 
 }

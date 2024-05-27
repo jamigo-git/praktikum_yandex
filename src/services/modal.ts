@@ -25,6 +25,7 @@ export const closeModals = () => {
         deleteUserError: null,
         getChatsError: null,
         deleteChatError: null,
+        showChatAvatarChangeModal: null
     });
     document.onclick = null;
 }

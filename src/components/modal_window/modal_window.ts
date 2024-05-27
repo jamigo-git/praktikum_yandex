@@ -14,8 +14,8 @@ class ModalWindow extends Block {
                 <div class="modal_window_header">
                     <h2 class="modal_title">{{ title }}</h2>
                 </div>
-                {{#if textBody}} <div> {{ textBody }} </div> {{/if}}
                 <div class="modal_window_body">
+                    {{#if textBody}} <div class="text_body"> {{ textBody }} </div> {{/if}}
                     {{{ modalBody }}}
                 </div>
                 <div class="modal_window_footer">

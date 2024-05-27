@@ -1,4 +1,4 @@
-import { BASEURL } from "../core/Constants.ts";
+import { BASEURL } from "../utils/Constants.ts";
 
 const METHODS = {
         GET: 'GET',

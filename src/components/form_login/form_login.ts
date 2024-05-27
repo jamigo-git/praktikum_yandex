@@ -41,16 +41,15 @@ export default class FormLogin extends Block {
     onChangeLogin(event: Event) {
         const inputValue = (event.target as HTMLInputElement).value;
         if (this.isLoginError(inputValue)) return;
-        this.setProps({login: inputValue});
         (window as any).store.set({credentials: { login: inputValue, password: this.props.password }});
     }
 
     isLoginError(value: string): boolean {
         if(validation.login(value)) {
-            this.children.inputLogin.setProps({error: false, error_text: null});
+            this.children.inputLogin.children.validation_error?.setProps({ error_text: null });
             return false;
         } else {
-            this.children.inputLogin.setProps({error: true, error_text: 'Логин не соответствует требованиям'});
+            this.children.inputLogin.children.validation_error?.setProps({ error_text: 'Логин не соответствует требованиям' });
             return true;
         }
     }
@@ -59,34 +58,32 @@ export default class FormLogin extends Block {
         const inputValue = (event.target as HTMLInputElement).value;
         if (this.isPasswordError(inputValue)) return;
         this.setProps({password: inputValue});
-        (window as any).store.set({credentials: { login: this.props.login , password: inputValue  }});
+        (window as any).store.set({ credentials: { login: this.props.login , password: inputValue }});
     }
 
     isPasswordError(value: string):boolean {
         if(validation.password(value)) {
             if (this.props.error || this.props.error_text) {
-                this.children.inputPassword?.setProps({ error: false, error_text: null });
+                this.children.inputPassword?.children.validation_error?.setProps({ error_text: null });
             }
             return false;
         } else {
-            this.children.inputPassword?.setProps({error: true, error_text: 'Пароль не соответствует требованиям'});
+            this.children.inputPassword?.children.validation_error?.setProps({ error_text: 'Пароль не соответствует требованиям' });
             return true;
         }
     }
 
     onClickSend(event?: Event) {
-        let login_str = '';
-        let password_str ='';
-        if (event) { /**Срабатывает при нажатии на Enter */
-            event.preventDefault();
-            login_str = (document.getElementsByName('login')[0] as HTMLInputElement).value;;
-            password_str = (document.getElementsByName('password')[0] as HTMLInputElement).value;
-        } else { /**Срабатывает при нажатии на Button */
-            login_str = this.props.login;
-            password_str = this.props.password;
-        }
+        event?.preventDefault();
+        let login_str = (document.getElementsByName('login')[0] as HTMLInputElement).value;
+        let password_str = (document.getElementsByName('password')[0] as HTMLInputElement).value;
+
+        let result = [
+            this.isLoginError(login_str),
+            this.isPasswordError(password_str),
+        ]
         
-        if (this.isPasswordError(password_str) || this.isLoginError(login_str)) return;
+        if (result.some(res => res === true)) return;
         
         login({login: login_str, password: password_str});
     }

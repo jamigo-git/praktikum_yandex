@@ -24,7 +24,7 @@ class RegistrationPage extends Block {
         const inputEmail = new Input({ placeholder:"Почта", class:"reg_form_input", name:"email", onBlur: onChangeEmailBind });
         const inputPhone = new Input({ placeholder:"Телефон", class:"reg_form_input", name:"phone", onBlur: onChangePhoneBind });
         const inputPassword = new Input({ placeholder:"Пароль", class:"reg_form_input", name:"password", type: "password", onBlur: onChangePasswordBind });
-        const inputRepeatPassword = new Input({ placeholder:"Повторите пароль", class:"reg_form_input", name:"password", type: "password", onBlur: onChangeRepeatPassword_bind });
+        const inputRepeatPassword = new Input({ placeholder:"Повторите пароль", class:"reg_form_input", name:"repeatPassword", type: "password", onBlur: onChangeRepeatPassword_bind });
         const buttonEnter = new Button({ label:"Зарегистрироваться", type:"primary", onClick: onRegistrationBind });
         const buttonRegistration = new Button({ label:"Назад", type:"secondary", onClick: onBackClickBind });
 
@@ -50,10 +50,10 @@ class RegistrationPage extends Block {
 
     isFirstNameError(value: string): boolean {
         if(validation.name(value)) {
-            this.children.inputName.setProps({error: false, error_text: null});
+            this.children.inputName.children.validation_error?.setProps({ error_text: null });
             return false;
         } else {
-            this.children.inputName.setProps({error: true, error_text: 'Имя не соответствует требованиям'});
+            this.children.inputName.children.validation_error?.setProps({ error_text: 'Имя не соответствует требованиям'});
             return true;
         }
     }
@@ -66,10 +66,10 @@ class RegistrationPage extends Block {
 
     isSecondNameError(value: string): boolean {
         if(validation.name(value)) {
-            this.children.inputLastName.setProps({error: false, error_text: null});
+            this.children.inputLastName.children.validation_error?.setProps({ error_text: null});
             return false;
         } else {
-            this.children.inputLastName.setProps({error: true, error_text: 'Фамилия не соответствует требованиям'});
+            this.children.inputLastName.children.validation_error?.setProps({ error_text: 'Фамилия не соответствует требованиям'});
             return true;
         }
     }
@@ -82,10 +82,10 @@ class RegistrationPage extends Block {
 
     isLoginError(value: string): boolean {
         if(validation.login(value)) {
-            this.children.inputLogin.setProps({error: false, error_text: null});
+            this.children.inputLogin.children.validation_error?.setProps({ error_text: null });
             return false;
         } else {
-            this.children.inputLogin.setProps({error: true, error_text: 'Логин не соответствует требованиям'});
+            this.children.inputLogin.children.validation_error?.setProps({ error_text: 'Логин не соответствует требованиям' });
             return true;
         }
     }
@@ -98,10 +98,10 @@ class RegistrationPage extends Block {
 
     isEmailError(value: string): boolean {
         if(validation.email(value)) {;
-            this.children.inputEmail.setProps({error: false, error_text: null});
+            this.children.inputEmail.children.validation_error?.setProps({ error_text: null });
             return false;
         } else {
-            this.children.inputEmail.setProps({error: true, error_text: 'Email не соответствует требованиям'});
+            this.children.inputEmail.children.validation_error?.setProps({ error_text: 'Email не соответствует требованиям' });
             return true;
         }
     }
@@ -114,10 +114,10 @@ class RegistrationPage extends Block {
 
     isPhoneError(value: string): boolean {
         if(validation.phone(value)) {
-            this.children.inputPhone.setProps({error: false, error_text: null});
+            this.children.inputPhone.children.validation_error?.setProps({ error_text: null });
             return false;
         } else {
-            this.children.inputPhone.setProps({error: true, error_text: 'Телефон не соответствует требованиям'});
+            this.children.inputPhone.children.validation_error?.setProps({ error_text: 'Телефон не соответствует требованиям' });
             return true;
         }
     }
@@ -130,10 +130,10 @@ class RegistrationPage extends Block {
 
     isPasswordError(value: string): boolean {
         if(validation.password(value)) {
-            this.children.inputPassword.setProps({error: false, error_text: null});
+            this.children.inputPassword.children.validation_error?.setProps({ error_text: null });
             return false;
         } else {
-            this.children.inputPassword.setProps({error: true, error_text: 'Пароль не соответствует требованиям'});
+            this.children.inputPassword.children.validation_error?.setProps({ error_text: 'Пароль не соответствует требованиям' });
             return true;
         }
     }
@@ -146,36 +146,28 @@ class RegistrationPage extends Block {
 
     isRepeatPasswordError(value: string): boolean {
         if(validation.password(value)) {
-            this.children.inputRepeatPassword.setProps({error: false, error_text: null});
+            this.children.inputRepeatPassword.children.validation_error?.setProps({ error_text: null });
             return false;
         } else {
-            this.children.inputRepeatPassword.setProps({error: true, error_text: 'Пароль не соответствует требованиям'});
+            this.children.inputRepeatPassword.children.validation_error?.setProps({ error_text: 'Пароль не соответствует требованиям' });
             return true;
         }
     }
 
     onRegistration(event: Event) {
-        if (this.isFirstNameError(this.props.first_name)
-            || this.isSecondNameError(this.props.second_name)
-            || this.isLoginError(this.props.login)
-            || this.isPasswordError(this.props.newPassword)
-            || this.isRepeatPasswordError(this.props.repeatPassword)
-            || this.isPhoneError(this.props.phone)
-            || this.isEmailError(this.props.email)) {
-
-            return;
-        }
-        console.log({
-            first_name: this.props.first_name,
-            second_name: this.props.second_name,
-            login: this.props.login,
-            email: this.props.email,
-            phone: this.props.phone,
-            newPassword: this.props.newPassword,
-            repeatPassword: this.props.repeatPassword,
-        });
-
         event.preventDefault();
+        let result = 
+            [
+                this.isFirstNameError((document.getElementsByName('first_name')[0] as HTMLInputElement)?.value),
+                this.isSecondNameError((document.getElementsByName('second_name')[0] as HTMLInputElement)?.value),
+                this.isLoginError((document.getElementsByName('login')[0] as HTMLInputElement)?.value),
+                this.isEmailError((document.getElementsByName('email')[0] as HTMLInputElement)?.value),
+                this.isPhoneError((document.getElementsByName('phone')[0] as HTMLInputElement)?.value),
+                this.isPasswordError((document.getElementsByName('password')[0] as HTMLInputElement)?.value),
+                this.isRepeatPasswordError((document.getElementsByName('repeatPassword')[0] as HTMLInputElement)?.value),
+            ];
+        if (result.some(res => res === true)) return;
+
         registration({
             first_name: this.props.first_name,
             second_name: this.props.second_name,
@@ -214,8 +206,8 @@ class RegistrationPage extends Block {
                             {{{ buttonRegistration }}}
                         </div>
                     </Form>
-                    {{#if loginError}}
-                        <div class="api_error"> {{registrationError}} <div>
+                    {{#if registrationError}}
+                        <div class="api_error"> {{ registrationError }} <div>
                     {{/if}}
                 {{/if}}
             </main>

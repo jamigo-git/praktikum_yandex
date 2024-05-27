@@ -28,7 +28,6 @@ export const login = async (model: LoginRequestData) => {
 
 /**Зарегистрировать пользователя */
 export const registration = async (model: SignUpRequest) => {
-    // (window as any).store.set({isLoading: true});
     try {
         const reg_result = await authApi.create(model);
         if (reg_result.status !== 200) {
@@ -37,12 +36,11 @@ export const registration = async (model: SignUpRequest) => {
         } else {
             (window as any).router.go('/messenger');
         }
+        (window as any).store.set({ registrationError: null });
         
     } catch (error) {
-        (window as any).store.set({loginError: 'registration error'});
-    } finally {
-        (window as any).store.set({isLoading: false});
-    }
+        (window as any).store.set({ registrationError: 'registration error' });
+    } 
 }
 
 /**Разлогиниться */
@@ -54,7 +52,6 @@ export const logout = async () => {
             console.error(`Status: ${logout.status}, Error: ${JSON.parse(logout.responseText)?.reason}`)
             throw new Error();
         } else {
-            setTimeout(() => {}, 2000);
             (window as any).router.go('/login')
         }
     } catch (error) {
@@ -122,3 +119,4 @@ export const checkAuth = async(): Promise<boolean> => {
     }
     return false;
 }
+
