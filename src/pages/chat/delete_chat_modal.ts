@@ -1,5 +1,5 @@
 import { connect } from "../../utils/connect";
-import Block, { Props } from "../../core/Block";
+import Block from "../../core/Block";
 import { FormWrapper, ModalWindow, Button } from "../../components";
 import { deleteChat } from "../../services/chat";
 

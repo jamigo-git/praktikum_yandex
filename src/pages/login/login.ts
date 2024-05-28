@@ -44,3 +44,4 @@ const mapStateToProps = (store: any) => {
 }
 
 export default connect(mapStateToProps)(LoginPage);
+
