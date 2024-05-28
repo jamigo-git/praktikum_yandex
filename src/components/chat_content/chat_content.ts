@@ -73,15 +73,16 @@ class ChatContent extends Block {
     componentDidUpdate(oldProps: Props, newProps: Props): boolean {
         if (this.props.selectedChatId && oldProps.selectedChatId !== newProps.selectedChatId) {
             loadAllData();
-            const chat = (this.props.chats as ChatDTO[])?.find(f => f.id === this.props.selectedChatId);
-            
-            const avatar_img = chat?.avatar ? `${BASEURL}resources${chat.avatar}` : undefined;
-            this.children.avatar.setProps({ avatar: avatar_img });
+            this.updateChatAvatar();
         }
         /**Если пришло обновление по сообщениям обновим messageList */
         if (!isEqual(oldProps.selectedChatMessages, newProps.selectedChatMessages)) {
             this.children.messageList.setProps({ messages: this.mapMessageToComponent(newProps.selectedChatMessages) });
             setTimeout(this.setLastMessageVisible, 100);
+        }
+
+        if (!isEqual(oldProps.selectedChat, newProps.selectedChat) && newProps.selectedChat.avatar) {
+            this.updateChatAvatar();
         }
 
         return true;
@@ -98,6 +99,12 @@ class ChatContent extends Block {
 
     onAvatarClick() {
         (window as any).store.set({ showChatAvatarChangeModal: true });
+    }
+
+    updateChatAvatar() {
+        const chat = (this.props.chats as ChatDTO[])?.find(f => f.id === this.props.selectedChatId);
+        const avatar_img = chat?.avatar ? `${BASEURL}resources${chat.avatar}` : undefined;
+        this.children.avatar.setProps({ avatar: avatar_img });
     }
 
     render(): string {

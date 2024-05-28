@@ -385,16 +385,15 @@ export const onChangeChatAvatar = (event: any) => {
     (window as any).store.set({ newChatAvatarFile: formData });
 }
 
-
 /**Событие на отправку аватара */
 export const onSubmitChatAvatar = async () => {
     let file: FormData = (window as any).store.state.newChatAvatarFile;
-    let chatId: number = (window as any).store.state.selectedChat?.chatId;
+    let selectedChat = Object.assign({}, (window as any).store.state.selectedChat);
+    let chatId: number = selectedChat?.chatId;
     file.append('chatId', String(chatId));
     if (!file) return
     try {
         let chat_info: ChatDTO;
-        debugger
         const response = await chatApi.avatarChange(file);
         if (response.status !== 200) {
             console.error(`Status: ${response.status}, Error: ${JSON.parse(response.responseText)?.reason}`)
@@ -404,8 +403,8 @@ export const onSubmitChatAvatar = async () => {
             let chats = Array.from((window as any).store.state.chats as ChatDTO[]);
             let chat_index = chats.findIndex(f => f.id === chatId);
             chats[chat_index] = chat_info;
-
-            (window as any).store.set({ chats: chats, showChangeChatAvatarModal: false });
+            selectedChat.avatar = chat_info.avatar;
+            (window as any).store.set({ chats: chats, showChatAvatarChangeModal: false, selectedChat: selectedChat });
 
 
             window.alert('Поздравляем, аватар чата успешно обновлен!');
