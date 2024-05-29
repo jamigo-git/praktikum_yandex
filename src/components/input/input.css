@@ -15,6 +15,8 @@
     border: 0!important;
 }
 
+.input_user_login,
+.input_chat_name,
 .reg_form_input,
 .login_form_input {
     width: 17rem;
@@ -30,6 +32,7 @@
 }
 
 .pass_edit_input,
+.pass_edit_input,
 .profile_edit_input {
     flex-direction: row;
 }
@@ -41,7 +44,7 @@
     flex-direction: row-reverse;
     justify-content: space-between;
     width: 40rem;
-    margin: 1rem;
+    margin: .3rem;
 }
 
 .input_container:has(.pass_edit_input) {
@@ -86,8 +89,9 @@
     text-align: left;
 }
 
-.input_error .input_validation_error {
+.input_validation_error {
     display: flex;
+    position: absolute;
 }
   
 .input_container.input_error .input_element {
@@ -108,14 +112,15 @@
 
 .form.profile_edit_form .input_error .input_validation_error,
 .chat_content_footer .input_validation_error,
-form.reg_form .input_error .input_validation_error {
+form.reg_form .input_validation_error {
     position: absolute;
 }
 
-form.profile_edit_form .input_error .input_validation_error {
+form.profile_edit_form .input_validation_error {
     transform: translateY(30px);
 }
 
 .chat_content_footer .input_validation_error {
     transform: translateY(0px);
 }
+

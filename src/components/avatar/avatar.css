@@ -26,3 +26,7 @@
     font-size: 16px;
     font-weight: 700;
 }
+
+.chat_content_header .avatar__container {
+    cursor: pointer;
+}

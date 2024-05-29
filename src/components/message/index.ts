@@ -1,3 +1,3 @@
 import "./message.css";
 
-export { default as Message } from './message.ts';
+export { default as ChatMessage } from './message.ts';

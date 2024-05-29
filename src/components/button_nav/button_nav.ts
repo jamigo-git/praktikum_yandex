@@ -1,4 +1,3 @@
-import "./button_nav.css";
 import Block from "../../core/Block";
 
 export default class ButtonNav extends Block {
@@ -13,8 +12,8 @@ export default class ButtonNav extends Block {
 
     render(): string {
         return `
-            <div class="button_round {{class}}">
-                <a href="#" page="nav" class="button_icon"></a>
+            <div class="button_round {{class}}" {{#if btn_type }} type="{{ btn_type }}" {{/if}}>
+                <a class="button_icon"></a>
             </div>        
         `;
     }

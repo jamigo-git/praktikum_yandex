@@ -1,9 +1,9 @@
-import Block from "../../core/Block";
+import Block, { Props } from "../../core/Block";
 import Input from "./input";
 import ValidationError from "./validation_error";
 
 export default class InputElement extends Block {
-    constructor(props: any) {
+    constructor(props: Props) {
         super({
             ...props,
             input: new Input({
@@ -11,22 +11,23 @@ export default class InputElement extends Block {
                 name: props.name,
                 type: props.type,
                 placeholder: props.placeholder,
+                value: props.value,
+                id: props.id,
                 events: {
-                    blur: props.onBlur || (() => {}) 
+                    blur: props.onBlur || (() => {}),
+                    change: props.onChange || (() => {})
                 }
             }),
             validation_error: new ValidationError({
-                error: props.error_text
+                error_text: props.error_text
             })
         });
     }
 
-    componentDidUpdate(old_props: any, new_props: any): boolean {
+    componentDidUpdate(old_props: Props, new_props: Props): boolean {
         if(old_props === new_props) {
             return false;
         }
-
-        this.children.validation_error.setProps(new_props);
         return true;
     }
 

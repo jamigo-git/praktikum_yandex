@@ -4,7 +4,12 @@ import type { Props } from "../../core/Block";
 
 export default class Avatar extends Block {
     constructor(props: Props) {
-        super(props);
+        super({
+            ...props,
+            events: {
+                click: props.onClick
+            }
+        });
     }
 
     render(): string {
@@ -12,15 +17,15 @@ export default class Avatar extends Block {
         <div class="avatar__container">
             <div>
                 {{#if avatar}}
-                    <img src="{{avatar}}" class="{{class}}" alt="user avatar">
+                    <img src="{{ avatar }}" class="{{ class }}" alt="user avatar">
                 {{else}}
-                    <img src="{{default_avatar}}" class="{{class}}" alt="user avatar">
+                    <img src="{{ default_avatar }}" class="{{ class }}" alt="user avatar">
                 {{/if}}
             </div>
 
-            {{#if label}}<div class="avatar_label">{{label}}</div>{{/if}}
+            {{#if label}}<div class="avatar_label">{{ label }}</div>{{/if}}
         </div>
 
-        `
+        `;
     }
 }

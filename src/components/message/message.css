@@ -1,7 +1,7 @@
 .message {
     display: flex;
     flex-direction: column;
-    max-width: 80%;
+    max-width: 60%;
     box-shadow: 0px 0px 20px 5px rgba(0,0,0,0.05);
     padding: 10px;
     border-radius: 12px;

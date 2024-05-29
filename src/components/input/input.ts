@@ -1,5 +1,6 @@
-import Block from "../../core/Block";
-import type { Props } from "../../core/Block";
+/**При добавлении пропсов не забудьте обновить input_element, 
+ * тк он является враппером input и по факту именно он используется в скриптах */
+import Block, { Props } from "../../core/Block";
 
 export default class Input extends Block {
     constructor(props: Props) {
@@ -9,10 +10,12 @@ export default class Input extends Block {
     render(): string {
         return `
             <input
-                class="input_element {{class}}"
-                placeholder="{{placeholder}}"
-                type="{{type}}"
-                name="{{name}}"
+                {{#if id}} id="{{ id }}" {{/if}}
+                class="input_element {{ class }}"
+                {{#if placeholder}} placeholder="{{ placeholder }}" {{/if}}
+                {{#if type}} type="{{ type }}" {{/if}}
+                name="{{ name }}"
+                {{#if value}} value="{{ value }}" {{/if}}
             />
         `;
     }
