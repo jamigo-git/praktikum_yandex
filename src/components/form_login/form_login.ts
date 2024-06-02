@@ -8,7 +8,7 @@ export default class FormLogin extends Block {
     init() {
         const onChangeLoginBind = this.onChangeLogin.bind(this);
         const onChangePassword_bind = this.onChangePassword.bind(this);
-        const onClickSend = this.onClickSend.bind(this);
+        const onClickSendBind = this.onClickSend.bind(this);
         const onRegistrationBind = this.onRegistration.bind(this);
 
         const inputLogin = new Input({ 
@@ -26,7 +26,7 @@ export default class FormLogin extends Block {
             onBlur: onChangePassword_bind, 
         });
 
-        const buttonEnter = new Button({ label:"Войти", type:"primary", onClick: onClickSend });
+        const buttonEnter = new Button({ label:"Войти", type:"primary", onClick: onClickSendBind });
         const buttonRegistration = new Button({ label:"Регистрация", type:"secondary", onClick: onRegistrationBind });
 
         this.children = {
@@ -78,14 +78,14 @@ export default class FormLogin extends Block {
         let login_str = (document.getElementsByName('login')[0] as HTMLInputElement).value;
         let password_str = (document.getElementsByName('password')[0] as HTMLInputElement).value;
 
-        let result = [
+        let is_error = [
             this.isLoginError(login_str),
             this.isPasswordError(password_str),
         ]
         
-        if (result.some(res => res === true)) return;
+        if (is_error.some(err => err === true)) return;
         
-        login({login: login_str, password: password_str});
+        login({ login: login_str, password: password_str });
     }
 
     componentDidUpdate(oldProps: Props, newProps: Props): boolean {

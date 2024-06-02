@@ -7,18 +7,28 @@
     "dev": "vite",
     "dist": "tsc && vite build",
     "preview": "vite preview",
-    "start": " vite build && node ./server.js "
+    "start": " vite build && node ./server.js ",
+    "test": "mocha"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
     "@stylelint/npm-package-json-lint-config": "^5.0.1",
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.13.0",
+    "@types/sinon": "^17.0.3",
+    "chai": "^5.1.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "globals": "^15.0.0",
     "handlebars": "^4.7.6",
+    "jsdom": "^24.1.0",
+    "mocha": "^10.4.0",
+    "sinon": "^18.0.0",
     "stylelint": "^16.4.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.8.0",
     "stylelint-order": "^6.0.4",
+    "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
     "typescript-eslint": "^7.7.1",
     "vite": "^5.2.0"
@@ -29,6 +39,6 @@
   },
   "engines": {
     "node": ">=20.0.0",
-    "npm": "~10.0.0"
+    "npm": ">=10.0.0"
   }
 }

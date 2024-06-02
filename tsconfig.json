@@ -30,5 +30,9 @@
     "esModuleInterop": true,
     "inlineSources": true
   },
+  "ts-node": {
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true
+  },
   "include": ["src", "server.js"]
 }

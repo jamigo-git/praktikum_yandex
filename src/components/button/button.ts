@@ -6,7 +6,11 @@ export default class Button extends Block {
         super({
             ...props,
             events: {
-                click: props.onClick
+                click: (e: Event) => {
+                    if(props.onClick) {
+                        props.onClick(e)
+                    }
+                }
             }
         });
     }
