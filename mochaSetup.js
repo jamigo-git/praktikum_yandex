@@ -1,12 +1,22 @@
-import {JSDOM} from 'jsdom'
+import { JSDOM } from "jsdom";
 import { Store } from "./src/core/Store";
+import sinon from "sinon";
 
-const jsdom = new JSDOM('<body></body>');
+// const virtualConsole = new JSDOM.VirtualConsole();
+// virtualConsole.sendTo(console, { omitJSDOMErrors: true });
 
-global.window = jsdom.window;
-global.document = jsdom.window.document;
-global.Node = jsdom.window.Node;
-global.MouseEvent = jsdom.window.MouseEvent;
+global.window = new JSDOM("", { 
+    url: "http://google.com",
+    referrer: "http://google.com",
+    includeNodeLocations: true
+}).window;
+
+global.document = global.window.document;
+global.history = global.window.history;
+global.location = global.window.location;
+global.Node = global.window.Node;
+global.MouseEvent = global.window.MouseEvent;
+global.FormData = global.window.FormData;
 
 global.window.store = new Store({
     isLoading: false,
@@ -15,7 +25,7 @@ global.window.store = new Store({
     chats: [],
     user: null,
     users: [],
-    newChatTitle: 'noname',
+    newChatTitle: "noname",
     selectedChatId: null,
     showCreateChatModal: null,
     showDeleteChatModal: null,
@@ -33,4 +43,4 @@ global.window.store = new Store({
         password: null
     }
 });
-  
+
