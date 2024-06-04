@@ -8,7 +8,8 @@
     "dist": "tsc && vite build",
     "preview": "vite preview",
     "start": " vite build && node ./server.js ",
-    "test": "mocha"
+    "test": "mocha",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
