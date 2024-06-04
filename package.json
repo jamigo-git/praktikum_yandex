@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "start": " vite build && node ./server.js ",
     "test": "mocha",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
@@ -23,7 +23,6 @@
     "eslint-config-airbnb": "^19.0.4",
     "globals": "^15.0.0",
     "handlebars": "^4.7.6",
-    "husky": "^9.0.11",
     "jsdom": "^24.1.0",
     "mocha": "^10.4.0",
     "sinon": "^18.0.0",
@@ -37,6 +36,7 @@
   },
   "dependencies": {
     "express": "^4.19.2",
+    "husky": "^8.0.3",
     "vite-plugin-handlebars": "^2.0.0"
   },
   "engines": {
