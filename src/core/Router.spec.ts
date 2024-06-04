@@ -62,5 +62,6 @@ describe('Проверяем Router', () => {
         clock.restore();
     });
  
-  }); 
+  })
+
   
