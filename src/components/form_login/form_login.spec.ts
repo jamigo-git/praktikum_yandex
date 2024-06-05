@@ -13,7 +13,7 @@ describe('FormLogin', () => {
         
         const btnSign = component!.querySelector('.button__primary');
         const event = new MouseEvent('click');
-        // if (btnSign) btnSign.dispatchEvent(event);
+        if (btnSign) btnSign.dispatchEvent(event);
 
         expect(spyOnClick.calledOnce).to.be.true;
 

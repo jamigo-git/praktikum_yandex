@@ -1,20 +1,7 @@
-import Handlebars from "handlebars";
-import * as Components from "./components";
 import * as Pages from "./pages";
-
 import Router from "./core/Router";
 import { Store } from "./core/Store";
 import { checkAuth } from "./services/auth";
-// import type { UserDTO, Messages } from "./api/type";
-
-export type { ChatItemData };
-
-type ChatItemData = {[x: string]: string | number | boolean};
-
-
-Object.entries(Components).forEach(([ name, component ]) => {
-  Handlebars.registerPartial(name, component as any);
-});
 
 const router = new Router('#app');
 (window as any).router = router;

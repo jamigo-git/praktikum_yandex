@@ -5,7 +5,7 @@ import sinon from "sinon";
 // const virtualConsole = new JSDOM.VirtualConsole();
 // virtualConsole.sendTo(console, { omitJSDOMErrors: true });
 
-global.window = new JSDOM("", { 
+global.window = new JSDOM("<!DOCTYPE html><div id='app'>Hello world</p>", { 
     url: "http://google.com",
     referrer: "http://google.com",
     includeNodeLocations: true

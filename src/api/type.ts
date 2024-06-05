@@ -121,3 +121,7 @@ export type SelectedChat = {
     users: number[]
     messages?: Message[]
 }
+
+export type ChatItemData = {
+    [x: string]: string | number | boolean
+}

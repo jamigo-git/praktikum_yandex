@@ -5,7 +5,6 @@ const authApi = new AuthApi();
 
 /**Авторизация */
 export const login = async (model: LoginRequestData) => {
-    // (window as any).store.set({isLoading: true});
     try {
         const login_result = await authApi.login(model);
         if (login_result.status !== 200) {

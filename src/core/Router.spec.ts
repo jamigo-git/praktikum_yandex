@@ -16,25 +16,33 @@ describe('Проверяем Router', () => {
         ['/messenger', Pages.ChatPage]
     ]);
 
-    router = new Router('#app');
-
-    pages_map.forEach((value, key) => {
-        router.use(key, value);
+    beforeEach(() => {
+        router = new Router('#app');
+    
+        pages_map.forEach((value, key) => {
+            router.use(key, value);
+        });
+    
+        router.use('*', Pages.Error404).start();
     });
-
-    router.use('*', Pages.Error404)
-            .start();
 
     it('Переход на новую страницу должен менять состояние сущности history', () => {
         router.go('/login');
         router.go('/settings');
+        /**Первая страница будет начальная */
         expect(window.history.length).to.eq(3);
     });
 
-    it.skip('Проверка работы страницы 404', () => {
+    it('Проверка работы страницы 404', () => {
+        const sandbox = sinon.createSandbox();
+        const clock = sandbox.useFakeTimers();
+        router.go('/login');
+        clock.tick(500);
         router.go('/no_page');
+        clock.tick(500);
         let label_404: HTMLLabelElement | null = document.querySelector('.error_code_label');
-        expect(label_404?.innerText).to.eq('404');
+        expect(label_404?.innerHTML).to.eq('404');
+        clock.restore();
     });
 
     describe ('Проверяем переходы по зарегистрированным страницам ', () => {
@@ -52,7 +60,6 @@ describe('Проверяем Router', () => {
     it('При вызове метода back в адресной строке должен быть предыдущий адрес', () => {
         const sandbox = sinon.createSandbox();
         const clock = sandbox.useFakeTimers();
-        clock.reset();
         router.go('/login');
         router.go('/settings');
         router.back();

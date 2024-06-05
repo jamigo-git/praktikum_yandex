@@ -1,41 +1,65 @@
 import { expect } from "chai";
 import LoginPage from "./"
-import Sinon from "sinon";
+import sinon from "sinon";
 
 describe('Login Page', () => {
-    // it.only('Check onClick call', () => {
-    //     const loginPage = new LoginPage({});
-    //     const component = loginPage.getContent()!;
-    //     const spyOnClick = Sinon.spy(component.children.formWrapper.children.formBody, 'onClickSend');
+    let loginPage = new LoginPage({});
 
-    //     const btnSign = component.querySelector('.button__primary');
-    //     btnSign.click();
-
-    //     expect(spyOnClick.calledOnce).to.be.true;
-
-    // });
-
-    // it('Show validation error', () => {
-    //     // const clock = Sinon.useFakeTimers();
-    //     const loginPage = new LoginPage({});
-    //     const component = loginPage.getContent()!;
-
-    //     const inputs: HTMLInputElement[] = component.querySelectorAll('input');
-    //     inputs.forEach(i => { i.value = 'te'; });
+    beforeEach(() => {
+        loginPage = new LoginPage({});
+    })
 
 
-    //     const btnSign = component.querySelector('.button__primary');
-    //     btnSign.click();
+    it.skip('Проверка вызова функции onClick при клике на кнопку Войти', () => {
+        const component = loginPage.getContent()!;
+        // const spyOnClick = Sinon.spy(loginPage.children.formWrapper.children.formBody, 'onClickSend');
+
+        const btnSign = component.querySelector('.button__primary');
+        btnSign.click();
+
+        const event = new MouseEvent('click');
+        btnSign.element?.dispatchEvent(event);
+        console.log()
+        // expect(spyOnClick.calledOnce).to.be.true;
+
+    });
+
+    it.skip('Show validation error', () => {
+        const sandbox = sinon.createSandbox();
+        const clock = sandbox.useFakeTimers();
         
-    //     // clock.next();
+        const component = loginPage.getContent()!;
 
-    //     const errorText = component.querySelector('.input_validation_error')?.innerHTML;
-    //     const errorTextAll = component.querySelectorAll('.input_validation_error');
-    //     console.log(errorTextAll.length)
+        const inputs: HTMLInputElement[] = component.querySelectorAll('input');
+        inputs.forEach(i => { i.value = 'te'; });
 
-    //     // console.log(component)
+        const btnSign = component.querySelector('.button__primary');
+        // btnSign.click();
 
-    //     expect(errorText).to.eql('Логин не соответствует требованиям');
-    // })
+        const event = new MouseEvent('click');
+        btnSign.element?.dispatchEvent(event);
+        clock.tick(500)
+        console.log(component.innerHTML)
+        const errorText = component.querySelector('.input_validation_error')?.innerHTML;
+        const errorTextAll = component.querySelectorAll('.input_validation_error');
+        console.log(errorTextAll.length)
 
+        // console.log(component)
+
+        expect(errorText).to.eql('Логин не соответствует требованиям');
+    })
+
+    it('При отсутствии ошибки по api loginError в Store компонент не отображает ее пользователю', () => {
+        (window as any).store.set({ loginError: undefined});
+        const component = loginPage.getContent()!;
+        const errorText = component.querySelector('.api_error')?.innerHTML;
+        expect(errorText).to.be.undefined;
+    });
+
+    it('При наличии ошибки по api loginError в Store компонент отображает ее пользователю', () => {
+        (window as any).store.set({ loginError: 'Login error'});
+        const component = loginPage.getContent()!;
+        const errorText = component.querySelector('.api_error')?.innerHTML;
+        expect(errorText).to.be.not.undefined;
+    });
 })

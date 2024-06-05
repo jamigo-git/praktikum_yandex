@@ -3,7 +3,7 @@ import  isEqual from "../../utils/isEqual";
 import { Input, ButtonNav, ButtonMenu, ChatList, ChatItem, Dropdown, DropdownItem, ChatContent} from "../../components";
 import Block, { Props }  from "../../core/Block";
 import { getChats, onCreateChatClick, onDeleteChatClick, onLogoutClick, onProfileClick, onChatClick } from "../../services/chat";
-import { ChatItemData } from "../../main.ts";
+import { ChatItemData } from "../../api/type.ts";
 import  CreateChatModal from "../../pages/chat/create_chat_modal.ts";
 import  DeleteChatModal from "../../pages/chat/delete_chat_modal.ts";
 import { BASEURL } from "../../utils/Constants.ts";
