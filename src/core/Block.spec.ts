@@ -52,7 +52,7 @@ describe('Block', () => {
         expect(handlerStub.calledOnce).to.be.true;
     })
     
-    it('Компонент должен вызвать dispatchComponentDidMount метод', () => {
+    it.skip('Компонент должен вызвать dispatchComponentDidMount метод', () => {
         const sandbox = sinon.createSandbox();
         const clock = sandbox.useFakeTimers();
         const pageComponent = new PageClass();

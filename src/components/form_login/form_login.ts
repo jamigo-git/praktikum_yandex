@@ -12,9 +12,7 @@ export default class FormLogin extends Block {
         const onRegistrationBind = this.onRegistration.bind(this);
 
         const inputLogin = new Input({  placeholder: "Логин", class: "login_form_input",  name: "login", onBlur: onChangeLoginBind, });
-
         const inputPassword = new Input({  placeholder: "Пароль",  class: "login_form_input", name: "password", type: "password",   onBlur: onChangePassword_bind,  });
-
         const buttonEnter = new Button({ label:"Войти", type:"primary", onClick: onClickSendBind });
         const buttonRegistration = new Button({ label:"Регистрация", type:"secondary", onClick: onRegistrationBind });
 
