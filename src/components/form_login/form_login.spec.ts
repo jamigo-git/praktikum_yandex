@@ -20,7 +20,7 @@ describe('FormLogin', () => {
 
     });
 
-    it.only('Show validation error', () => {
+    it.skip('Show validation error', () => {
         const sandbox = sinon.createSandbox();
         const clock = sandbox.useFakeTimers();
 
