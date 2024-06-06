@@ -32,7 +32,7 @@ export default class FormLogin extends Block {
     }
 
     isLoginError(value: string): boolean {
-        if(validation.login(value)) {
+        if(value && validation.login(value)) {
             this.children.inputLogin.children.validation_error?.setProps({ error_text: null });
             return false;
         } else {
@@ -49,7 +49,7 @@ export default class FormLogin extends Block {
     }
 
     isPasswordError(value: string):boolean {
-        if(validation.password(value)) {
+        if(value && validation.password(value)) {
             if (this.props.error || this.props.error_text) {
                 this.children.inputPassword?.children.validation_error?.setProps({ error_text: null });
             }
@@ -62,15 +62,17 @@ export default class FormLogin extends Block {
 
     onClickSend(event?: Event) {
         event?.preventDefault();
-        let login_str = (document.getElementsByName('login')[0] as HTMLInputElement).value;
-        let password_str = (document.getElementsByName('password')[0] as HTMLInputElement).value;
-
+        let login_str = (document.getElementsByName('login')[0] as HTMLInputElement)?.value;
+        let password_str = (document.getElementsByName('password')[0] as HTMLInputElement)?.value;
+        console.log('login_str', login_str)
+        console.log('password_str', password_str)
+        
         let is_error = [
             this.isLoginError(login_str),
             this.isPasswordError(password_str),
         ]
-        
         if (is_error.some(err => err === true)) return;
+        console.log('Ошибки ' + is_error)
         
         login({ login: login_str, password: password_str });
     }
