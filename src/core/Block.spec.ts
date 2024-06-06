@@ -46,9 +46,7 @@ describe('Block', () => {
 
     it('Компонент должен установить события на элемент', () => {
         const handlerStub = sinon.stub();
-        const pageComponent = new PageClass({events: {
-            click: handlerStub
-        }});
+        const pageComponent = new PageClass({ events: { click: handlerStub }});
         const event = new MouseEvent('click');
         pageComponent.element?.dispatchEvent(event);
         expect(handlerStub.calledOnce).to.be.true;

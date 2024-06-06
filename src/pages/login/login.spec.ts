@@ -24,7 +24,7 @@ describe('Login Page', () => {
 
     });
 
-    it.skip('Show validation error', () => {
+    it.skip('Проверка показа ошибки валидации', () => {
         const sandbox = sinon.createSandbox();
         const clock = sandbox.useFakeTimers();
         

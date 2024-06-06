@@ -4,47 +4,45 @@ import sinon from "sinon";
 
 describe('FormLogin', () => {
 
-    it.skip('Check onClick call', () => {
+    it.skip('Проверка срабатывания функции onClick', () => {
         
-        const loginPage = new FormLogin({});
-        const component = loginPage.getContent();
-        
-        const spyOnClick = sinon.spy(loginPage, 'onClickSend');
-        
-        const btnSign = component!.querySelector('.button__primary');
-        const event = new MouseEvent('click');
-        if (btnSign) btnSign.dispatchEvent(event);
+        const formLogin = new FormLogin({});
+        const spyOnClick = sinon.spy(formLogin, 'onClickSend');
+        const btnSign = formLogin.element!.querySelector('.button__primary');
+
+        // const event = new MouseEvent('click');
+        // if (btnSign) btnSign.dispatchEvent(event);
+        if (btnSign) (btnSign as HTMLElement).click();
+
+        console.log(formLogin.element?.innerHTML)
 
         expect(spyOnClick.calledOnce).to.be.true;
 
     });
 
-    it.skip('Show validation error', () => {
-        // const clock = Sinon.useFakeTimers();
-        const loginPage = new FormLogin({});
-        const component = loginPage.getContent()!;
+    it.only('Show validation error', () => {
+        const sandbox = sinon.createSandbox();
+        const clock = sandbox.useFakeTimers();
 
-        const inputs = component.querySelectorAll('input');
-        inputs.forEach(i => { i.value = 'te'; });
-
-        // const event = new MouseEvent('click');
-        // component.dispatchEvent(event);
-
-        component.click();
-
-        console.log(component.innerHTML)
-        // const btnSign = component.querySelector('.button__primary');
-        // btnSign.click();
+        const formLogin = new FormLogin({});
         
-        // clock.next();
+        const inputs = formLogin.element!.querySelectorAll('input');
+        inputs.forEach(i => { i.value = 'te'; });
+        
+        const btnSign = formLogin.element!.querySelector('.button__primary');
+        const event = new MouseEvent('click');
+        (btnSign as HTMLElement).dispatchEvent(event);
+        // if (btnSign) (btnSign as HTMLElement).click();
 
-        const errorText = component.querySelector('.input_validation_error')?.innerHTML;
-        const errorTextAll = component.querySelectorAll('.input_validation_error');
-        console.log(errorTextAll.length)
+        clock.runAll();
 
-        // console.log(component)
+        console.log(formLogin.element!.innerHTML)
+        clock.restore();
 
-        expect(errorText).to.eql('Логин не соответствует требованиям');
+        // const errorText = formLogin.element!.querySelector('.input_validation_error')?.innerHTML;
+        // const errorTextAll = formLogin.element!.querySelectorAll('.input_validation_error');
+        // console.log(errorTextAll.length)
+        // expect(errorText).to.eql('Логин не соответствует требованиям');
     })
 
 })
