@@ -25,7 +25,7 @@ class LoginPage extends Block {
                 <main class="container">
                     {{{ formWrapper }}}
                     {{#if loginError}}
-                        <div class="api_error"> {{ loginError }} <div>
+                        <div class="api-error"> {{ loginError }} <div>
                     {{/if}}
                 </main>
             </div>

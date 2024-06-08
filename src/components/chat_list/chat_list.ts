@@ -18,7 +18,7 @@ export default class ChatList extends Block {
                 {{#if ${showEmpty}}}
                     <h3> чатов нет </h3>
                 {{else}}
-                    <ul class="chat_list">
+                    <ul class="chat-list">
                         {{{ chats }}}
                     </ul>
                 {{/if}}

@@ -10,7 +10,7 @@ export default class ErrorPage extends Block {
     render(): string {
         return `
             <div class="container">
-                <label class="error_code_label" >{{error_code}}</label>
+                <label class="error-code-label" >{{error_code}}</label>
                 <label class="error_text" >{{error_text}}</div>
             </div>
         `;

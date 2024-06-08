@@ -2,17 +2,15 @@
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
-
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
+    color: rgb(255 255 255 / 87%);
     background-color: #242424;
-
     font-synthesis: none;
-    text-rendering: optimizeLegibility;
+    text-rendering: optimizelegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    --main-color: #000000;
+    --main-color: #000;
     --second-color: #e4edfd;
     --error-color: #ff2f2f;
     --text-color: #1e1e1e;
@@ -55,6 +53,7 @@ h1 {
     will-change: filter;
     transition: filter 300ms;
 }
+
 .logo:hover {
     filter: drop-shadow(0 0 2em #646cffaa);
 }
@@ -91,7 +90,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;
-        background-color: #ffffff;
+        background-color: #fff;
     }
 
     a:hover {
@@ -103,14 +102,14 @@ button:focus-visible {
     }
 }
 
-.api_error {
+.api-error {
     display: flex;
     justify-content: center;
     color: red;
     max-width: 500px;
 }
 
-.modal_window_container {
+.modal-window-container {
     position: fixed;
     left: 0;
     top: 0;

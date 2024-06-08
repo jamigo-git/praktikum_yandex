@@ -14,7 +14,7 @@ export default class Avatar extends Block {
 
     render(): string {
         return `
-        <div class="avatar__container">
+        <div class="avatar-container">
             <div>
                 {{#if avatar}}
                     <img src="{{ avatar }}" class="{{ class }}" alt="user avatar">
@@ -23,7 +23,7 @@ export default class Avatar extends Block {
                 {{/if}}
             </div>
 
-            {{#if label}}<div class="avatar_label">{{ label }}</div>{{/if}}
+            {{#if label}}<div class="avatar-label">{{ label }}</div>{{/if}}
         </div>
 
         `;

@@ -9,7 +9,7 @@ class CreateChatModal extends Block {
 
         const modalBody = new Input({ 
             placeholder: "Название чата", 
-            class: "input_chat_name", 
+            class: "input-chat-name", 
             name: "newChatName", 
             id: "newChatName"
         });
@@ -22,7 +22,7 @@ class CreateChatModal extends Block {
 
         const formWrapper = new FormWrapper({
             formBody: new ModalWindow({modalBody: modalBody, button: button, title: "Создать новый чат"}),
-            class: 'form_wrapper_modal',
+            class: 'form-wrapper-modal',
             onSubmit: (event: Event) => {
                 event.preventDefault();
                 window.store.set({ newChatName: (document.getElementById("newChatName") as HTMLInputElement)?.value })

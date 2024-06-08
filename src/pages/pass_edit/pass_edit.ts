@@ -14,7 +14,7 @@ class PassEditPage extends Block {
         const oldPassword = new Input({ 
             label:"Старый пароль", 
             placeholder:"·······", 
-            class:"pass_edit_input", 
+            class:"pass-edit-input", 
             name:"oldPassword", 
             type: "password", 
             onBlur: onChangePasswordBind 
@@ -23,7 +23,7 @@ class PassEditPage extends Block {
         const newPassword = new Input({ 
             label:"Новый пароль", 
             placeholder:"·······", 
-            class:"pass_edit_input", 
+            class:"pass-edit-input", 
             name:"newPassword", 
             type: "password", 
             onBlur: onChangePasswordBind 
@@ -32,7 +32,7 @@ class PassEditPage extends Block {
         const repeatPassword = new Input({ 
             label:"Повторите пароль", 
             placeholder:"·······", 
-            class:"pass_edit_input", 
+            class:"pass-edit-input", 
             name:"repeatPassword", 
             type: "password", 
             onBlur: onChangePasswordBind 
@@ -98,17 +98,17 @@ class PassEditPage extends Block {
 
     render(): string {
         return `
-            <main class="pass_edit_container">
+            <main class="pass-edit-container">
                 {{#if isLoading }}
                     <h2>SPINNER</h2>
                 {{ else }}
-                    <Form class="pass_edit_form">
-                        <div class="pass_edit_input_container">
+                    <Form class="pass-edit-form">
+                        <div class="pass-edit-input-container">
                             {{{ oldPassword }}}
                             {{{ newPassword }}}
                             {{{ repeatPassword }}}
                         </div>
-                        <div class="pass_edit_btn_container">
+                        <div class="pass-edit-btn-container">
                             {{{ buttonEnter }}}
                             {{{ buttonBack }}}
                         </div>

@@ -11,8 +11,8 @@ export default class FormLogin extends Block {
         const onClickSendBind = this.onClickSend.bind(this);
         const onRegistrationBind = this.onRegistration.bind(this);
 
-        const inputLogin = new Input({  placeholder: "Логин", class: "login_form_input",  name: "login", onBlur: onChangeLoginBind, });
-        const inputPassword = new Input({  placeholder: "Пароль",  class: "login_form_input", name: "password", type: "password",   onBlur: onChangePassword_bind,  });
+        const inputLogin = new Input({  placeholder: "Логин", class: "login-form-input",  name: "login", onBlur: onChangeLoginBind, });
+        const inputPassword = new Input({  placeholder: "Пароль",  class: "login-form-input", name: "password", type: "password",   onBlur: onChangePassword_bind,  });
         const buttonEnter = new Button({ label:"Войти", type:"primary", onClick: onClickSendBind });
         const buttonRegistration = new Button({ label:"Регистрация", type:"secondary", onClick: onRegistrationBind });
 
@@ -93,15 +93,15 @@ export default class FormLogin extends Block {
 
     render() {
         return `
-            <div class="login_form">
-                <div class="login_header">
+            <div class="login-form">
+                <div class="login-header">
                     <h2>Авторизация</h2>
                 </div>
-                <div class="login_input_container">
+                <div class="login-input-container">
                     {{{ inputLogin }}}
                     {{{ inputPassword }}}
                 </div>
-                <div class="btn_container">
+                <div class="btn-container">
                     {{{ buttonEnter }}}
                     {{{ buttonRegistration }}}
                 </div>

@@ -1,10 +1,10 @@
-.profile_edit_input_container {
+.profile-edit-input-container {
     display: flex;
     flex-direction: column;
     margin: 3rem;
 }
 
-.profile_edit_btn_container {
+.profile-edit-btn-container {
     width: 256px;
     margin-left: auto;
     margin-right: auto;

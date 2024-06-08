@@ -1,27 +1,27 @@
-.chat_item_label {
+.chat-item-label {
     font-size: 16px;
     font-weight: 700;
     grid-area: label;
     margin-left: 10px;
 }
 
-.chat_item .avatar__container {
+.chat-item .avatar-container {
     grid-area: avatar;
 }
 
-.chat_item_text {
+.chat-item-text {
     grid-area: chat_text;
     margin-left: 10px;
 }
 
-.chat_item_datetime {
+.chat-item-datetime {
     grid-area: datetime;
     font-size: 12px;
     text-align: center;
 }
 
 
-.chat_item_counter {
+.chat-item-counter {
     grid-area: counter;
     border: 1px solid black;
     border-radius: 50%;
@@ -36,14 +36,14 @@
     position: relative;
 }
 
-.chat_item_active .chat_item_counter {
+.chat-item-active .chat-item-counter {
     color: black;
     background-color: white;
     border: 1px solid white;
 
 }
 
-.chat_item {
+.chat-item {
     display: grid;
     grid-template-areas: 
         "avatar label datetime"
@@ -52,20 +52,20 @@
     text-align: left;
 }
 
-.chat_item:hover {
+.chat-item:hover {
     border: 1px solid lightgray;
     border-radius: 12px;
     padding: 5px;
     cursor: pointer;
 }
 
-.chat_item_active {
+.chat-item-active {
     border: 1px solid #454545;
     border-radius: 12px;
     background-color: #454545;
     color: white;
 }
 
-img.message_image {
+img.message-image {
     border-radius: 12px;
 }

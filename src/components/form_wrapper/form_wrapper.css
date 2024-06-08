@@ -1,10 +1,10 @@
-.form_wrapper_modal {
+.form-wrapper-modal {
     position: fixed;
     display: flex;
     width: 100%;
     height: 100%;
     justify-content: center;
     align-items: center;
-    background: rgba(0,0,0,.7);
+    background: rgb(0 0 0 / 70%);
     z-index: 100;
 }

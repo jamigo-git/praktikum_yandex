@@ -12,7 +12,7 @@ export default class ButtonNav extends Block {
 
     render(): string {
         return `
-            <div class="button_round {{class}}" {{#if btn_type }} type="{{ btn_type }}" {{/if}}>
+            <div class="button-round {{class}}" {{#if btn_type }} type="{{ btn_type }}" {{/if}}>
                 <a class="button_icon"></a>
             </div>        
         `;

@@ -11,7 +11,7 @@ class AddUserModal extends Block {
 
         const modalBody = new Input({ 
             placeholder: "Введите логин пользователя", 
-            class: "input_user_login", 
+            class: "input-user-login", 
             name: "addUserLogin", 
             id: "addUserLogin", 
             onBlur: onChangeNameBind 
@@ -25,7 +25,7 @@ class AddUserModal extends Block {
 
         const formWrapper = new FormWrapper({
             formBody: new ModalWindow({ modalBody: modalBody, button: button, title: "Добавить пользователя в чат" }),
-            class: "form_wrapper_modal",
+            class: "form-wrapper-modal",
             onSubmit: (event: Event) => {
                 event.preventDefault();
                 window.store.set({ addUserLogin: (document.getElementById("addUserLogin") as HTMLInputElement)?.value })

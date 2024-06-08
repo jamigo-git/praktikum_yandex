@@ -10,18 +10,18 @@ export default class SendMessage extends Block {
         const onClickSendBind = this.onClickSend.bind(this);
 
         /**Send message elements */
-        const buttonAdd = new ButtonNav({ class: "chat_footer_add" });
+        const buttonAdd = new ButtonNav({ class: "chat-footer-add" });
 
         const inputMessage = new Input({ 
             placeholder: "Сообщение", 
-            class: "chat_content_send_message", 
+            class: "chat-content-send-message", 
             name: "message", 
             id: "inputSendMessage",
             onBlur: onChangeMessageBind 
         });
 
         const buttonSubmit = new ButtonNav({ 
-            class: "chat_footer_send", 
+            class: "chat-footer-send", 
             onClick: onClickSendBind
         });
 
@@ -63,7 +63,7 @@ export default class SendMessage extends Block {
     render() {
         return `
             <div>
-                <footer class="chat_content_footer">
+                <footer class="chat-content-footer">
                     {{{ buttonAdd }}}
                     {{{ inputMessage }}}
                     {{{ buttonSubmit }}}

@@ -34,9 +34,9 @@ export default class InputElement extends Block {
 
     render(): string {
         return `
-            <div class="input_container {{#if error}}input_error{{/if}}">
+            <div class="input-container {{#if error}}input-error{{/if}}">
                 {{{ input }}}
-                <span class="input_label">{{ label }}</span>
+                <span class="input-label">{{ label }}</span>
                 {{{ validation_error }}}
             </div>
         `;

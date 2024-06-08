@@ -18,13 +18,13 @@ class RegistrationPage extends Block {
 
         const onRegistrationBind = this.onRegistration.bind(this);
         
-        const inputName = new Input({ placeholder:"Имя", class:"reg_form_input", name:"first_name", onBlur: onChangeFirstNameBind });
-        const inputLastName = new Input({ placeholder:"Фамилия", class:"reg_form_input", name:"second_name", onBlur: onChangeSecondNameBind });
-        const inputLogin = new Input({ placeholder:"Логин", class:"reg_form_input", name:"login", onBlur: onChangeLoginBind });
-        const inputEmail = new Input({ placeholder:"Почта", class:"reg_form_input", name:"email", onBlur: onChangeEmailBind });
-        const inputPhone = new Input({ placeholder:"Телефон", class:"reg_form_input", name:"phone", onBlur: onChangePhoneBind });
-        const inputPassword = new Input({ placeholder:"Пароль", class:"reg_form_input", name:"password", type: "password", onBlur: onChangePasswordBind });
-        const inputRepeatPassword = new Input({ placeholder:"Повторите пароль", class:"reg_form_input", name:"repeatPassword", type: "password", onBlur: onChangeRepeatPassword_bind });
+        const inputName = new Input({ placeholder:"Имя", class:"reg-form-input", name:"first_name", onBlur: onChangeFirstNameBind });
+        const inputLastName = new Input({ placeholder:"Фамилия", class:"reg-form-input", name:"second_name", onBlur: onChangeSecondNameBind });
+        const inputLogin = new Input({ placeholder:"Логин", class:"reg-form-input", name:"login", onBlur: onChangeLoginBind });
+        const inputEmail = new Input({ placeholder:"Почта", class:"reg-form-input", name:"email", onBlur: onChangeEmailBind });
+        const inputPhone = new Input({ placeholder:"Телефон", class:"reg-form-input", name:"phone", onBlur: onChangePhoneBind });
+        const inputPassword = new Input({ placeholder:"Пароль", class:"reg-form-input", name:"password", type: "password", onBlur: onChangePasswordBind });
+        const inputRepeatPassword = new Input({ placeholder:"Повторите пароль", class:"reg-form-input", name:"repeatPassword", type: "password", onBlur: onChangeRepeatPassword_bind });
         const buttonEnter = new Button({ label:"Зарегистрироваться", type:"primary", onClick: onRegistrationBind });
         const buttonRegistration = new Button({ label:"Назад", type:"secondary", onClick: onBackClickBind });
 
@@ -188,7 +188,7 @@ class RegistrationPage extends Block {
                 {{#if isLoading}}
                     <h2>SPINNER</h2>
                 {{else}}
-                    <Form class="reg_form">
+                    <Form class="reg-form">
                         <div class="reg_header">
                             <h2>Регистрация</h2>
                         </div>
@@ -201,13 +201,13 @@ class RegistrationPage extends Block {
                             {{{ inputPassword }}}
                             {{{ inputRepeatPassword }}}
                         </div>
-                        <div class="btn_container">
+                        <div class="btn-container">
                             {{{ buttonEnter }}}
                             {{{ buttonRegistration }}}
                         </div>
                     </Form>
                     {{#if registrationError}}
-                        <div class="api_error"> {{ registrationError }} <div>
+                        <div class="api-error"> {{ registrationError }} <div>
                     {{/if}}
                 {{/if}}
             </main>

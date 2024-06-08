@@ -34,7 +34,7 @@ class FormProfile extends Block {
 
         const avatar = new Avatar({ 
             label: user?.display_name, 
-            class:"avatar_profile", 
+            class:"avatar-profile", 
             avatar: avatar_url, 
             onClick: onAvatarClickBind 
         });
@@ -42,7 +42,7 @@ class FormProfile extends Block {
         const inputName = new Input({ 
             label:"Имя", 
             value: user?.first_name, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"first_name", 
             onBlur: onChangeFirstNameBind
         });
@@ -50,7 +50,7 @@ class FormProfile extends Block {
         const inputSecondName = new Input({ 
             label:"Фамилия", 
             value: user?.second_name, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"second_name", 
             onBlur: onChangeSecondNameBind  
         });
@@ -58,7 +58,7 @@ class FormProfile extends Block {
         const inputLogin = new Input({ 
             label:"Логин", 
             value: user?.login, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"login", 
             validation: onChangeLoginBind 
         });
@@ -66,7 +66,7 @@ class FormProfile extends Block {
         const inputEmail = new Input({ 
             label:"Почта", 
             value: user?.email, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"email", 
             onBlur: onChangeEmailBind 
         });
@@ -74,7 +74,7 @@ class FormProfile extends Block {
         const inputPhone = new Input({ 
             label: "Телефон", 
             value: user?.phone, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"phone", 
             onBlur: onChangePhoneBind 
         });
@@ -82,7 +82,7 @@ class FormProfile extends Block {
         const formStrChatName = new Input({ 
             label:"Имя в чате", 
             value: user?.display_name, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"display_name", 
             onBlur: onChangeDisplayNameBind 
         });
@@ -245,7 +245,7 @@ class FormProfile extends Block {
         return `
             <div class="form_profile">
                 {{{ avatar }}}
-                <div class="profile_edit_input_container">
+                <div class="profile-edit-input-container">
                     {{{ inputName }}}
                     {{{ inputSecondName }}}
                     {{{ inputLogin }}}
@@ -253,7 +253,7 @@ class FormProfile extends Block {
                     {{{ inputPhone }}}
                     {{{ formStrChatName }}}
                 </div>
-                <div class="profile_edit_btn_container">
+                <div class="profile-edit-btn-container">
                     {{{ buttonSave }}}
                     {{{ buttonExit }}}
                 </div>

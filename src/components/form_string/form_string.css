@@ -1,4 +1,4 @@
-.form_string__container {
+.form-string-container {
     display: flex;
     justify-content: space-between;
     width: 541px;
@@ -6,11 +6,11 @@
     border-bottom: 1px solid lightgray;
 }
 
-.form_string__label {
+.form-string-label {
     font-size: 14px;
 }
 
-.form_string__value {
+.form-string-value {
     font-size: 14px;
     color: gray;
 }

@@ -3,12 +3,12 @@
     justify-content: center;
 }
 
-.login_header {
+.login-header {
     display: flex;
     justify-content: center;
 }
 
-.btn_container {
+.btn-container {
     display: flex;
     flex-direction: column;
     margin-top: 40px;

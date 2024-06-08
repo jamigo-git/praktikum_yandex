@@ -19,8 +19,8 @@ class ChatContent extends Block {
         const onAvatarClickBind = onAvatarClick.bind(this);
 
         /**Children */
-        const avatar = new Avatar({ class:"avatar_chat_content_header", onClick: onAvatarClickBind });
-        const buttonChatSettings = new ButtonNav({ class: "chat_header_menu" });
+        const avatar = new Avatar({ class:"avatar-chat-content-header", onClick: onAvatarClickBind });
+        const buttonChatSettings = new ButtonNav({ class: "chat-header-menu" });
         
         /**Messages */
         const messages_from_store = window.store.state.selectedChat?.messages;
@@ -89,7 +89,7 @@ class ChatContent extends Block {
     }
 
     setLastMessageVisible() {
-        const element = document.querySelector('.message_current_user:last-child')
+        const element = document.querySelector('.message-current-user:last-child')
         element?.scrollIntoView(true);
     }
 
@@ -114,12 +114,12 @@ class ChatContent extends Block {
         const chatUsersLogins = (window.store.state.users as UserDTO[]).filter(f => chatUsersIds.some(q => q === f.id)).map(user => user.login).join(', ');
 
         return `
-        <div class="chat_content">
+        <div class="chat-content">
             {{#if selectedChatId }}
-                <header class="chat_content_header">
+                <header class="chat-content-header">
                     {{{ avatar }}}
-                    <div class="chat_content_header_label">${ chatTitle } (${chatUsersLogins})</div>
-                    {{!-- <div class="chat_content_settings"> Settings </div> --}}
+                    <div class="chat-content-header-label">${ chatTitle } (${chatUsersLogins})</div>
+                    {{!-- <div class="chat-content_settings"> Settings </div> --}}
                     <div class="dropdown">
                         {{{ buttonChatSettings }}}
                         {{{ dropdown }}}
@@ -130,13 +130,13 @@ class ChatContent extends Block {
                 </main>
                 {{{ formWrapper }}}
                 {{#if showAddUserModal }}
-                    <div class="modal_window_container"> {{{ addUserModal }}} </div>
+                    <div class="modal-window-container"> {{{ addUserModal }}} </div>
                 {{/if}}            
                 {{#if showDeleteUserModal }}
-                    <div class="modal_window_container"> {{{ deleteUserModal }}} </div>
+                    <div class="modal-window-container"> {{{ deleteUserModal }}} </div>
                 {{/if}}
                 {{#if showChatAvatarChangeModal }}
-                    <div class="modal_window_container"> {{{ avatarChangeModal }}} </div>
+                    <div class="modal-window-container"> {{{ avatarChangeModal }}} </div>
                 {{/if}}
             {{else}}
                 <h2>Выберите чат чтобы начать общение</h2>

@@ -52,8 +52,8 @@ class ProfilePage extends Block {
         const onLogoutClickBind = onLogoutClick.bind(this);
         const user = window.store.state.user;
         
-        const buttonBack = new ButtonNav({ class: "button_back", onClick: onBackClickBind });
-        const avatar = new Avatar({ label: user?.display_name, class: "avatar_profile", avatar: user?.avatar ? `${BASEURL}resources\\${user.avatar}` : undefined });
+        const buttonBack = new ButtonNav({ class: "button-back", onClick: onBackClickBind });
+        const avatar = new Avatar({ label: user?.display_name, class: "avatar-profile", avatar: user?.avatar ? `${BASEURL}resources\\${user.avatar}` : undefined });
         const formStrName = new FormString({ label:"Имя", value: user?.first_name });
         const formStrLastName = new FormString({ label:"Фамилия", value: user?.second_name });
         const formStrLogin = new FormString({ label:"Логин", value: user?.login });
@@ -92,7 +92,7 @@ class ProfilePage extends Block {
                     <h2>SPINNER</h2>
                 {{ else }}
                     {{{ buttonBack }}}
-                    <Form class="profile_form">
+                    <Form class="profile-form">
                         {{{ avatar }}}
                         <div class="fields_container">
                             {{{ formStrName }}}
@@ -102,7 +102,7 @@ class ProfilePage extends Block {
                             {{{ formStrPhone }}}
                             {{{ formStrChatName }}}
                         </div>
-                        <div class="btn_container">
+                        <div class="btn-container">
                             {{{ buttonEditData }}}
                             {{{ buttonEditPassword }}}
                             {{{ buttonExit }}}

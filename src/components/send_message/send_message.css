@@ -3,7 +3,7 @@
     justify-content: center;
 }
 
-.login_form {
+.login-form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -14,17 +14,17 @@
     border-radius: 12px;
 }   
 
-.login_header {
+.login-header {
     display: flex;
     justify-content: center;
 }
 
-.btn_container {
+.btn-container {
     display: flex;
     flex-direction: column;
 }
 
-.login_input_container {
+.login-input-container {
     display: flex;
     flex-direction: column;
     align-items: center;

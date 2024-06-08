@@ -12,7 +12,7 @@ class DeleteUserModal extends Block {
 
         const modalBody = new Input({ 
             placeholder: "Введите логин пользователя", 
-            class: "input_user_login", 
+            class: "input-user-login", 
             name: "deleteUserLogin", 
             id: "deleteUserLogin",
             onBlur: onChangeLoginBind 
@@ -31,7 +31,7 @@ class DeleteUserModal extends Block {
                 title: "Удалить пользователя из чата",
                 textBody: `Список пользователей в чате: ${this.getUsersLogins()}`
             }),
-            class: "form_wrapper_modal",
+            class: "form-wrapper-modal",
             onSubmit: (event: Event) => {
                 event.preventDefault();
                 window.store.set({ deleteUserLogin: (document.getElementById("deleteUserLogin") as HTMLInputElement)?.value });

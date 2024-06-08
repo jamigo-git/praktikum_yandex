@@ -1,11 +1,11 @@
-.chat_container {
+.chat-container {
     width: 1280px;
     height: 720px;
     flex-direction: row;
     display: flex;
 }
 
-.chat_item_conteiner {
+.chat-item-container {
     min-width: 430px;
     height: 720px;
     background-color: #FBFBFB;
@@ -13,7 +13,7 @@
     overflow: auto;
 }
 
-.chat_top_menu {
+.chat-top-menu {
     display: flex;
     width: 430px;
     justify-content: space-around;
