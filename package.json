@@ -53,7 +53,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm-run-all test lint-staged lint-css",
+      "pre-commit": "npm-run-all test eslint lint-css",
       "pre-push": "npm run other command",
       "...": "..."
     }
