@@ -35,12 +35,12 @@ export default class SendMessage extends Block {
 
     onChangeMessage(event: Event) {
         const input_value = (event.target as HTMLInputElement).value;
-        (window as any).store.set({lastMessage: input_value});
+        window.store.set({lastMessage: input_value});
     }
 
     onClickSend(event?: Event) {
         event?.preventDefault();
-        const input_value = (window as any).store.state.lastMessage;
+        const input_value = window.store.state.lastMessage;
         if(input_value) {
             this.children.inputMessage.setProps({error: false, error_text: null, is_submit: false });
             onSubmitMessage();

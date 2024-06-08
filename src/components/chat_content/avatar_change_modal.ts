@@ -17,7 +17,6 @@ class AvatarChangeModal extends Block {
         const button = new Button({ 
             label: "Сохранить", 
             type: "primary", 
-            // onClick: onSubmitBind
         });
         
 

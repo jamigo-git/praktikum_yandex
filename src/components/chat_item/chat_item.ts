@@ -1,9 +1,9 @@
-import Block from "../../core/Block";
+import Block, { Props } from "../../core/Block";
 import { Avatar } from "..";
 import { setActiveChat } from "../../services/chat";
 import { connect } from "../../utils/connect";
 class ChatItem extends Block {
-    constructor(props: any) {
+    constructor(props: Props) {
         super({
             ...props,
             avatar: new Avatar({ class:"chat_item_avatar", label:"", avatar: props?.avatar }),

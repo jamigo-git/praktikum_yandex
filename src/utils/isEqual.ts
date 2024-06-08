@@ -1,4 +1,4 @@
-type PlainObject<T = any> = {
+type PlainObject<T extends Object> = {
     [k in string]: T;
 };
 

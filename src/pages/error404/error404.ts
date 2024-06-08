@@ -19,7 +19,7 @@ class Error404 extends Block {
     }
 
     onBackClick() {
-        (window as any).router.back();
+        window.router.back();
     }
 
 

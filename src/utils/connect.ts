@@ -8,7 +8,7 @@ export function connect(mapStateToProps: Function, dispatch?: {key: any, handler
         static onChangeStoreCallback: () => void;
         
         constructor(props: Props) {
-          const store = (window as any).store;
+          const store = window.store;
           /**сохраняем начальное состояние*/
           let state = mapStateToProps(store?.getState() || {});
   
@@ -16,7 +16,7 @@ export function connect(mapStateToProps: Function, dispatch?: {key: any, handler
 
           const dispatchHandler = Object.create({});
           Object.entries(dispatch || {}).forEach(([key, handler]) => {
-            dispatchHandler[key] = (...args: any) => handler((window as any).store.set.bind((window as any).store), ...args);
+            dispatchHandler[key] = (...args: any) => handler(window.store.set.bind(window.store), ...args);
           });
 
           this.setProps({...dispatchHandler});
@@ -42,7 +42,7 @@ export function connect(mapStateToProps: Function, dispatch?: {key: any, handler
 
       componentWillUnmount() {
         super.componentWillUnmount();
-        (window as any).store.off(StoreEvents.Updated, this.onChangeStoreCallback);
+        window.store.off(StoreEvents.Updated, this.onChangeStoreCallback);
       }
     }
   }

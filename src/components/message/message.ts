@@ -7,7 +7,7 @@ export default class ChatMessage extends Block {
     }
 
     render(): string {
-        const currentUser = (window as any).store.state.user;
+        const currentUser = window.store.state.user;
         const messageClass = this.props.user_id === currentUser?.id ? "message_current_user" : "";
         return `
             <div id="{{ id }}" data-userid="{{ user_id }}" class="message ${messageClass}">

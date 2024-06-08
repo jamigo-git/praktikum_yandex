@@ -23,7 +23,7 @@ class ChatContent extends Block {
         const buttonChatSettings = new ButtonNav({ class: "chat_header_menu" });
         
         /**Messages */
-        const messages_from_store = (window as any).store.state.selectedChat?.messages;
+        const messages_from_store = window.store.state.selectedChat?.messages;
         const messages = this.mapMessageToComponent(messages_from_store);
         const messageList = messages ? new MessageList({ messages: messages }) : new MessageList({ });
 
@@ -34,7 +34,7 @@ class ChatContent extends Block {
                 event.preventDefault();
                 this.children.formWrapper.children.formBody.setProps({
                     is_submit: true,
-                    message: (event.target as any).elements.inputSendMessage.value
+                    message: (event.target as window).elements.inputSendMessage.value
                 });
             }
         });
@@ -89,7 +89,7 @@ class ChatContent extends Block {
     }
 
     setLastMessageVisible() {
-        let element = document.querySelector('.message_current_user:last-child')
+        const element = document.querySelector('.message_current_user:last-child')
         element?.scrollIntoView(true);
     }
 
@@ -98,7 +98,7 @@ class ChatContent extends Block {
     }
 
     onAvatarClick() {
-        (window as any).store.set({ showChatAvatarChangeModal: true });
+        window.store.set({ showChatAvatarChangeModal: true });
     }
 
     updateChatAvatar() {
@@ -110,8 +110,8 @@ class ChatContent extends Block {
     render(): string {
         const chat = (this.props.chats as ChatDTO[])?.find(f => f.id === this.props.selectedChatId);
         const chatTitle = chat?.title || 'Без названия';
-        const chatUsersIds: number[] = (window as any).store.state.selectedChat.users;
-        const chatUsersLogins = ((window as any).store.state.users as UserDTO[]).filter(f => chatUsersIds.some(q => q === f.id)).map(user => user.login).join(', ');
+        const chatUsersIds: number[] = window.store.state.selectedChat.users;
+        const chatUsersLogins = (window.store.state.users as UserDTO[]).filter(f => chatUsersIds.some(q => q === f.id)).map(user => user.login).join(', ');
 
         return `
         <div class="chat_content">
@@ -148,7 +148,7 @@ class ChatContent extends Block {
 
 
 /**Пропсы из store которые будут тригерить обновление */
-const mapStateToProps = (store: any) => {
+const mapStateToProps = (store: window) => {
     return {
         activeChatContent: store.activeChatContent,
         showAddUserModal: store.showAddUserModal,

@@ -24,8 +24,7 @@ describe('Block', () => {
                     <button>{{ text-button }}</button>
                 </div>`
             }
-        };
-
+        }
         PageClass = Page;
     });
 

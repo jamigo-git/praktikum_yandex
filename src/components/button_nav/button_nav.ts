@@ -1,7 +1,7 @@
-import Block from "../../core/Block";
+import Block, { Props } from "../../core/Block";
 
 export default class ButtonNav extends Block {
-    constructor(props: any) {
+    constructor(props: Props) {
         super({
             ...props,
             events: {

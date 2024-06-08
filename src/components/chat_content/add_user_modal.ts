@@ -28,7 +28,7 @@ class AddUserModal extends Block {
             class: "form_wrapper_modal",
             onSubmit: (event: Event) => {
                 event.preventDefault();
-                (window as any).store.set({ addUserLogin: (document.getElementById("addUserLogin") as HTMLInputElement)?.value })
+                window.store.set({ addUserLogin: (document.getElementById("addUserLogin") as HTMLInputElement)?.value })
                 addUserToChat();
             }
         });
@@ -41,9 +41,9 @@ class AddUserModal extends Block {
 
     onClickAddUser(event: Event) {
         event.preventDefault();
-        let inputValue = (document.getElementById("addUserLogin") as HTMLInputElement)?.value;
+        const inputValue = (document.getElementById("addUserLogin") as HTMLInputElement)?.value;
         if (inputValue) {
-            (window as any).store.set({ addUserLogin: inputValue });
+            window.store.set({ addUserLogin: inputValue });
             addUserToChat();
         }
     }
@@ -61,7 +61,7 @@ class AddUserModal extends Block {
 }
 
 /**Пропсы из store которые будут тригерить обновление */
-const mapStateToProps = (store: any) => {
+const mapStateToProps = (store: window) => {
     return {
         addUserError: store.addUserError
     }

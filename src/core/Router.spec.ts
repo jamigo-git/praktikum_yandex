@@ -7,7 +7,7 @@ describe('Проверяем Router', () => {
     let PageClass: typeof Block;
     let sandbox: sinon.SinonSandbox;
     let clock: sinon.SinonFakeTimers;
-    let router = new Router('#app');
+    const router = new Router('#app');
 
     beforeEach(() => {
         sandbox = sinon.createSandbox();
@@ -24,7 +24,7 @@ describe('Проверяем Router', () => {
                     <span id="test"></span>
                 </div>`
             }
-        };
+        }
 
         PageClass = Page;
     });
@@ -47,7 +47,7 @@ describe('Проверяем Router', () => {
         router.go('/test2');
         router.back();
         clock.tick(500);
-        let pathname = window.location.pathname;
+        const pathname = window.location.pathname;
         expect(pathname).to.eq('/test1');
     });
 })

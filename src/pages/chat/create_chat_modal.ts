@@ -25,7 +25,7 @@ class CreateChatModal extends Block {
             class: 'form_wrapper_modal',
             onSubmit: (event: Event) => {
                 event.preventDefault();
-                (window as any).store.set({ newChatName: (document.getElementById("newChatName") as HTMLInputElement)?.value })
+                window.store.set({ newChatName: (document.getElementById("newChatName") as HTMLInputElement)?.value })
                 createChat();
             }
         });
@@ -38,9 +38,9 @@ class CreateChatModal extends Block {
 
     onClickCreate(event: Event) {
         event.preventDefault();
-        let inputValue = (document.getElementById("newChatName") as HTMLInputElement)?.value;
+        const inputValue = (document.getElementById("newChatName") as HTMLInputElement)?.value;
         if (inputValue) {
-            (window as any).store.set({ newChatName: inputValue });
+            window.store.set({ newChatName: inputValue });
             createChat();
         }
     }

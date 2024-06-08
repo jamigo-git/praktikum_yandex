@@ -29,7 +29,7 @@ class FormProfile extends Block {
         const onLogoutClickBind = onLogoutClick.bind(this);
         const onSaveClickBind = this.onSaveClick.bind(this);
 
-        const user = (window as any).store.state.user;
+        const user = window.store.state.user;
         const avatar_url = user?.avatar ? `${BASEURL}resources${user.avatar}` : '';
 
         const avatar = new Avatar({ 
@@ -114,7 +114,7 @@ class FormProfile extends Block {
     /**Запус загрузки данных пользователя после отрисовки компонента в DOM */
     componentDidMount(oldProps: Props): void {
         oldProps;
-        if (!(window as any).store.state.user) getUserInfo();
+        if (!window.store.state.user) getUserInfo();
     }
 
     /**Обновление */
@@ -123,7 +123,7 @@ class FormProfile extends Block {
             this.Save();
         }
         if(!isEqual(oldProps.user, newProps.user)) {
-            const user = (window as any).store.state.user;
+            const user = window.store.state.user;
             const avatar_url = user?.avatar ? `${BASEURL}resources${user.avatar}` : '';
             if (avatar_url) {
                 this.children.avatar.setProps({label: user?.display_name, avatar: avatar_url});
@@ -224,7 +224,7 @@ class FormProfile extends Block {
     }
 
     Save() {
-        let result = [
+        const result = [
             this.isFirstNameError((document.getElementsByName('first_name')[0] as HTMLInputElement)?.value),
             this.isSecondNameError((document.getElementsByName('second_name')[0] as HTMLInputElement)?.value),
             this.isLoginError((document.getElementsByName('login')[0] as HTMLInputElement)?.value),

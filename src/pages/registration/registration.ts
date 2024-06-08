@@ -97,7 +97,7 @@ class RegistrationPage extends Block {
     }
 
     isEmailError(value: string): boolean {
-        if(validation.email(value)) {;
+        if(validation.email(value)) {
             this.children.inputEmail.children.validation_error?.setProps({ error_text: null });
             return false;
         } else {
@@ -156,7 +156,7 @@ class RegistrationPage extends Block {
 
     onRegistration(event: Event) {
         event.preventDefault();
-        let result = 
+        const result = 
             [
                 this.isFirstNameError((document.getElementsByName('first_name')[0] as HTMLInputElement)?.value),
                 this.isSecondNameError((document.getElementsByName('second_name')[0] as HTMLInputElement)?.value),
@@ -179,7 +179,7 @@ class RegistrationPage extends Block {
     }
 
     onBackClick() {
-        (window as any).router.go('/login');
+        window.router.go('/login');
     }
 
     render(): string {

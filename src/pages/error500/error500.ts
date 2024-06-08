@@ -18,7 +18,7 @@ export default class Error500 extends Block {
     }
 
     onBackClick() {
-        (window as any).router.back();
+        window.router.back();
     }
 
     render(): string {

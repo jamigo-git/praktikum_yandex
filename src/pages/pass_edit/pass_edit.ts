@@ -61,7 +61,7 @@ class PassEditPage extends Block {
     }
 
     onBackClick() {
-        (window as any).router.go('/settings');
+        window.router.go('/settings');
     }
 
     onChangePassword(event: Event) {

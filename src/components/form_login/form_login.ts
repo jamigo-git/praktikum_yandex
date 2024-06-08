@@ -28,7 +28,7 @@ export default class FormLogin extends Block {
     onChangeLogin(event: Event) {
         const inputValue = (event.target as HTMLInputElement).value;
         if (this.isLoginError(inputValue)) return;
-        (window as any).store.set({credentials: { login: inputValue, password: this.props.password }});
+        window.store.set({credentials: { login: inputValue, password: this.props.password }});
     }
 
     isLoginError(value: string): boolean {
@@ -45,7 +45,7 @@ export default class FormLogin extends Block {
         const inputValue = (event.target as HTMLInputElement).value;
         if (this.isPasswordError(inputValue)) return;
         this.setProps({password: inputValue});
-        (window as any).store.set({ credentials: { login: this.props.login , password: inputValue }});
+        window.store.set({ credentials: { login: this.props.login , password: inputValue }});
     }
 
     isPasswordError(value: string):boolean {
@@ -62,12 +62,12 @@ export default class FormLogin extends Block {
 
     onClickSend(event?: Event) {
         event?.preventDefault();
-        let login_str = (document.getElementsByName('login')[0] as HTMLInputElement)?.value;
-        let password_str = (document.getElementsByName('password')[0] as HTMLInputElement)?.value;
+        const login_str = (document.getElementsByName('login')[0] as HTMLInputElement)?.value;
+        const password_str = (document.getElementsByName('password')[0] as HTMLInputElement)?.value;
         console.log('login_str', login_str)
         console.log('password_str', password_str)
         
-        let is_error = [
+        const is_error = [
             this.isLoginError(login_str),
             this.isPasswordError(password_str),
         ]
@@ -88,7 +88,7 @@ export default class FormLogin extends Block {
     }
 
     onRegistration() {
-        (window as any).router.go('/sign-up');
+        window.router.go('/sign-up');
     }
 
     render() {

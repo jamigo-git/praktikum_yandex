@@ -3,10 +3,27 @@ import Router from "./core/Router";
 import { Store } from "./core/Store";
 import { checkAuth } from "./services/auth";
 
-const router = new Router('#app');
-(window as any).router = router;
+interface WindowProperties {
+    location: Location;
+    history: History;
+    document: Document;
+    store: Store;
+    router: Router;
+    setTimeout: (callback: () => {}, ms: number) => number;
+    clearTimeout: (handle: number) => void;
+    setInterval: (callback: () => {}, ms: number) => number;
+    clearInterval: (handle: number) => void;
+  }
+  
+  declare global {
+    interface Window extends WindowProperties {}
+  }
 
-(window as any).store = new Store({
+
+const router = new Router('#app');
+window.router = router;
+
+window.store = new Store({
   isLoading: false,
   loginError: null,
   registrationError: null,
