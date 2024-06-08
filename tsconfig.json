@@ -34,11 +34,5 @@
         "experimentalSpecifierResolution": "node",
         "transpileOnly": true
     },
-    "include": [
-        "src", 
-        "server.js", 
-        "loader-css.js",
-        "loader-jpg.js"
-        // "mochaSetup.js", 
-    ]
+    "include": ["src", "server.js", "loader-css.js", "loader-jpg.js"]
 }
