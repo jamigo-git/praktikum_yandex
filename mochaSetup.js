@@ -1,9 +1,5 @@
 import { JSDOM } from "jsdom";
 import { Store } from "./src/core/Store";
-import sinon from "sinon";
-
-// const virtualConsole = new JSDOM.VirtualConsole();
-// virtualConsole.sendTo(console, { omitJSDOMErrors: true });
 
 global.window = new JSDOM("<!DOCTYPE html><div id='app'>Hello world</p>", { 
     url: "http://google.com",

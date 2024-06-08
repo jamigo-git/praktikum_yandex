@@ -57,5 +57,6 @@
       "pre-push": "npm run other command",
       "...": "..."
     }
-  }
+  },
+  "eslintIgnore": ["mochaSetup.js", "vite.config.ts", "dist/*/*.js", "server.js"]
 }
