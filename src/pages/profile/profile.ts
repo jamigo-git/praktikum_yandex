@@ -24,7 +24,7 @@ class ProfilePage extends Block {
     /**Обновление */
     componentDidUpdate(oldProps: Props, newProps: Props): boolean {
         if(!isEqual(oldProps.user, newProps.user)) {
-            const user = window.store.state.user;
+            const user = window.store.getState()?.user;
             
             this.children.formStrName.setProps({ value: user?.first_name });
             this.children.formStrLastName.setProps({ value: user?.second_name });
@@ -50,7 +50,7 @@ class ProfilePage extends Block {
         const onEditDataClickBind = onEditDataClick.bind(this);
         const onPassEditClickBind = onPassEditClick.bind(this);
         const onLogoutClickBind = onLogoutClick.bind(this);
-        const user = window.store.state.user;
+        const user = window.store.getState()?.user;
         
         const buttonBack = new ButtonNav({ class: "button-back", onClick: onBackClickBind });
         const avatar = new Avatar({ label: user?.display_name, class: "avatar-profile", avatar: user?.avatar ? `${BASEURL}resources\\${user.avatar}` : undefined });

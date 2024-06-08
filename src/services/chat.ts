@@ -28,7 +28,7 @@ export const getChats = async () => {
 
 /**Создание нового чата */
 export const createChat = async () => {
-    const name: string = window.store.state.newChatName;
+    const name = window.store.getState()?.newChatName;
     if (!name) return;
     try {
         const response = await chatApi.create({title: name});
@@ -47,11 +47,11 @@ export const createChat = async () => {
 
 /**Удаление выбранного чата */
 export const deleteChat = async () => {
-    const chatId = window.store.state.selectedChatId;
+    const chatId = window.store.getState()?.selectedChatId;
     if (!chatId) return;
     window.store.set({isLoading: true});
     try {
-        const response = await chatApi.delete({ chatId: chatId });
+        const response = await chatApi.delete({ chatId: String(chatId) });
         if (response.status !== 200) {
             throw new Error(`Error status ${response.status}`)
         } else {
@@ -79,7 +79,7 @@ export const onCreateChatClick = (event: Event) => {
 
 /**Клик на пункте дропдауна "Удалить чат" */
 export const onDeleteChatClick = (event: Event) => {
-    const chatId = window.store.state.selectedChatId;
+    const chatId = window.store.getState()?.selectedChatId;
     if (!chatId) return;
     event.preventDefault();
     window.store.set({ showDeleteChatModal: true });
@@ -105,7 +105,7 @@ export const onChatClick = (event: Event) => {
 
 /**Отправка сообщения из чата (WS возвращает сообщение с айдишником которые запишется автоматически) */
 export const onSubmitMessage = () => {
-    const lastMessage = window.store.state.lastMessage;
+    const lastMessage = window.store.getState()?.lastMessage;
     if (activeWS && lastMessage) activeWS.send({content: lastMessage, type: "message"});
     const inputSendMessage = document.getElementById("inputSendMessage") as HTMLInputElement;
     if (inputSendMessage?.value) {
@@ -129,7 +129,8 @@ export const onAvatarClick = (event?: Event) => {
 
 /**Функция вызывается при нажатии на клавишу Удалить (пользователя из чата) */
 export const onSubmitDeleteUser = async () => {
-    const deleteUserLogin: string = window.store.state.deleteUserLogin;
+    const deleteUserLogin = window.store.getState()?.deleteUserLogin;
+    if (!deleteUserLogin) return;
     const userId = await getUserId(deleteUserLogin);
     if (!userId) {
         window.alert('Пользователь не найден в системе');
@@ -138,8 +139,9 @@ export const onSubmitDeleteUser = async () => {
     try {
 
         /**Пользователи которые уже были добавлены в чат */
-        const currentChat = window.store.state.selectedChat;
-        const currentChatId: number = currentChat.chatId;
+        const currentChat = window.store.getState()?.selectedChat;
+        const currentChatId = currentChat?.chatId;
+        if (!currentChat || !currentChatId) return;
         let currentChatUsers: number[] = await getChatUsers();
 
         /**Если пользователя нет в чате кидаем ошибку */
@@ -192,7 +194,8 @@ export const onChangeUserLogin = async (event: Event) => {
 
 /**Функция вызывается при нажатии на клавишу Добавить (пользователя в чат) */
 export const addUserToChat = async () => {
-    const inputLoginUser = window.store.state.addUserLogin;
+    const inputLoginUser = window.store.getState()?.addUserLogin;
+    if (!inputLoginUser) return;
     const userId = await getUserId(inputLoginUser);
     if (!userId) {
         window.alert('Пользователь не найден в системе');
@@ -200,9 +203,10 @@ export const addUserToChat = async () => {
     }
 
     /**Пользователи которые уже были добавлены в чат */
-    const selectedChat = window.store.state.selectedChat;
-    const currentChatId: number = selectedChat.chatId;
-    const currentChatUsers: number[] = selectedChat.users ? Array.from(selectedChat.users) : [];
+    const selectedChat = window.store.getState()?.selectedChat;
+    const currentChatId = selectedChat?.chatId;
+    const currentChatUsers = selectedChat?.users ? Array.from(selectedChat.users) : [];
+    if (!selectedChat || !currentChatId) return;
     /**Если пользователь уже есть в чате просто выходим */
     if (currentChatUsers.some(f => f === userId)) {
         window.alert('Пользователь уже был добавлен в чат ранее');
@@ -236,14 +240,14 @@ export const addUserToChat = async () => {
 async function getUserId(userLogin: string): Promise<number | undefined> {
     try {
         if (!userLogin) return;
-        const usersFromStore: UserDTO[] = window.store.state.users;
+        let usersFromStore = window.store.getState()?.users;
         const userFromStore = usersFromStore?.find(f => f.login === userLogin);
         let userId = userFromStore?.id;
         if (!userFromStore) {
             /**Если пользователя нет в store нужно искать в БД */
             const userFromDb = await searchUser(userLogin);
             if (!userFromDb) throw new Error('Не удалось получить пользователя из ответа');
-            usersFromStore.push(userFromDb);
+            usersFromStore?.length ? usersFromStore.push(userFromDb) : usersFromStore = [userFromDb];
             userId = userFromDb?.id;
             /**Сохраняем пользователя в массив в store для будущих запросов по этому пользователю, 
              * мы используем только id, поэтому изменение его инфо для нас не важно */
@@ -270,8 +274,8 @@ const searchUser = async(login: string): Promise<UserDTO> => {
 
 /**Получить пользователей чата */
 const getChatUsers = async(): Promise<number[]> => {
-    const currentChatId: number = window.store.state.selectedChatId;
-
+    const currentChatId = window.store.getState()?.selectedChatId;
+    if (!currentChatId) throw new Error(`Не удалось получить id выбранного чата`);
     const response = await chatApi.getUsers(currentChatId);
     if (response.status !== 200) {
         console.error(response.status, response.responseText);
@@ -288,7 +292,7 @@ const getChatUsers = async(): Promise<number[]> => {
 
 /**Добавление информации о пользователи в массив пользователей */
 const addUserInfoToArr = (userInfo: UserDTO) => {
-    const users_arr: UserDTO[] = Array.from(window.store.state.users);
+    const users_arr: UserDTO[] = Array.from(window.store.getState()?.users || []);
     let userInUsers = users_arr?.length ? users_arr.find(f => f.id === userInfo.id) : undefined;
     if (userInUsers) {
         userInUsers = userInfo;
@@ -303,7 +307,8 @@ export const loadAllData = async() => {
     /**При открытии нового вебсокета закрываем старый */
     if (activeWS) activeWS.close();
     /**Инициализируем объект для стора */
-    const currentChatId: number = window.store.state.selectedChatId;
+    const currentChatId = window.store.getState()?.selectedChatId;
+    if (!currentChatId) return;
     const selectedChat: SelectedChat = {
         chatId: currentChatId,
         users: await getChatUsers(),
@@ -320,8 +325,9 @@ export const loadAllData = async() => {
 /**Получить токен для открытия WS соединения, открыть соединение */
 export const connectWS = async () => {
 
-    const currentChatId: number = window.store.state.selectedChatId;
-    const curren_userId: number = window.store.state?.user?.id;
+    const currentChatId: number | undefined = window.store.getState()?.selectedChatId;
+    const curren_userId: number | undefined = window.store.getState()?.user?.id;
+    if (!currentChatId || !curren_userId) return;
     try {
         const response = await chatApi.getToken(currentChatId);
         if (response.status !== 200) {
@@ -352,7 +358,7 @@ export const getOldMessages = async (data: getMessages): Promise<void | Message[
 
 /**Обработчик полученных сообщений */
 export const getNewMessages = (data: any) => {
-    const selectedChat = Object.assign(window.store.state.selectedChat);
+    const selectedChat: SelectedChat = Object.assign(window.store.getState()!.selectedChat) as SelectedChat;
     let messages: Message[] | undefined = selectedChat.messages ? Array.from(selectedChat.messages) : [];
     if (Array.isArray(data)) {
         if (messages.length) {
@@ -387,9 +393,10 @@ export const onChangeChatAvatar = (event: any) => {
 
 /**Событие на отправку аватара */
 export const onSubmitChatAvatar = async () => {
-    const file: FormData = window.store.state.newChatAvatarFile;
-    const selectedChat = Object.assign({}, window.store.state.selectedChat);
-    const chatId: number = selectedChat?.chatId;
+    const file = window.store.getState()?.newChatAvatarFile;
+    const selectedChat = Object.assign({}, window.store.getState()?.selectedChat);
+    const chatId = selectedChat?.chatId;
+    if (!file || !chatId) return;
     file.append('chatId', String(chatId));
     if (!file) return
     try {
@@ -400,10 +407,9 @@ export const onSubmitChatAvatar = async () => {
             throw new Error();
         } else {
             chat_info = JSON.parse(response.responseText);
-            const chats = Array.from(window.store.state.chats as ChatDTO[]);
+            const chats = Array.from(window.store.getState()?.chats as ChatDTO[]);
             const chat_index = chats.findIndex(f => f.id === chatId);
             chats[chat_index] = chat_info;
-            selectedChat.avatar = chat_info.avatar;
             window.store.set({ chats: chats, showChatAvatarChangeModal: false, selectedChat: selectedChat });
 
 

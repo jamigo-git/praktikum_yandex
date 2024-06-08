@@ -84,7 +84,7 @@ export const getUserInfo = async () => {
 
 /**Добавление информации о пользователи в массив пользователей */
 const addUserInfoToArr = (userInfo: UserDTO) => {
-    const users_arr: UserDTO[] = Array.from(window.store.state.users);
+    const users_arr: UserDTO[] = Array.from(window.store.getState()?.users || []);
     let user_in_users = users_arr?.length ? users_arr.find(f => f.id === userInfo.id) : undefined;
     if (user_in_users) {
         user_in_users = userInfo;

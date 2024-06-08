@@ -10,6 +10,7 @@ import isEqual from "../../utils/isEqual";
 import type { Message, UserDTO}  from "../../api/type"
 import { ChatMessage } from "../message";
 import { BASEURL } from "../../utils/Constants.ts";
+import { StoreType } from "src/main.ts";
 
 class ChatContent extends Block {
     init() {
@@ -23,7 +24,7 @@ class ChatContent extends Block {
         const buttonChatSettings = new ButtonNav({ class: "chat-header-menu" });
         
         /**Messages */
-        const messages_from_store = window.store.state.selectedChat?.messages;
+        const messages_from_store = window.store.getState()?.selectedChat?.messages;
         const messages = this.mapMessageToComponent(messages_from_store);
         const messageList = messages ? new MessageList({ messages: messages }) : new MessageList({ });
 
@@ -34,7 +35,7 @@ class ChatContent extends Block {
                 event.preventDefault();
                 this.children.formWrapper.children.formBody.setProps({
                     is_submit: true,
-                    message: (event.target as window).elements.inputSendMessage.value
+                    message: (event.target as any).elements.inputSendMessage.value
                 });
             }
         });
@@ -110,8 +111,8 @@ class ChatContent extends Block {
     render(): string {
         const chat = (this.props.chats as ChatDTO[])?.find(f => f.id === this.props.selectedChatId);
         const chatTitle = chat?.title || 'Без названия';
-        const chatUsersIds: number[] = window.store.state.selectedChat.users;
-        const chatUsersLogins = (window.store.state.users as UserDTO[]).filter(f => chatUsersIds.some(q => q === f.id)).map(user => user.login).join(', ');
+        const chatUsersIds: number[] | undefined = window.store.getState()?.selectedChat.users;
+        const chatUsersLogins = (window.store.getState()?.users as UserDTO[]).filter(f => chatUsersIds?.some(q => q === f.id)).map(user => user.login).join(', ');
 
         return `
         <div class="chat-content">
@@ -148,7 +149,7 @@ class ChatContent extends Block {
 
 
 /**Пропсы из store которые будут тригерить обновление */
-const mapStateToProps = (store: window) => {
+const mapStateToProps = (store: StoreType) => {
     return {
         activeChatContent: store.activeChatContent,
         showAddUserModal: store.showAddUserModal,

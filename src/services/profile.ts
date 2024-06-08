@@ -49,7 +49,6 @@ export const onBackClick = (event: Event) => {
     window.router.go('/settings');
 }
 
-
 /**Переход назад к чатам */
 export const onAvatarClick = (event: Event) => {
     event.preventDefault();
@@ -59,21 +58,17 @@ export const onAvatarClick = (event: Event) => {
     setTimeout(onShowModal, 1000);
 }
 
-
 /**Переход на страницу редактирования профиля */
 export const onEditDataClick = (event: Event) => {
     event.preventDefault();
     window.router.go('/settings_edit');
 }
 
-
 /**Переход на страницу редактирования пароля */
 export const onPassEditClick = (event: Event) => {
     event.preventDefault();
     window.router.go('/pass_edit');
 }
-
-
 
 /**Переход на страницу редактирования пароля */
 export const onLogoutClick = (event: Event) => {
@@ -93,7 +88,7 @@ export const onChangeAvatar = (event: any) => {
 
 /**Событие на отправку аватара */
 export const onSubmitAvatar = async () => {
-    const file: FormData = window.store.getState().newAvatarFile;
+    const file: FormData | undefined = window.store.getState()?.newAvatarFile;
     if (!file) return
     try {
         let user_info: UserDTO;

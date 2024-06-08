@@ -2,6 +2,7 @@ import { connect } from "../../utils/connect";
 import Block from "../../core/Block";
 import { Input, FormWrapper, ModalWindow, Button } from "..";
 import { onChangeUserLogin, addUserToChat } from "../../services/chat.ts"
+import { StoreType } from "../../main.ts";
 
 class AddUserModal extends Block {
 
@@ -61,7 +62,7 @@ class AddUserModal extends Block {
 }
 
 /**Пропсы из store которые будут тригерить обновление */
-const mapStateToProps = (store: window) => {
+const mapStateToProps = (store: StoreType) => {
     return {
         addUserError: store.addUserError
     }

@@ -2,12 +2,13 @@ import * as Pages from "./pages";
 import Router from "./core/Router";
 import { Store } from "./core/Store";
 import { checkAuth } from "./services/auth";
+import { ChatDTO, Message, UserDTO } from "./api/type";
 
 interface WindowProperties {
     location: Location;
     history: History;
     document: Document;
-    store: Store;
+    store: Store<StoreType>;
     router: Router;
     setTimeout: (callback: () => {}, ms: number) => number;
     clearTimeout: (handle: number) => void;
@@ -15,38 +16,75 @@ interface WindowProperties {
     clearInterval: (handle: number) => void;
   }
   
-  declare global {
+declare global {
     interface Window extends WindowProperties {}
-  }
+}
 
+export type SelectedChat = {
+    chatId: null | number,
+    users: number[],
+    messages: Message[]
+};
+
+export type StoreType = {
+    newChatName?: string,
+    newAvatarFile?: FormData,
+    newChatAvatarFile?: FormData,
+    activeChatContent?: ChatDTO,
+    showDeleteUserModal?: boolean,
+    showChatAvatarChangeModal?: boolean,
+    deleteUserError?: boolean,
+    addUserError?: string,
+    lastMessage?: string,
+    deleteUserLogin?: string,
+    isLoading: boolean,
+    loginError?: null | string,
+    registrationError: null | string,
+    chats: ChatDTO[],
+    user: null | UserDTO,
+    users: UserDTO[],
+    newChatTitle: string,
+    selectedChatId?: number,
+    showCreateChatModal: null | boolean,
+    showDeleteChatModal: null | boolean,
+    showChangeAvatarModal: null | boolean,
+    showAddUserModal: null | boolean,
+    addUserId: null | number,
+    addUserLogin: null | string,
+    selectedChat: SelectedChat,
+    credentials: {
+        login: null | string,
+        password: null | string,
+    };
+}
+  
 
 const router = new Router('#app');
 window.router = router;
 
 window.store = new Store({
-  isLoading: false,
-  loginError: null,
-  registrationError: null,
-  chats: [],
-  user: null,
-  users: [],
-  newChatTitle: 'noname',
-  selectedChatId: null,
-  showCreateChatModal: null,
-  showDeleteChatModal: null,
-  showChangeAvatarModal: null,
-  showAddUserModal: null,
-  addUserId: null,
-  addUserLogin: null,
-  selectedChat: {
-    chatId: null,
+    isLoading: false,
+    loginError: null,
+    registrationError: null,
+    chats: [],
+    user: null,
     users: [],
-    messages: []
-  },
-  credentials: {
-    login: null,
-    password: null
-  }
+    newChatTitle: 'noname',
+    showCreateChatModal: null,
+    showDeleteChatModal: null,
+    showChangeAvatarModal: null,
+    showAddUserModal: null,
+    addUserId: null,
+    addUserLogin: null,
+    selectedChat: {
+        chatId: null,
+        users: [],
+        messages: []
+    },
+    credentials: {
+        login: null,
+        password: null
+    }
 });
 
 const checkAuthBind = checkAuth.bind(this);

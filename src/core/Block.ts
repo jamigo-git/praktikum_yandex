@@ -194,7 +194,7 @@ export default class Block {
         fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
         const newElement = (fragment as any).content.firstElementChild;
 
-        [...Object.values(this.children), ...childrenProps].forEach(child => {
+        [...Object.values(this.children), ...childrenProps as any].forEach(child => {
             const stub = (fragment as any).content.querySelector(`[data-id="${child._id}"]`);
             stub?.replaceWith(child.getContent());
         });

@@ -40,7 +40,7 @@ export default class SendMessage extends Block {
 
     onClickSend(event?: Event) {
         event?.preventDefault();
-        const input_value = window.store.state.lastMessage;
+        const input_value = window.store.getState()?.lastMessage;
         if(input_value) {
             this.children.inputMessage.setProps({error: false, error_text: null, is_submit: false });
             onSubmitMessage();
