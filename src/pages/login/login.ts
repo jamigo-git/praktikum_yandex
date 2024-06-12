@@ -23,13 +23,9 @@ class LoginPage extends Block {
         return `
             <div class="container">
                 <main class="container">
-                    {{#if isLoading}}
-                        <h2>SPINNER</h2>
-                    {{else}}
-                        {{{ formWrapper }}}
-                        {{#if loginError}}
-                            <div class="api_error"> {{ loginError }} <div>
-                        {{/if}}
+                    {{{ formWrapper }}}
+                    {{#if loginError}}
+                        <div class="api-error"> {{ loginError }} <div>
                     {{/if}}
                 </main>
             </div>

@@ -9,7 +9,7 @@ class CreateChatModal extends Block {
 
         const modalBody = new Input({ 
             placeholder: "Название чата", 
-            class: "input_chat_name", 
+            class: "input-chat-name", 
             name: "newChatName", 
             id: "newChatName"
         });
@@ -22,10 +22,10 @@ class CreateChatModal extends Block {
 
         const formWrapper = new FormWrapper({
             formBody: new ModalWindow({modalBody: modalBody, button: button, title: "Создать новый чат"}),
-            class: 'form_wrapper_modal',
+            class: 'form-wrapper-modal',
             onSubmit: (event: Event) => {
                 event.preventDefault();
-                (window as any).store.set({ newChatName: (document.getElementById("newChatName") as HTMLInputElement)?.value })
+                window.store.set({ newChatName: (document.getElementById("newChatName") as HTMLInputElement)?.value })
                 createChat();
             }
         });
@@ -38,9 +38,9 @@ class CreateChatModal extends Block {
 
     onClickCreate(event: Event) {
         event.preventDefault();
-        let inputValue = (document.getElementById("newChatName") as HTMLInputElement)?.value;
+        const inputValue = (document.getElementById("newChatName") as HTMLInputElement)?.value;
         if (inputValue) {
-            (window as any).store.set({ newChatName: inputValue });
+            window.store.set({ newChatName: inputValue });
             createChat();
         }
     }

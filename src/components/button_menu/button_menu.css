@@ -1,9 +1,9 @@
-.button_menu a {
+.button-menu a {
     display: flexbox;
     width: 100%;
 }
 
-.menu_line {
+.menu-line {
     width: 25px;
     height: 1px;
     background-color: #828282;

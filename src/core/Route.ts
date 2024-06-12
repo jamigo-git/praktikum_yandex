@@ -34,7 +34,7 @@ class Route {
 
     _renderDom(query: any, block: Block | null) {
         const root = document.querySelector(query);
-        root.append(block?.getContent());
+        root?.append(block?.getContent());
     }
 
     render() {

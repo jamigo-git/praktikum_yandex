@@ -16,7 +16,7 @@ class ProfilePageEdit extends Block {
         const onBackClickBind = onBackClick.bind(this);
 
         /**Кнопка перейти назад */
-        const buttonBack = new ButtonNav({ class: "button_back", onClick: onBackClickBind  });
+        const buttonBack = new ButtonNav({ class: "button-back", onClick: onBackClickBind  });
 
         /** Modal windows */
         const avatarChangeModal = new AvatarChangeModal({});
@@ -42,11 +42,11 @@ class ProfilePageEdit extends Block {
 
     render(): string {
         return `
-            <main class="profile_edit_container">
+            <main class="profile-edit-container">
                 {{{ buttonBack }}}
                 {{{ formWrapper }}}
                 {{#if showChangeAvatarModal }}
-                    <div class="modal_window_container"> {{{ avatarChangeModal }}} </div>
+                    <div class="modal-window-container"> {{{ avatarChangeModal }}} </div>
                 {{/if}}
             </main>
         `

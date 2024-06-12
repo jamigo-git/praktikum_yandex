@@ -1,9 +1,9 @@
-.profile_edit_container {
+.profile-edit-container {
     display: flex;
     height: 650px;
 }
 
-.profile_edit_form {
+.profile-edit-form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

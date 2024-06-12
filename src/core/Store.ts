@@ -4,11 +4,11 @@ export enum StoreEvents {
   Updated = 'Updated'
 }
 
-export class Store extends EventBus {
-  private state = {};
-  static __instance: Store;
+export class Store<T extends Object> extends EventBus {
+  private state: T | undefined;
+  static __instance: Store<any>;
 
-  constructor(defaultState: any) {
+  constructor(defaultState: T) {
     if (Store.__instance) {
       return Store.__instance;
     }

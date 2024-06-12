@@ -24,7 +24,7 @@ class ProfilePage extends Block {
     /**Обновление */
     componentDidUpdate(oldProps: Props, newProps: Props): boolean {
         if(!isEqual(oldProps.user, newProps.user)) {
-            const user = (window as any).store.state.user;
+            const user = window.store.getState()?.user;
             
             this.children.formStrName.setProps({ value: user?.first_name });
             this.children.formStrLastName.setProps({ value: user?.second_name });
@@ -50,10 +50,10 @@ class ProfilePage extends Block {
         const onEditDataClickBind = onEditDataClick.bind(this);
         const onPassEditClickBind = onPassEditClick.bind(this);
         const onLogoutClickBind = onLogoutClick.bind(this);
-        const user = (window as any).store.state.user;
+        const user = window.store.getState()?.user;
         
-        const buttonBack = new ButtonNav({ class: "button_back", onClick: onBackClickBind });
-        const avatar = new Avatar({ label: user?.display_name, class: "avatar_profile", avatar: user?.avatar ? `${BASEURL}resources\\${user.avatar}` : undefined });
+        const buttonBack = new ButtonNav({ class: "button-back", onClick: onBackClickBind });
+        const avatar = new Avatar({ label: user?.display_name, class: "avatar-profile", avatar: user?.avatar ? `${BASEURL}resources\\${user.avatar}` : undefined });
         const formStrName = new FormString({ label:"Имя", value: user?.first_name });
         const formStrLastName = new FormString({ label:"Фамилия", value: user?.second_name });
         const formStrLogin = new FormString({ label:"Логин", value: user?.login });
@@ -82,7 +82,7 @@ class ProfilePage extends Block {
     }
     
     onBackClick() {
-        (window as any).router.go('/messenger');
+        window.router.go('/messenger');
     }
 
     render(): string {
@@ -92,7 +92,7 @@ class ProfilePage extends Block {
                     <h2>SPINNER</h2>
                 {{ else }}
                     {{{ buttonBack }}}
-                    <Form class="profile_form">
+                    <Form class="profile-form">
                         {{{ avatar }}}
                         <div class="fields_container">
                             {{{ formStrName }}}
@@ -102,7 +102,7 @@ class ProfilePage extends Block {
                             {{{ formStrPhone }}}
                             {{{ formStrChatName }}}
                         </div>
-                        <div class="btn_container">
+                        <div class="btn-container">
                             {{{ buttonEditData }}}
                             {{{ buttonEditPassword }}}
                             {{{ buttonExit }}}

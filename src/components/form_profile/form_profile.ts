@@ -29,12 +29,12 @@ class FormProfile extends Block {
         const onLogoutClickBind = onLogoutClick.bind(this);
         const onSaveClickBind = this.onSaveClick.bind(this);
 
-        const user = (window as any).store.state.user;
+        const user = window.store.getState()?.user;
         const avatar_url = user?.avatar ? `${BASEURL}resources${user.avatar}` : '';
 
         const avatar = new Avatar({ 
             label: user?.display_name, 
-            class:"avatar_profile", 
+            class:"avatar-profile", 
             avatar: avatar_url, 
             onClick: onAvatarClickBind 
         });
@@ -42,7 +42,7 @@ class FormProfile extends Block {
         const inputName = new Input({ 
             label:"Имя", 
             value: user?.first_name, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"first_name", 
             onBlur: onChangeFirstNameBind
         });
@@ -50,7 +50,7 @@ class FormProfile extends Block {
         const inputSecondName = new Input({ 
             label:"Фамилия", 
             value: user?.second_name, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"second_name", 
             onBlur: onChangeSecondNameBind  
         });
@@ -58,7 +58,7 @@ class FormProfile extends Block {
         const inputLogin = new Input({ 
             label:"Логин", 
             value: user?.login, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"login", 
             validation: onChangeLoginBind 
         });
@@ -66,7 +66,7 @@ class FormProfile extends Block {
         const inputEmail = new Input({ 
             label:"Почта", 
             value: user?.email, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"email", 
             onBlur: onChangeEmailBind 
         });
@@ -74,7 +74,7 @@ class FormProfile extends Block {
         const inputPhone = new Input({ 
             label: "Телефон", 
             value: user?.phone, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"phone", 
             onBlur: onChangePhoneBind 
         });
@@ -82,7 +82,7 @@ class FormProfile extends Block {
         const formStrChatName = new Input({ 
             label:"Имя в чате", 
             value: user?.display_name, 
-            class:"profile_edit_input", 
+            class:"profile-edit-input", 
             name:"display_name", 
             onBlur: onChangeDisplayNameBind 
         });
@@ -90,9 +90,9 @@ class FormProfile extends Block {
         const buttonSave = new Button({ label:"Сохранить", type:"primary", onClick: onSaveClickBind });
         const buttonExit = new Button({ label:"Выйти", type:"secondary", onClick: onLogoutClickBind });
 
-        const propsObj = form_fields.reduce((obj, current) => {
-            obj[current as keyof typeof obj] = user[current];
-            return obj;
+        const propsObj = form_fields.reduce((acc, current) => {
+                acc[current as keyof typeof acc] = user![current] as any;
+            return acc;
         }, new Object());
 
         if (user) this.setProps(propsObj);
@@ -114,7 +114,7 @@ class FormProfile extends Block {
     /**Запус загрузки данных пользователя после отрисовки компонента в DOM */
     componentDidMount(oldProps: Props): void {
         oldProps;
-        if (!(window as any).store.state.user) getUserInfo();
+        if (!window.store.getState()?.user) getUserInfo();
     }
 
     /**Обновление */
@@ -123,7 +123,7 @@ class FormProfile extends Block {
             this.Save();
         }
         if(!isEqual(oldProps.user, newProps.user)) {
-            const user = (window as any).store.state.user;
+            const user = window.store.getState()?.user;
             const avatar_url = user?.avatar ? `${BASEURL}resources${user.avatar}` : '';
             if (avatar_url) {
                 this.children.avatar.setProps({label: user?.display_name, avatar: avatar_url});
@@ -224,7 +224,7 @@ class FormProfile extends Block {
     }
 
     Save() {
-        let result = [
+        const result = [
             this.isFirstNameError((document.getElementsByName('first_name')[0] as HTMLInputElement)?.value),
             this.isSecondNameError((document.getElementsByName('second_name')[0] as HTMLInputElement)?.value),
             this.isLoginError((document.getElementsByName('login')[0] as HTMLInputElement)?.value),
@@ -245,7 +245,7 @@ class FormProfile extends Block {
         return `
             <div class="form_profile">
                 {{{ avatar }}}
-                <div class="profile_edit_input_container">
+                <div class="profile-edit-input-container">
                     {{{ inputName }}}
                     {{{ inputSecondName }}}
                     {{{ inputLogin }}}
@@ -253,7 +253,7 @@ class FormProfile extends Block {
                     {{{ inputPhone }}}
                     {{{ formStrChatName }}}
                 </div>
-                <div class="profile_edit_btn_container">
+                <div class="profile-edit-btn-container">
                     {{{ buttonSave }}}
                     {{{ buttonExit }}}
                 </div>

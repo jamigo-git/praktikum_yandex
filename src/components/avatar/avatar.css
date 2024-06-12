@@ -1,32 +1,32 @@
-.avatar__container:has(.avatar_profile){
+.avatar-container:has(.avatar-profile){
     display: flex;
     justify-content: center;
     flex-direction: column;
 }
 
-.avatar__container:has(.chat_item_avatar){
+.avatar-container:has(.chat-item-avatar){
     width: fit-content;
     margin-left: 10px;
 }
 
-.avatar_profile {
+.avatar-profile {
     width: 123px;
     height: 123px;
     border-radius: 50%;
 }
 
-.avatar_chat_content_header,
-.chat_item_avatar {
+.avatar-chat-content-header,
+.chat-item-avatar {
     width: 63px;
     height: 63px;
     border-radius: 50%;
 }
 
-.avatar_label {
+.avatar-label {
     font-size: 16px;
     font-weight: 700;
 }
 
-.chat_content_header .avatar__container {
+.chat-content-header .avatar-container {
     cursor: pointer;
 }

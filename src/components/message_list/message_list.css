@@ -1,9 +1,9 @@
-.message_list {
+.message-list {
     padding-inline-start: 10px;
     display: flex;
 }
 
-.message_list_container {
+.message-list-container {
     display: flex;
     flex-direction: column;
     overflow: auto;

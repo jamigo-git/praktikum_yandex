@@ -5,13 +5,13 @@ import Handlebars from "handlebars";
 type Props = Record<string, any>;
 type Children = Record<string, Block | any>;
 
-export type {Props, Children};
+export type { Props, Children };
 
-
-export interface BlockClass<P extends object> extends Function {
+export interface BlockClass<P extends object> extends Block {
     new (props: P): Block;
     componentName?: string;
-  }
+}
+
 export default class Block {
     static EVENTS = {
       INIT: "init",
@@ -46,7 +46,7 @@ export default class Block {
         const {events = {}} = this.props;
 
         Object.keys(events).forEach(eventName => {
-        this._element?.addEventListener(eventName, events[eventName]);
+            this._element?.addEventListener(eventName, events[eventName]);
         });
     }
 
@@ -54,7 +54,7 @@ export default class Block {
         const {events = {}} = this.props;
 
         Object.keys(events).forEach(eventName => {
-        this._element?.removeEventListener(eventName, events[eventName]);
+            this._element?.removeEventListener(eventName, events[eventName]);
         });
     }
   
@@ -145,9 +145,9 @@ export default class Block {
         const props: Props = {};
 
         Object.entries(propsAndChildren).forEach(([key, value]) => {
-        if (value instanceof Block) {
+            if (value instanceof Block) {
                 children[key] = value;
-        } else {
+            } else {
                 props[key] = value;
             }
         });
@@ -176,7 +176,7 @@ export default class Block {
             propsAndStubs[key] = `<div data-id="${child._id}"></div>`
         });
 
-        const childrenProps: any = [];
+        const childrenProps: Props = [];
         Object.entries(propsAndStubs).forEach(([key, value]) => {
             if(Array.isArray(value)) {
                 propsAndStubs[key] = value.map((item) => {
@@ -194,7 +194,7 @@ export default class Block {
         fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
         const newElement = (fragment as any).content.firstElementChild;
 
-        [...Object.values(this.children), ...childrenProps].forEach(child => {
+        [...Object.values(this.children), ...childrenProps as any].forEach(child => {
             const stub = (fragment as any).content.querySelector(`[data-id="${child._id}"]`);
             stub?.replaceWith(child.getContent());
         });

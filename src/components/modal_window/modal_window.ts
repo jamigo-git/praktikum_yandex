@@ -10,19 +10,19 @@ class ModalWindow extends Block {
     
     render() {
         return `
-            <main class="modal_window_main">
-                <div class="modal_window_header">
+            <main class="modal-window-main">
+                <div class="modal-window-header">
                     <h2 class="modal_title">{{ title }}</h2>
                 </div>
-                <div class="modal_window_body">
-                    {{#if textBody}} <div class="text_body"> {{ textBody }} </div> {{/if}}
+                <div class="modal-window-body">
+                    {{#if textBody}} <div class="text-body"> {{ textBody }} </div> {{/if}}
                     {{{ modalBody }}}
                 </div>
-                <div class="modal_window_footer">
+                <div class="modal-window-footer">
                     {{{ button }}}
                 </div>
                 {{#if modalWindowError}}
-                    <div class="api_error"> {{ modalWindowError }} <div>
+                    <div class="api-error"> {{ modalWindowError }} <div>
                 {{/if}}
             </main>
         `

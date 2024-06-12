@@ -62,3 +62,13 @@ https://jamigo-chat.netlify.app/
 если пользователь не авторизован, страница не покажется
 
 4. Подключен WebSocket для работы с real-time сообщениями.
+
+### Работающий функционал sprint_4
+
+1. Написаны тесты для:
+    Роутера - src/core/router.spec.ts
+    Компонента - src/components/form_login.spec.ts
+    Модуля отправки запросов -src/core/HTTPTransport.spec.ts
+
+2. Настроен precommit с помощью husky
+

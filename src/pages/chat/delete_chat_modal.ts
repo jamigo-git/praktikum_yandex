@@ -13,7 +13,7 @@ class DeleteChatModal extends Block {
 
         const formWrapper = new FormWrapper({
             formBody: new ModalWindow({ modalBody: modalBody, button: button, title: `Удалить выбранный чат?` }),
-            class: 'form_wrapper_modal',
+            class: 'form-wrapper-modal',
             onSubmit: (event: Event) => {
                 event.preventDefault();
                 onDeleteBind;

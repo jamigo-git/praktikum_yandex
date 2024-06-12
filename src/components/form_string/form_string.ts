@@ -9,9 +9,9 @@ export default class FormString extends Block {
 
     render(): string {
         return `
-            <div class="form_string__container">
-                <span class="form_string__label">{{label}}</span>
-                <span class="form_string__value">{{value}}</span>
+            <div class="form-string-container">
+                <span class="form-string-label">{{label}}</span>
+                <span class="form-string-value">{{value}}</span>
             </div>
         
         `

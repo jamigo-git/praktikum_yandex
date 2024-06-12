@@ -12,7 +12,7 @@ export default class Dropdown extends Block {
 
     render(): string {
         return `
-            <ul class="dropdown_content">
+            <ul class="dropdown-content">
                 {{{ dropdownItems }}}
             </ul>
         `

@@ -6,7 +6,11 @@ export default class Button extends Block {
         super({
             ...props,
             events: {
-                click: props.onClick
+                click: (e: Event) => {
+                    if(props.onClick) {
+                        props.onClick(e)
+                    }
+                }
             }
         });
     }
@@ -14,11 +18,11 @@ export default class Button extends Block {
     render():string {
         return `
             <button 
-                class="button button__{{type}}" 
+                class="button button-{{type}}" 
                 {{#if disabled }} disabled {{/if}}
                 >
                 
-                <a class="button_label">{{label}}</a>
+                <a class="button-label">{{label}}</a>
             </button>
             `
     }

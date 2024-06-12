@@ -15,18 +15,18 @@ export const changeProfile = async (model: ChangeUserProfile) => {
             throw new Error();
         } else {
             user_info = JSON.parse(response.responseText);
-            (window as any).store.set({ user: user_info });
+            window.store.set({ user: user_info });
             window.alert('Поздравляем, данные профиля успешно обновлены!');
         }
         
     } catch (error) {
-        (window as any).store.set({ changeProfileError: 'Change profile error' });
+        window.store.set({ changeProfileError: 'Change profile error' });
     } 
 }
 
 /**Изменить пароль пользователя */
 export const changePassword = async (model: ChangeUserPassword) => {
-    (window as any).store.set({isLoading: true});
+    window.store.set({isLoading: true});
     try {
         const response = await userApi.passwordChange(model);
         if (response.status !== 200) {
@@ -37,43 +37,38 @@ export const changePassword = async (model: ChangeUserPassword) => {
         }
         
     } catch (error) {
-        (window as any).store.set({ passChangeError: 'Change password error' });
+        window.store.set({ passChangeError: 'Change password error' });
     } finally {
-        (window as any).store.set({isLoading: false});
+        window.store.set({isLoading: false});
     }
 }
 
 /**Переход назад к чатам */
 export const onBackClick = (event: Event) => {
     event.preventDefault();
-    (window as any).router.go('/settings');
+    window.router.go('/settings');
 }
-
 
 /**Переход назад к чатам */
 export const onAvatarClick = (event: Event) => {
     event.preventDefault();
     /**Показываем модальное окно по смене аватара */
-    (window as any).store.set({ showChangeAvatarModal: true });
+    window.store.set({ showChangeAvatarModal: true });
     /**Устанавливаем onclick document событие, чтобы отлавливать клик вне модалки и отключать ее */
     setTimeout(onShowModal, 1000);
 }
 
-
 /**Переход на страницу редактирования профиля */
 export const onEditDataClick = (event: Event) => {
     event.preventDefault();
-    (window as any).router.go('/settings_edit');
+    window.router.go('/settings_edit');
 }
-
 
 /**Переход на страницу редактирования пароля */
 export const onPassEditClick = (event: Event) => {
     event.preventDefault();
-    (window as any).router.go('/pass_edit');
+    window.router.go('/pass_edit');
 }
-
-
 
 /**Переход на страницу редактирования пароля */
 export const onLogoutClick = (event: Event) => {
@@ -86,14 +81,14 @@ export const onChangeAvatar = (event: any) => {
     event.preventDefault();
     const inputValue = event.target.files[0];
     if (!inputValue) return;
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append("avatar", inputValue, inputValue.name);
-    (window as any).store.set({ newAvatarFile: formData });
+    window.store.set({ newAvatarFile: formData });
 }
 
 /**Событие на отправку аватара */
 export const onSubmitAvatar = async () => {
-    let file: FormData = (window as any).store.state.newAvatarFile;
+    const file: FormData | undefined = window.store.getState()?.newAvatarFile;
     if (!file) return
     try {
         let user_info: UserDTO;
@@ -104,10 +99,10 @@ export const onSubmitAvatar = async () => {
         } else {
             user_info = JSON.parse(response.responseText);
             window.alert('Поздравляем, аватар успешно обновлен!');
-            (window as any).store.set({ user: user_info, showChangeAvatarModal: false });
+            window.store.set({ user: user_info, showChangeAvatarModal: false });
         }
         
     } catch (error) {
-        (window as any).store.set({ changeAvatarError: 'Change avatar error' });
+        window.store.set({ changeAvatarError: 'Change avatar error' });
     } 
 }

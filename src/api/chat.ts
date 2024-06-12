@@ -37,7 +37,7 @@ export default class ChatApi {
 
     /**Запрос на изменение аватара чата */
     async avatarChange(data: FormData): Promise<XMLHttpRequest> {
-        let result = chatApi.put('/avatar', { data })
+        const result = chatApi.put('/avatar', { data })
         return result;
     }
 

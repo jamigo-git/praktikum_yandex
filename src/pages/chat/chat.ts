@@ -3,7 +3,7 @@ import  isEqual from "../../utils/isEqual";
 import { Input, ButtonNav, ButtonMenu, ChatList, ChatItem, Dropdown, DropdownItem, ChatContent} from "../../components";
 import Block, { Props }  from "../../core/Block";
 import { getChats, onCreateChatClick, onDeleteChatClick, onLogoutClick, onProfileClick, onChatClick } from "../../services/chat";
-import { ChatItemData } from "../../main.ts";
+import { ChatItemData } from "../../api/type.ts";
 import  CreateChatModal from "../../pages/chat/create_chat_modal.ts";
 import  DeleteChatModal from "../../pages/chat/delete_chat_modal.ts";
 import { BASEURL } from "../../utils/Constants.ts";
@@ -44,7 +44,7 @@ class ChatPage extends Block {
         const onCreateChatBind = onCreateChatClick.bind(this);
         const onDeleteChatBind = onDeleteChatClick.bind(this);
         
-        const buttonBack = new ButtonNav({ class: "button_back" });
+        const buttonBack = new ButtonNav({ class: "button-back" });
         
         /**Selected chat content */
         const chatContent = new ChatContent({  });
@@ -52,7 +52,7 @@ class ChatPage extends Block {
         /**Chatlist elements */        
         const chatList = new ChatList({chats: this.mapChatToComponent(this.props.chats, onChatClickBind) || []});
         const buttonMenu = new ButtonMenu({ });
-        const inputSearch = new Input({ placeholder:"Поиск", class:"chat_search_input", name:"search" });
+        const inputSearch = new Input({ placeholder:"Поиск", class:"chat-search-input", name:"search" });
         
         /**Modal windows */
         const createChatModal = new CreateChatModal({});
@@ -86,9 +86,9 @@ class ChatPage extends Block {
 
         return `
             <div>
-                <main class="chat_container">
-                    <div class="chat_item_conteiner">
-                        <div class="chat_top_menu">
+                <main class="chat-container">
+                    <div class="chat-item-container">
+                        <div class="chat-top-menu">
                             <div class="dropdown">
                                 {{{ buttonMenu }}}
                                 {{{ dropdown }}}
@@ -101,10 +101,10 @@ class ChatPage extends Block {
                     </div>
                     {{{ chatContent }}} 
                     {{#if showCreateChatModal }}
-                        <div class="modal_window_container"> {{{ createChatModal }}} </div>
+                        <div class="modal-window-container"> {{{ createChatModal }}} </div>
                     {{/if}}
                     {{#if showDeleteChatModal }}
-                        <div class="modal_window_container"> {{{ deleteChatModal }}} </div>
+                        <div class="modal-window-container"> {{{ deleteChatModal }}} </div>
                     {{/if}}
                 </main>
             </div>

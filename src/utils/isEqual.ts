@@ -1,5 +1,5 @@
-type PlainObject<T = any> = {
-    [k in string]: T;
+type PlainObject = {
+    [k in string]: unknown;
 };
 
 function isPlainObject(value: unknown): value is PlainObject {
@@ -27,9 +27,9 @@ function isEqual(lhs: PlainObject, rhs: PlainObject) {
     }
 
     for (const [key, value] of Object.entries(lhs)) {
-        const rightValue = rhs[key];
+        const rightValue = rhs[key as keyof PlainObject];
         if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
-            if (isEqual(value, rightValue)) {
+            if (isEqual(value as PlainObject, rightValue as PlainObject)) {
                 continue;
             }
             return false;

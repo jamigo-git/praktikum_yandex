@@ -2,6 +2,7 @@ import { connect } from "../../utils/connect";
 import Block from "../../core/Block";
 import { Input, FormWrapper, ModalWindow, Button } from "..";
 import { onChangeUserLogin, addUserToChat } from "../../services/chat.ts"
+import { StoreType } from "../../main.ts";
 
 class AddUserModal extends Block {
 
@@ -11,7 +12,7 @@ class AddUserModal extends Block {
 
         const modalBody = new Input({ 
             placeholder: "Введите логин пользователя", 
-            class: "input_user_login", 
+            class: "input-user-login", 
             name: "addUserLogin", 
             id: "addUserLogin", 
             onBlur: onChangeNameBind 
@@ -25,10 +26,10 @@ class AddUserModal extends Block {
 
         const formWrapper = new FormWrapper({
             formBody: new ModalWindow({ modalBody: modalBody, button: button, title: "Добавить пользователя в чат" }),
-            class: "form_wrapper_modal",
+            class: "form-wrapper-modal",
             onSubmit: (event: Event) => {
                 event.preventDefault();
-                (window as any).store.set({ addUserLogin: (document.getElementById("addUserLogin") as HTMLInputElement)?.value })
+                window.store.set({ addUserLogin: (document.getElementById("addUserLogin") as HTMLInputElement)?.value })
                 addUserToChat();
             }
         });
@@ -41,9 +42,9 @@ class AddUserModal extends Block {
 
     onClickAddUser(event: Event) {
         event.preventDefault();
-        let inputValue = (document.getElementById("addUserLogin") as HTMLInputElement)?.value;
+        const inputValue = (document.getElementById("addUserLogin") as HTMLInputElement)?.value;
         if (inputValue) {
-            (window as any).store.set({ addUserLogin: inputValue });
+            window.store.set({ addUserLogin: inputValue });
             addUserToChat();
         }
     }
@@ -61,7 +62,7 @@ class AddUserModal extends Block {
 }
 
 /**Пропсы из store которые будут тригерить обновление */
-const mapStateToProps = (store: any) => {
+const mapStateToProps = (store: StoreType) => {
     return {
         addUserError: store.addUserError
     }

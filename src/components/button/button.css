@@ -9,30 +9,32 @@
     cursor: pointer;
   }
 
-  .button__primary a.button_label {
+  .button-primary a.button-label {
     color: white;
   }
 
-  .button__secondary a.button_label {
+  .button-secondary a.button-label {
     color: black;
   }
   
-  .button__primary {
+  .button-primary {
     background-color: var(--main-color);
+
     /* color: #fff; */
   }
 
-  .button__secondary {
+  .button-secondary {
     color: var(--main-color);
+
     /* color: #000; */
   }
   
-  .button__link {
+  .button-link {
     color: var(--main-color);
     font-size: 11px;
     text-align: center;
   }
 
-  .button__primary:disabled {
+  .button-primary:disabled {
     background-color: lightgray;
   }

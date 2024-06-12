@@ -1,4 +1,4 @@
-.button_round {
+.button-round {
     height: 46px;
     width: 46px;
     border-radius: 50%;
@@ -6,37 +6,37 @@
     cursor: pointer;
 }
 
-.button_back {
-
+.button-back {
     background-color: lightgray;
     position: absolute;
     left: 1rem;
     top: 1rem;
 }
-.button_back::before {
+
+.button-back::before {
     content: "←";
     color: white;
     display: block;
     font-size: 2rem;
 }
 
-.chat_header_menu {
+.chat-header-menu {
     margin-left: auto;
     background-color: #B1B1B1;
 }
 
-.chat_header_menu::before {
+.chat-header-menu::before {
     content: "⋮";
     color: white;
     display: block;
     font-size: 2rem;
 }
 
-.chat_footer_send {
-    background-color: #000000;
+.chat-footer-send {
+    background-color: #000;
 }
 
-.chat_footer_send::before {
+.chat-footer-send::before {
     content: "▶";
     color: white;
     display: block;
@@ -44,7 +44,7 @@
     margin-left: 5px;
 }
 
-.chat_footer_add {
+.chat-footer-add {
     background-image: 
         url("../../assets/pin.png");
     background-size: cover;

@@ -14,6 +14,6 @@ export { default as MessageList } from './message_list.ts';
 //         Почему на такую необычную тему? 
 //         В США бездомные вообще не подходят под стереотипы. Это не те бомжи, что ловят голубей на обед и бормочут 
 //         “молодой человек, бутылочку не выбрасывайте”`, image: chatimg, datetime: "18:36"},
-//         {text: "Жги", class: "message_current_user", datetime: "19:00"},
+//         {text: "Жги", class: "message-current-user", datetime: "19:00"},
 //     ]
 // });

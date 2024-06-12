@@ -10,6 +10,7 @@ import isEqual from "../../utils/isEqual";
 import type { Message, UserDTO}  from "../../api/type"
 import { ChatMessage } from "../message";
 import { BASEURL } from "../../utils/Constants.ts";
+import { StoreType } from "src/main.ts";
 
 class ChatContent extends Block {
     init() {
@@ -19,11 +20,11 @@ class ChatContent extends Block {
         const onAvatarClickBind = onAvatarClick.bind(this);
 
         /**Children */
-        const avatar = new Avatar({ class:"avatar_chat_content_header", onClick: onAvatarClickBind });
-        const buttonChatSettings = new ButtonNav({ class: "chat_header_menu" });
+        const avatar = new Avatar({ class:"avatar-chat-content-header", onClick: onAvatarClickBind });
+        const buttonChatSettings = new ButtonNav({ class: "chat-header-menu" });
         
         /**Messages */
-        const messages_from_store = (window as any).store.state.selectedChat?.messages;
+        const messages_from_store = window.store.getState()?.selectedChat?.messages;
         const messages = this.mapMessageToComponent(messages_from_store);
         const messageList = messages ? new MessageList({ messages: messages }) : new MessageList({ });
 
@@ -89,7 +90,7 @@ class ChatContent extends Block {
     }
 
     setLastMessageVisible() {
-        let element = document.querySelector('.message_current_user:last-child')
+        const element = document.querySelector('.message-current-user:last-child')
         element?.scrollIntoView(true);
     }
 
@@ -98,7 +99,7 @@ class ChatContent extends Block {
     }
 
     onAvatarClick() {
-        (window as any).store.set({ showChatAvatarChangeModal: true });
+        window.store.set({ showChatAvatarChangeModal: true });
     }
 
     updateChatAvatar() {
@@ -110,16 +111,16 @@ class ChatContent extends Block {
     render(): string {
         const chat = (this.props.chats as ChatDTO[])?.find(f => f.id === this.props.selectedChatId);
         const chatTitle = chat?.title || 'Без названия';
-        const chatUsersIds: number[] = (window as any).store.state.selectedChat.users;
-        const chatUsersLogins = ((window as any).store.state.users as UserDTO[]).filter(f => chatUsersIds.some(q => q === f.id)).map(user => user.login).join(', ');
+        const chatUsersIds: number[] | undefined = window.store.getState()?.selectedChat.users;
+        const chatUsersLogins = (window.store.getState()?.users as UserDTO[]).filter(f => chatUsersIds?.some(q => q === f.id)).map(user => user.login).join(', ');
 
         return `
-        <div class="chat_content">
+        <div class="chat-content">
             {{#if selectedChatId }}
-                <header class="chat_content_header">
+                <header class="chat-content-header">
                     {{{ avatar }}}
-                    <div class="chat_content_header_label">${ chatTitle } (${chatUsersLogins})</div>
-                    {{!-- <div class="chat_content_settings"> Settings </div> --}}
+                    <div class="chat-content-header-label">${ chatTitle } (${chatUsersLogins})</div>
+                    {{!-- <div class="chat-content_settings"> Settings </div> --}}
                     <div class="dropdown">
                         {{{ buttonChatSettings }}}
                         {{{ dropdown }}}
@@ -130,13 +131,13 @@ class ChatContent extends Block {
                 </main>
                 {{{ formWrapper }}}
                 {{#if showAddUserModal }}
-                    <div class="modal_window_container"> {{{ addUserModal }}} </div>
+                    <div class="modal-window-container"> {{{ addUserModal }}} </div>
                 {{/if}}            
                 {{#if showDeleteUserModal }}
-                    <div class="modal_window_container"> {{{ deleteUserModal }}} </div>
+                    <div class="modal-window-container"> {{{ deleteUserModal }}} </div>
                 {{/if}}
                 {{#if showChatAvatarChangeModal }}
-                    <div class="modal_window_container"> {{{ avatarChangeModal }}} </div>
+                    <div class="modal-window-container"> {{{ avatarChangeModal }}} </div>
                 {{/if}}
             {{else}}
                 <h2>Выберите чат чтобы начать общение</h2>
@@ -148,7 +149,7 @@ class ChatContent extends Block {
 
 
 /**Пропсы из store которые будут тригерить обновление */
-const mapStateToProps = (store: any) => {
+const mapStateToProps = (store: StoreType) => {
     return {
         activeChatContent: store.activeChatContent,
         showAddUserModal: store.showAddUserModal,

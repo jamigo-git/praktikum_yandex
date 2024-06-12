@@ -1,8 +1,9 @@
 import "./error404.css";
 import { Button, ErrorPage } from "../../components";
 import Block from "../../core/Block";
+import { connect } from "../../utils/connect";
 
-export default class Error404 extends Block {
+class Error404 extends Block {
 
     init() {
         const onBackClickBind = this.onBackClick.bind(this);
@@ -18,7 +19,7 @@ export default class Error404 extends Block {
     }
 
     onBackClick() {
-        (window as any).router.back();
+        window.router.back();
     }
 
 
@@ -31,3 +32,12 @@ export default class Error404 extends Block {
         `;
     }
 }
+
+/**Пропсы из store которые будут тригерить обновление */
+const mapStateToProps = (store: any) => {
+    return {
+        isLoading: store.isLoading
+    }
+}
+
+export default connect(mapStateToProps)(Error404);

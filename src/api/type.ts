@@ -7,6 +7,7 @@ export type SignUpResponse = {
 }
 
 export type UserDTO = {
+    [x: string]: string | number | boolean
     id: number;
     login: string;
     first_name: string;
@@ -120,4 +121,8 @@ export type SelectedChat = {
     chatId: number | null
     users: number[]
     messages?: Message[]
+}
+
+export type ChatItemData = {
+    [x: string]: string | number | boolean
 }

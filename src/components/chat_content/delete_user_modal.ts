@@ -4,6 +4,7 @@ import { Input, FormWrapper, ModalWindow, Button } from "..";
 import { onChangeUserLogin, onSubmitDeleteUser } from "../../services/chat";
 import { UserDTO } from "../../api/type";
 import isEqual from "../../utils/isEqual";
+import { StoreType } from "src/main";
 
 class DeleteUserModal extends Block {
     init() {
@@ -12,7 +13,7 @@ class DeleteUserModal extends Block {
 
         const modalBody = new Input({ 
             placeholder: "Введите логин пользователя", 
-            class: "input_user_login", 
+            class: "input-user-login", 
             name: "deleteUserLogin", 
             id: "deleteUserLogin",
             onBlur: onChangeLoginBind 
@@ -31,10 +32,10 @@ class DeleteUserModal extends Block {
                 title: "Удалить пользователя из чата",
                 textBody: `Список пользователей в чате: ${this.getUsersLogins()}`
             }),
-            class: "form_wrapper_modal",
+            class: "form-wrapper-modal",
             onSubmit: (event: Event) => {
                 event.preventDefault();
-                (window as any).store.set({ deleteUserLogin: (document.getElementById("deleteUserLogin") as HTMLInputElement)?.value });
+                window.store.set({ deleteUserLogin: (document.getElementById("deleteUserLogin") as HTMLInputElement)?.value });
                 onSubmitDeleteUser();
             }
         });
@@ -46,8 +47,9 @@ class DeleteUserModal extends Block {
     }
 
     getUsersLogins() {
-        const chatUsersIds: number[] = (window as any).store.state.selectedChat.users;
-        return ((window as any).store.state.users as UserDTO[]).filter(f => chatUsersIds.some(q => q === f.id)).map(user => user.login).join(', ');
+        const chatUsersIds = window.store.getState()?.selectedChat.users;
+        if (!chatUsersIds) return;
+        return (window.store.getState()?.users as UserDTO[]).filter(f => chatUsersIds.some(q => q === f.id)).map(user => user.login).join(', ');
     }
 
     componentDidUpdate(oldProps: Props, newProps: Props): boolean {
@@ -60,9 +62,9 @@ class DeleteUserModal extends Block {
 
     onClickDeleteUser(event: Event) {
         event.preventDefault();
-        let inputValue = (document.getElementById("deleteUserLogin") as HTMLInputElement)?.value;
+        const inputValue = (document.getElementById("deleteUserLogin") as HTMLInputElement)?.value;
         if (inputValue) {
-            (window as any).store.set({ deleteUserLogin: inputValue });
+            window.store.set({ deleteUserLogin: inputValue });
             onSubmitDeleteUser();
         }
     }
@@ -80,7 +82,7 @@ class DeleteUserModal extends Block {
 }
 
 /**Пропсы из store которые будут тригерить обновление */
-const mapStateToProps = (store: any) => {
+const mapStateToProps = (store: StoreType) => {
     return {
         deleteUserError: store.deleteUserError,
         selectedChat: store.selectedChat

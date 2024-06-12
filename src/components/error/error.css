@@ -4,10 +4,10 @@
     flex-direction: column;
 }
 
-.error_code_label {
+.error-code-label {
     font-size: 4rem;
 }
 
-.button__secondary {
+.button-secondary {
     color: #3369F3;
 }

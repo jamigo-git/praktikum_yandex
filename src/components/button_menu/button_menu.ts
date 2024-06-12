@@ -12,11 +12,11 @@ export default class ButtonMenu extends Block {
 
     render(): string {
         return `
-            <div class="button_menu dropbtn">
-                <a href="#" page="nav" class="button_menu_icon">
-                    <div class="menu_line"></div>
-                    <div class="menu_line"></div>
-                    <div class="menu_line"></div>
+            <div class="button-menu dropbtn">
+                <a href="#" page="nav" class="button-menu_icon">
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
                 </a>
             </div>
         `
